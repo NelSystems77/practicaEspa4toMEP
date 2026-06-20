@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1b1410">
+<title>Aventura de Español 4° — Modo Bloques</title>
+<style>
+:root{
+  --bg:#1b1410; --bg-soft:#241c16; --surface:#2e2419; --surface2:#352a1c; --line:rgba(255,255,255,.10);
+  --text:#f3ead9; --text-dim:#b8a98e;
+  --t1:#6ABE30; --t2:#3FC1D6; --t3:#F2B441; --t4:#B24FE0;
+  --good:#3FD67A; --bad:#E0473F; --wood:#8B5A2B; --stone:#6b665c;
+  --font-display:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,'Roboto Mono','SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  background:#0c0905;
+  font-family:var(--font-display);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit;background:none;}
+img,svg{display:block;}
+ul,ol{padding-left:1.25em;}
+li{margin:.3em 0;}
+:focus-visible{outline:3px solid var(--t3);outline-offset:2px;}
+
+/* ---------- layout ---------- */
+#app-frame{
+  max-width:480px;height:100dvh;margin:0 auto;position:relative;overflow:hidden;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);
+}
+@media (min-width:540px){
+  body{display:flex;align-items:center;justify-content:center;min-height:100%;}
+  #app-frame{
+    height:92dvh;max-height:880px;border-radius:18px;
+    border:6px solid #000;
+    box-shadow:0 0 0 4px #3a2e1d, 0 18px 40px rgba(0,0,0,.55);
+  }
+}
+#top-bar{
+  flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:12px 14px;
+  padding-top:calc(12px + env(safe-area-inset-top));
+  background:var(--surface2);border-bottom:4px solid #000;
+  position:relative;z-index:5;
+}
+#topbar-title{font-weight:800;letter-spacing:.02em;font-size:clamp(13px,3.4vw,15px);flex:1;}
+.topbar-home{
+  display:none;width:38px;height:38px;border-radius:6px;background:var(--wood);
+  border:2px solid #000;font-size:18px;align-items:center;justify-content:center;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.25),inset 0 -3px 0 rgba(0,0,0,.35);
+}
+.topbar-home.show{display:flex;}
+#views{flex:1 1 auto;position:relative;overflow:hidden;}
+.view{position:absolute;inset:0;display:none;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.view.active{display:flex;}
+
+/* ---------- pixel text signature ---------- */
+.pixel-text{
+  text-shadow:2px 2px 0 #000,-2px 2px 0 #000,2px -2px 0 #000,-2px -2px 0 #000,
+              0 2px 0 #000,2px 0 0 #000,0 -2px 0 #000,-2px 0 0 #000;
+}
+
+/* ---------- home ---------- */
+.home-wrap{padding:18px 16px 110px;display:flex;flex-direction:column;gap:18px;}
+.hero-block{text-align:center;padding:18px 8px 6px;}
+.hero-emoji{font-size:clamp(34px,10vw,46px);margin-bottom:6px;}
+.home-title{
+  font-size:clamp(24px,7.2vw,32px);font-weight:800;line-height:1.15;color:var(--t3);
+}
+.home-sub{color:var(--text-dim);font-size:clamp(11px,3vw,13px);margin-top:10px;line-height:1.5;}
+.quest-log-title{font-weight:800;letter-spacing:.02em;margin-bottom:10px;font-size:clamp(13px,3.6vw,15px);}
+.tema-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media (max-width:374px){.tema-grid{grid-template-columns:1fr;}}
+.tema-card{
+  background:var(--surface);border-top:8px solid var(--accent);border-radius:4px;
+  padding:12px 10px 14px;display:flex;flex-direction:column;gap:8px;
+  box-shadow:inset 0 0 0 2px #000;
+}
+.tema-card .t-emoji{font-size:26px;}
+.tema-card .t-name{font-weight:800;font-size:clamp(12.5px,3.4vw,14px);line-height:1.25;}
+.tema-card .t-desc{font-size:11px;color:var(--text-dim);line-height:1.4;min-height:30px;}
+.tema-card .t-badge{
+  align-self:flex-start;font-family:var(--font-mono);font-size:10.5px;font-weight:700;
+  padding:2px 7px;border-radius:3px;background:var(--bg-soft);color:var(--text-dim);
+}
+.tema-card .t-badge.done{color:#1b1410;background:var(--good);}
+.tema-card .t-btns{display:flex;gap:6px;margin-top:4px;}
+.tema-card .t-btns button{flex:1;font-size:11px;padding:9px 4px;}
+
+/* ---------- blocky buttons ---------- */
+.btn-block{
+  font-family:var(--font-display);font-weight:800;letter-spacing:.01em;color:#fff;
+  border:2px solid #000;border-radius:3px;padding:13px 16px;cursor:pointer;
+  text-shadow:1px 1px 0 rgba(0,0,0,.45);
+  box-shadow:inset 0 4px 0 rgba(255,255,255,.28),inset 0 -4px 0 rgba(0,0,0,.35);
+  transition:transform .06s ease;
+}
+.btn-block:active{transform:translateY(2px);box-shadow:inset 0 2px 0 rgba(0,0,0,.3);}
+.btn-block:disabled{opacity:.45;cursor:default;}
+.btn-green{background:var(--t1);} .btn-blue{background:var(--t2);}
+.btn-gold{background:var(--t3);color:#241b08;text-shadow:1px 1px 0 rgba(255,255,255,.25);}
+.btn-purple{background:var(--t4);} .btn-wood{background:var(--wood);} .btn-stone{background:var(--stone);}
+#btn-quiz-final{width:100%;font-size:clamp(12.5px,3.6vw,14px);}
+
+/* ---------- study view ---------- */
+.study-progress{flex:0 0 auto;display:flex;gap:3px;padding:10px 12px;}
+.study-progress span{flex:1;height:6px;background:var(--bg-soft);border-radius:2px;border:1px solid #000;}
+.study-progress span.fill{background:var(--accent2,var(--t1));}
+.study-track{
+  flex:1 1 auto;overflow-y:auto;scroll-snap-type:y mandatory;
+  display:flex;flex-direction:column;
+}
+.study-card{flex:0 0 100%;height:100%;scroll-snap-align:start;display:flex;align-items:stretch;padding:6px 16px 18px;}
+.study-card-inner{
+  margin:auto 0;width:100%;background:var(--surface);border-radius:6px;
+  border-top:8px solid var(--accent2,var(--t1));box-shadow:inset 0 0 0 2px #000;
+  padding:18px 16px 22px;max-height:100%;overflow-y:auto;
+}
+.study-emoji{font-size:30px;display:block;margin-bottom:6px;}
+.study-card-inner h2{font-size:clamp(16px,4.6vw,20px);font-weight:800;margin-bottom:10px;line-height:1.2;}
+.study-body p{font-size:clamp(12.5px,3.6vw,14.5px);line-height:1.55;margin:8px 0;}
+.study-body ul,.study-body ol{font-size:clamp(12.5px,3.6vw,14.5px);line-height:1.55;margin:8px 0;}
+.study-body .hl{background:rgba(255,255,255,.16);padding:0 3px;border-radius:2px;font-weight:700;}
+.study-body .tip{background:var(--bg-soft);border-left:4px solid var(--t3);padding:8px 10px;border-radius:3px;}
+.study-body .resultado{background:rgba(63,214,122,.14);border-left:4px solid var(--good);padding:8px 10px;border-radius:3px;font-weight:700;}
+.study-body .lectura{background:var(--bg-soft);border-left:4px solid var(--accent2,var(--t1));padding:10px 12px;border-radius:3px;line-height:1.6;font-style:normal;}
+.alfa-grid{
+  font-family:var(--font-mono);background:var(--bg-soft);border-radius:4px;padding:10px;
+  letter-spacing:.14em;font-size:clamp(12px,3.6vw,14px);line-height:1.8;word-break:break-word;
+}
+.alfa-grid .hl,.study-body .titulo{color:var(--t3);}
+.mini-table,.conj-table{width:100%;border-collapse:collapse;font-size:clamp(10.5px,3vw,12.5px);margin:8px 0;}
+.mini-table th,.conj-table th{background:var(--bg-soft);color:var(--t3);padding:6px 5px;text-align:left;border:1px solid var(--line);}
+.mini-table td,.conj-table td{padding:6px 5px;border:1px solid var(--line);}
+.mini-table tr:nth-child(even) td,.conj-table tr:nth-child(even) td{background:rgba(255,255,255,.03);}
+.poema{background:var(--bg-soft);border-radius:5px;padding:12px 14px;text-align:center;margin:8px 0;}
+.poema .titulo{font-weight:800;font-size:15px;margin-bottom:2px;}
+.poema .autor{font-size:11px;color:var(--text-dim);margin-bottom:8px;}
+.poema p{line-height:1.7;}
+.study-fab-group{
+  position:absolute;right:12px;bottom:18px;display:flex;flex-direction:column;gap:8px;z-index:4;
+}
+.fab{
+  width:46px;height:46px;border-radius:6px;background:var(--wood);border:2px solid #000;
+  font-size:18px;font-weight:800;box-shadow:inset 0 3px 0 rgba(255,255,255,.25),inset 0 -3px 0 rgba(0,0,0,.35);
+}
+.fab:disabled{opacity:.3;}
+
+/* ---------- quiz view ---------- */
+.quiz-wrap{padding:14px 16px 110px;display:flex;flex-direction:column;gap:12px;flex:1;}
+.quiz-progress{height:8px;background:var(--bg-soft);border-radius:3px;border:1px solid #000;overflow:hidden;}
+.quiz-progress-fill{height:100%;background:var(--t2);transition:width .25s ease;}
+.lives{display:flex;gap:5px;font-size:18px;}
+.quiz-card{background:var(--surface);border-radius:6px;border-top:8px solid var(--t2);box-shadow:inset 0 0 0 2px #000;padding:16px 14px;}
+.quiz-counter{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);margin-bottom:8px;}
+.quiz-q{font-size:clamp(14.5px,4.2vw,17px);font-weight:800;line-height:1.4;margin-bottom:14px;}
+.quiz-opts{display:flex;flex-direction:column;gap:9px;}
+.opt-btn{
+  text-align:left;padding:13px 12px;min-height:44px;border-radius:4px;border:2px solid #000;
+  background:var(--bg-soft);font-size:clamp(12.5px,3.6vw,14px);font-weight:700;
+  box-shadow:inset 0 3px 0 rgba(255,255,255,.08),inset 0 -3px 0 rgba(0,0,0,.3);
+}
+.opt-btn:active{transform:translateY(1px);}
+.opt-btn.correct{background:var(--good);color:#0c2014;}
+.opt-btn.wrong{background:var(--bad);color:#2a0606;}
+.opt-btn.flash{animation:shake .3s ease;}
+@media (prefers-reduced-motion:reduce){.opt-btn.flash{animation:none;}}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+.quiz-feedback{margin-top:12px;font-size:13px;line-height:1.5;}
+.quiz-feedback .msg-warn{color:var(--t3);font-weight:700;}
+.quiz-feedback .msg-good{color:var(--good);font-weight:700;}
+.quiz-feedback .msg-bad{color:var(--bad);font-weight:700;}
+.quiz-feedback .exp-box{background:var(--bg-soft);border-left:4px solid var(--t2);padding:8px 10px;border-radius:3px;margin-top:8px;}
+#btn-quiz-next{margin-top:12px;width:100%;}
+.quiz-review{margin-top:12px;}
+.quiz-review .study-card-inner{border-top:6px solid var(--t3);}
+.quiz-review-label{font-weight:800;font-size:12px;color:var(--t3);margin-bottom:6px;}
+
+/* ---------- results view ---------- */
+.results-wrap{padding:20px 16px 110px;display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center;}
+.results-title{font-size:clamp(18px,5.4vw,22px);font-weight:800;color:var(--t3);}
+.gauge-wrap{position:relative;width:160px;height:160px;}
+#gauge-svg{width:100%;height:100%;transform:rotate(-90deg);}
+.gauge-bg{fill:none;stroke:var(--bg-soft);stroke-width:12;}
+.gauge-fill{fill:none;stroke:var(--good);stroke-width:12;stroke-linecap:round;}
+.gauge-num{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:34px;font-weight:800;
+}
+.results-msg{font-size:14px;font-weight:700;}
+.results-breakdown{width:100%;display:flex;flex-direction:column;gap:8px;text-align:left;}
+.bd-row{display:flex;align-items:center;gap:8px;font-size:12px;}
+.bd-row .bd-label{width:108px;flex:0 0 108px;font-weight:700;}
+.bd-row .bd-bar{flex:1;height:12px;background:var(--bg-soft);border-radius:3px;overflow:hidden;border:1px solid #000;}
+.bd-row .bd-bar-fill{height:100%;}
+.bd-row .bd-pct{font-family:var(--font-mono);width:38px;flex:0 0 38px;text-align:right;}
+.results-failed{width:100%;text-align:left;display:flex;flex-direction:column;gap:8px;}
+.results-failed h3{font-size:13px;color:var(--t3);font-weight:800;}
+.fail-item{background:var(--surface);border-radius:5px;padding:10px;border-left:4px solid var(--bad);font-size:12px;line-height:1.5;}
+.fail-item .fq{font-weight:700;margin-bottom:4px;}
+.fail-item .fa{color:var(--good);font-weight:700;}
+.results-actions{width:100%;display:flex;gap:10px;}
+.results-actions button{flex:1;}
+
+@media (max-height:560px){
+  .hero-block{padding:6px 8px 2px;}
+  .hero-emoji{font-size:26px;margin-bottom:2px;}
+  .home-wrap{gap:10px;padding-top:10px;}
+  .study-card{padding:4px 14px 8px;}
+  .gauge-wrap{width:120px;height:120px;}
+  .gauge-num{font-size:24px;}
+}
+</style>
+</head>
+<body>
+<div id="app-frame">
+  <header id="top-bar">
+    <button class="topbar-home" id="btn-topbar-home" aria-label="Ir al inicio">🏠</button>
+    <span id="topbar-title">⛏️ Español 4° · Modo Bloques</span>
+  </header>
+  <main id="views">
+
+    <section class="view active" id="view-home">
+      <div class="home-wrap">
+        <div class="hero-block">
+          <div class="hero-emoji">⛏️🟩💎</div>
+          <h1 class="home-title pixel-text">Aventura de<br>Español 4°</h1>
+          <p class="home-sub">Examen: Lunes 22 de junio 2026 · Sección 4-3<br>Prof. Iveth Hall Hall</p>
+        </div>
+        <div class="quest-log">
+          <p class="quest-log-title">📜 Misiones del examen</p>
+          <div class="tema-grid" id="tema-grid"></div>
+        </div>
+        <button class="btn-block btn-gold" id="btn-quiz-final">💎 Quiz Final Mezclado (32 preguntas)</button>
+      </div>
+    </section>
+
+    <section class="view" id="view-study">
+      <div class="study-progress" id="study-progress"></div>
+      <div class="study-track" id="study-track"></div>
+      <div class="study-fab-group">
+        <button class="fab" id="study-up" aria-label="Tarjeta anterior">↑</button>
+        <button class="fab" id="study-down" aria-label="Tarjeta siguiente">↓</button>
+      </div>
+    </section>
+
+    <section class="view" id="view-quiz">
+      <div class="quiz-wrap">
+        <div class="quiz-progress"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
+        <div class="lives" id="quiz-lives"></div>
+        <div class="quiz-card">
+          <p class="quiz-counter" id="quiz-counter"></p>
+          <p class="quiz-q" id="quiz-q"></p>
+          <div class="quiz-opts" id="quiz-opts"></div>
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+        <div class="quiz-review" id="quiz-review"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-results">
+      <div class="results-wrap">
+        <h2 class="results-title pixel-text" id="results-title">¡Misión completa!</h2>
+        <div class="gauge-wrap">
+          <svg id="gauge-svg" viewBox="0 0 120 120">
+            <circle class="gauge-bg" cx="60" cy="60" r="52"></circle>
+            <circle class="gauge-fill" id="gauge-fill" cx="60" cy="60" r="52"></circle>
+          </svg>
+          <div class="gauge-num" id="gauge-num">0</div>
+        </div>
+        <p class="results-msg" id="results-msg"></p>
+        <div class="results-breakdown" id="results-breakdown"></div>
+        <div class="results-failed" id="results-failed"></div>
+        <div class="results-actions">
+          <button class="btn-block btn-green" id="btn-retry">🔁 Reintentar</button>
+          <button class="btn-block btn-wood" id="btn-home">🏠 Inicio</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+/* ======================= DATA ======================= */
+var TEMAS=[
+ {id:1,emoji:"📚",nombre:"Orden Alfabético",color:"var(--t1)",
+  habilidad:"Aplicación de estrategias de comprensión del significado del vocabulario nuevo en texto escrito. Vocabulario por contexto: Orden alfabético.",
+  contenido:"Ordenar palabras por su primera, segunda y tercera letra. Utilidad del orden alfabético en la vida diaria."},
+ {id:2,emoji:"⏳",nombre:"Verbos en el Tiempo",color:"var(--t2)",
+  habilidad:"Ejercitación del vocabulario básico ortográfico en la producción textual oral y escrita: verbos ir, estar y haber.",
+  contenido:"Identificar el verbo en una oración. Conjugar ir, estar y haber en presente, pasado y futuro. Clasificar el tiempo verbal."},
+ {id:3,emoji:"📜",nombre:"Tipos de Texto",color:"var(--t3)",
+  habilidad:"Tipología textual: características y estructura de los diversos tipos de texto. Diferencias, semejanzas e intención.",
+  contenido:"Cuento, noticia, carta, instrucciones, informe, leyenda y poesía. Comprensión de lectura."},
+ {id:4,emoji:"🧱",nombre:"Gramática y Poesía",color:"var(--t4)",
+  habilidad:"Aplicación del conocimiento sobre estructuras y unidades básicas gramaticales en la producción textual.",
+  contenido:"Sustantivo, adjetivo, artículo, pronombre personal. Sujeto y predicado. Elementos del poema y tipos de rima."}
+];
+
+var STUDY={
+ 1:[
+  {emoji:"🔤",title:"El abecedario completo",body:"<p>El abecedario en español tiene <b>27 letras</b>. Para ordenar palabras, las comparamos letra por letra siguiendo este orden:</p><div class='alfa-grid'>A B C D E F G H I J K L M N <span class='hl'>Ñ</span> O P Q R S T U V W X Y Z</div><p>📌 Fijate que la <b>Ñ</b> va justo <b>entre la N y la O</b>. ¡Es una letra muy nuestra, no existe en inglés!</p>"},
+  {emoji:"📏",title:"La regla de comparación",body:"<p>Para saber qué palabra va primero, comparamos letra por letra:</p><ol><li>Miramos la <b>primera letra</b> de cada palabra. La que esté antes en el abecedario, va primero.</li><li>Si las primeras letras son <b>iguales</b>, miramos la <b>segunda letra</b>.</li><li>Si también son iguales, miramos la <b>tercera letra</b>... ¡y así hasta encontrar una diferencia!</li></ol><p class='tip'>💡 Es como comparar llaves: si las dos primeras muescas son iguales, te fijás en la tercera para saber cuál abre primero.</p>"},
+  {emoji:"🌳",title:"Ejemplo: primera letra",body:"<p><b>Ordená estas palabras:</b> mango, casa, árbol, perro</p><p>Paso 1: miramos la primera letra de cada una:</p><ul><li>mango → <b>m</b></li><li>casa → <b>c</b></li><li>árbol → <b>a</b></li><li>perro → <b>p</b></li></ul><p>Paso 2: ordenamos esas letras según el abecedario: a, c, m, p</p><p class='resultado'>✅ Orden final: árbol, casa, mango, perro</p>"},
+  {emoji:"🐔",title:"Ejemplo: segunda y tercera letra",body:"<p><b>Ordená:</b> gato, gallina, globo</p><p>Paso 1: las tres empiezan con <b>g</b>, ¡empate! Miramos la segunda letra:</p><ul><li>gato → g<b>a</b>to</li><li>gallina → g<b>a</b>llina</li><li>globo → g<b>l</b>obo</li></ul><p>Paso 2: \"globo\" tiene \"l\" en segundo lugar, que va después de \"a\", así que <b>globo queda de último</b>.</p><p>Paso 3: \"gato\" y \"gallina\" siguen empatados en \"ga...\", miramos la <b>tercera letra</b>: ga<b>t</b>o vs ga<b>l</b>lina. La \"l\" va antes que la \"t\".</p><p class='resultado'>✅ Orden final: gallina, gato, globo</p>"},
+  {emoji:"🏠",title:"Ejemplo: tercera letra",body:"<p><b>Ordená:</b> caja, cama, cara, casa</p><p>Las cuatro empiezan con <b>ca</b>, así que comparamos la <b>tercera letra</b>:</p><ul><li>ca<b>j</b>a</li><li>ca<b>m</b>a</li><li>ca<b>r</b>a</li><li>ca<b>s</b>a</li></ul><p>Orden de esas letras en el abecedario: j, m, r, s</p><p class='resultado'>✅ Orden final: caja, cama, cara, casa</p>"},
+  {emoji:"⚠️",title:"Caso especial: Ñ, CH y LL",body:"<p>⚠️ <b>Trampa de examen:</b></p><p>• La <b>Ñ</b> es una letra independiente que va <b>entre la N y la O</b>. Ejemplo: nube, ñoño, oso.</p><p>• Hoy en día, <b>CH</b> y <b>LL</b> ya <b>NO</b> se consideran letras aparte. Se ordenan letra por letra normal: la \"c\" de \"chocolate\" se compara como una simple <b>c</b>, y la primera \"l\" de \"llave\" se compara como una simple <b>l</b>.</p><p><b>Ejemplo:</b> libro, llave, luna → como \"li\" tiene \"i\" en segundo lugar, \"ll\" tiene \"l\", y \"lu\" tiene \"u\": i &lt; l &lt; u</p><p class='resultado'>✅ Orden final: libro, llave, luna</p>"},
+  {emoji:"🤔",title:"¿Para qué sirve?",body:"<p>🤔 <b>¿Para qué sirve ordenar alfabéticamente?</b></p><ul><li>📖 En el <b>diccionario</b>, para encontrar el significado de una palabra rápido.</li><li>📋 En la <b>lista de asistencia</b> de la clase, para encontrar un nombre sin leer toda la lista.</li><li>📞 En una <b>agenda de contactos</b>, para hallar a alguien al instante.</li><li>📚 En la <b>biblioteca</b>, para acomodar los libros por autor.</li></ul><p class='tip'>💡 El orden alfabético no es solo una regla: ¡nos ahorra tiempo todos los días!</p>"}
+ ],
+ 2:[
+  {emoji:"🏃",title:"¿Qué es un verbo?",body:"<p>El <b>verbo</b> es la palabra que indica lo que hace, lo que le pasa, o cómo está alguien o algo:</p><ul><li>🏃 <b>Acción:</b> correr, saltar, jugar — algo que se hace.</li><li>🌱 <b>Proceso:</b> crecer, cambiar, nacer — algo que va pasando poco a poco.</li><li>😌 <b>Estado:</b> estar, ser, parecer — cómo se encuentra alguien o algo.</li></ul><p><b>Ejemplo:</b> \"El perro <span class='hl'>corre</span> en el parque.\" → \"corre\" es el verbo (acción).</p><p><b>Ejemplo:</b> \"Las flores <span class='hl'>crecen</span> en el jardín.\" → \"crecen\" es el verbo (proceso).</p>"},
+  {emoji:"🕐",title:"Tiempos y personas",body:"<p>Un verbo cambia según <b>cuándo</b> pasa la acción y según <b>quién</b> la hace:</p><table class='mini-table'><tr><th>Tiempo</th><th>¿Cuándo?</th><th>Pista</th></tr><tr><td>Presente</td><td>Ahora</td><td>hoy, ahora</td></tr><tr><td>Pasado</td><td>Ya pasó</td><td>ayer, antes</td></tr><tr><td>Futuro</td><td>Va a pasar</td><td>mañana, después</td></tr></table><p>Y según la <b>persona</b>: yo, tú, él/ella (singular) — nosotros, ustedes/ellos (plural).</p>"},
+  {emoji:"🚶",title:"Conjugación: IR",body:"<p>El verbo <b>IR</b> (acción de desplazarse):</p><table class='conj-table'><tr><th>Persona</th><th>Presente</th><th>Pasado</th><th>Futuro</th></tr><tr><td>yo</td><td>voy</td><td>fui</td><td>iré</td></tr><tr><td>tú</td><td>vas</td><td>fuiste</td><td>irás</td></tr><tr><td>él/ella</td><td>va</td><td>fue</td><td>irá</td></tr><tr><td>nosotros</td><td>vamos</td><td>fuimos</td><td>iremos</td></tr><tr><td>uds/ellos</td><td>van</td><td>fueron</td><td>irán</td></tr></table><p>Ejemplos: \"Yo <b>voy</b> a la escuela\" (presente) · \"Ayer <b>fui</b> al parque\" (pasado) · \"Mañana <b>iré</b> a la playa\" (futuro).</p>"},
+  {emoji:"🧍",title:"Conjugación: ESTAR",body:"<p>El verbo <b>ESTAR</b> (estado o lugar):</p><table class='conj-table'><tr><th>Persona</th><th>Presente</th><th>Pasado</th><th>Futuro</th></tr><tr><td>yo</td><td>estoy</td><td>estuve</td><td>estaré</td></tr><tr><td>tú</td><td>estás</td><td>estuviste</td><td>estarás</td></tr><tr><td>él/ella</td><td>está</td><td>estuvo</td><td>estará</td></tr><tr><td>nosotros</td><td>estamos</td><td>estuvimos</td><td>estaremos</td></tr><tr><td>uds/ellos</td><td>están</td><td>estuvieron</td><td>estarán</td></tr></table><p>Ejemplos: \"Yo <b>estoy</b> feliz\" (presente) · \"Ayer <b>estuve</b> enfermo\" (pasado) · \"Mañana <b>estaré</b> en casa\" (futuro).</p>"},
+  {emoji:"☁️",title:"Conjugación: HABER (y \"hay\")",body:"<p>El verbo <b>HABER</b> también se usa para decir que algo <b>existe</b>, con la forma especial <b>hay / hubo / habrá</b>:</p><table class='conj-table'><tr><th>Persona</th><th>Presente</th><th>Pasado</th><th>Futuro</th></tr><tr><td>yo</td><td>he</td><td>hube</td><td>habré</td></tr><tr><td>tú</td><td>has</td><td>hubiste</td><td>habrás</td></tr><tr><td>él/ella</td><td>ha</td><td>hubo</td><td>habrá</td></tr><tr><td>nosotros</td><td>hemos</td><td>hubimos</td><td>habremos</td></tr><tr><td>uds/ellos</td><td>han</td><td>hubieron</td><td>habrán</td></tr></table><p class='tip'>💡 Para decir que <b>algo existe</b>, usamos siempre la forma especial: \"<b>Hay</b> un perro en el parque\" (presente) · \"<b>Hubo</b> una fiesta ayer\" (pasado) · \"<b>Habrá</b> un examen mañana\" (futuro). ¡Esta forma especial nunca cambia a plural: \"hay dos perros\", no \"han dos perros\"!</p>"},
+  {emoji:"🔍",title:"Truco: clasificar el tiempo",body:"<p>⚠️ <b>Truco de examen:</b> buscá palabras pista en la oración para saber el tiempo del verbo:</p><ul><li>🕐 <b>ayer, antes, el año pasado</b> → pasado</li><li>🕑 <b>hoy, ahora, siempre</b> → presente</li><li>🕒 <b>mañana, después, el próximo año</b> → futuro</li></ul><p><b>Ejemplo:</b> \"<b>Ayer</b> jugamos fútbol toda la tarde.\" → la palabra \"ayer\" nos dice que \"jugamos\" está en <b>pasado</b>.</p><p><b>Ejemplo:</b> \"<b>Mañana</b> iremos al cine.\" → la palabra \"mañana\" nos dice que \"iremos\" está en <b>futuro</b>.</p>"},
+  {emoji:"👥",title:"Singular o plural",body:"<p>El verbo también cambia si la persona es <b>una sola</b> (singular) o <b>varias</b> (plural):</p><ul><li><b>Singular:</b> yo, tú, él, ella → estoy, vas, va</li><li><b>Plural:</b> nosotros, ustedes, ellos → estamos, van, están</li></ul><p><b>Ejemplo:</b> \"Nosotros <b>estamos</b> felices.\" → \"nosotros\" siempre es <b>plural</b>, así que el verbo \"estamos\" también está en plural.</p>"}
+ ],
+ 3:[
+  {emoji:"📰",title:"Tipos de texto y su propósito",body:"<p>Cada texto tiene un <b>propósito</b> diferente:</p><table class='mini-table'><tr><th>Tipo de texto</th><th>Propósito</th></tr><tr><td>📖 Cuento</td><td>Entretener con una historia inventada</td></tr><tr><td>📰 Noticia</td><td>Informar hechos reales y recientes</td></tr><tr><td>✉️ Carta</td><td>Comunicar un mensaje personal</td></tr><tr><td>📋 Instrucciones</td><td>Guiar los pasos para hacer algo</td></tr><tr><td>📊 Informe</td><td>Presentar datos de una investigación</td></tr><tr><td>🏔️ Leyenda</td><td>Explicar una tradición con elementos fantásticos</td></tr><tr><td>🎭 Poesía</td><td>Expresar sentimientos con ritmo y belleza</td></tr></table>"},
+  {emoji:"💎",title:"Leamos un cuento",body:"<p>📖 <b>Leé este cuento:</b></p><p class='lectura'>Daniela encontró un cofre escondido detrás de una cascada en el bosque. Dentro había un mapa viejo y tres esmeraldas brillantes. Su amigo Tomás le dijo: -¡Vamos a buscar el tesoro que indica el mapa! Caminaron toda la tarde hasta llegar a una cueva oscura. Allí, escucharon un sonido extraño y se asustaron un poco, pero decidieron seguir adelante con valentía. Al final de la cueva encontraron una gran piedra brillante de color azul. Daniela la guardó en su mochila, feliz por la aventura.</p><p><b>Preguntas literales</b> (la respuesta está escrita tal cual en el texto):</p><ul><li>¿Quién encontró el cofre? → <b>Daniela</b></li><li>¿Dónde estaba escondido? → <b>Detrás de una cascada en el bosque</b></li><li>¿Qué encontraron al final de la cueva? → <b>Una piedra brillante de color azul</b></li></ul>"},
+  {emoji:"🤔",title:"Pregunta inferencial",body:"<p>📖 <b>Preguntas inferenciales</b> (hay que pensar un poco, la respuesta no está escrita exacta):</p><p>¿Cómo se sintieron Daniela y Tomás cuando escucharon el sonido extraño en la cueva?</p><p class='resultado'>✅ El texto dice que \"se asustaron un poco\", así que sintieron <b>miedo o susto</b>, aunque siguieron adelante con valentía.</p><p class='tip'>💡 Inferir es \"leer entre líneas\": usar pistas del texto para entender algo que no está dicho directamente.</p>"},
+  {emoji:"⚠️",title:"Cuento vs. noticia",body:"<p>⚠️ <b>Trampa de examen — no los confundas:</b></p><table class='mini-table'><tr><th>Cuento</th><th>Noticia</th></tr><tr><td>Historia <b>inventada</b> (ficción)</td><td>Hechos <b>reales</b> y recientes</td></tr><tr><td>Propósito: entretener</td><td>Propósito: informar</td></tr><tr><td>Tiene personajes y aventura</td><td>Responde quién, qué, cuándo, dónde, por qué</td></tr></table><p>El relato de Daniela y Tomás es un <b>cuento</b>, porque es una historia inventada con personajes y aventura, no informa de un hecho real y reciente.</p>"},
+  {emoji:"🌱",title:"Texto instructivo",body:"<p>📋 Las <b>instrucciones</b> dan pasos ordenados para lograr algo. Ejemplo: una receta para sembrar una semilla:</p><p class='lectura'>1. Lavá la maceta. 2. Ponele tierra hasta la mitad. 3. Colocá la semilla en el centro. 4. Cubrila con un poco más de tierra. 5. Regala con agua todos los días.</p><p>A diferencia del cuento, las instrucciones <b>no cuentan una historia</b>: su propósito es <b>guiar una acción</b> paso a paso.</p>"},
+  {emoji:"🏔️",title:"Cuento vs. leyenda",body:"<p>🏔️ El <b>cuento</b> y la <b>leyenda</b> se parecen porque ambos <b>narran una historia</b>. Pero la leyenda casi siempre está <b>relacionada con un lugar o una tradición real</b>, mezclando hechos con elementos fantásticos. Ejemplo: la leyenda de \"La Carreta sin Bueyes\" explica un suceso misterioso ligado a un camino real de Costa Rica.</p><p class='tip'>💡 Lo que comparten cuento y leyenda: ambos narran historias (no informan hechos del día, ni dan instrucciones).</p>"}
+ ],
+ 4:[
+  {emoji:"🐶",title:"Sustantivo, adjetivo y artículo",body:"<p>En la oración: <span class='lectura'>\"El perro grande corre rápido\"</span></p><ul><li>🔹 <b>Artículo</b> (acompaña al sustantivo): <b>El</b></li><li>🔹 <b>Sustantivo</b> (nombra personas, animales, cosas o lugares): <b>perro</b></li><li>🔹 <b>Adjetivo</b> (describe cómo es el sustantivo): <b>grande</b></li><li>🔹 <b>Verbo</b> (la acción): <b>corre</b></li></ul><p>Otros artículos: el, la, los, las, un, una, unos, unas. Otros adjetivos: pequeño, bonito, rápido, feliz.</p>"},
+  {emoji:"🙋",title:"Pronombre personal",body:"<p>El <b>pronombre personal</b> reemplaza el nombre de una persona para no repetirlo:</p><div class='alfa-grid'>yo · tú · él / ella · nosotros / nosotras · ustedes · ellos / ellas</div><p><b>Ejemplo:</b> \"Daniela jugaba en el parque. <b>Ella</b> era muy feliz.\" → \"Ella\" reemplaza a \"Daniela\".</p>"},
+  {emoji:"🟢",title:"Sujeto y predicado",body:"<p>Toda oración simple tiene dos partes:</p><ul><li>🟢 <b>Sujeto:</b> de quién se habla (quién hace la acción).</li><li>🔵 <b>Predicado:</b> lo que se dice del sujeto (siempre tiene el verbo).</li></ul><p><b>Ejemplo 1:</b> \"<span class='hl'>El gato negro</span> | duerme en la cama.\" → Sujeto: El gato negro. Predicado: duerme en la cama.</p><p><b>Ejemplo 2:</b> \"<span class='hl'>Los niños</span> | juegan fútbol en el parque.\" → Sujeto: Los niños. Predicado: juegan fútbol en el parque.</p><p><b>Ejemplo 3:</b> \"<span class='hl'>Mi hermana pequeña</span> | canta muy bonito.\" → Sujeto: Mi hermana pequeña. Predicado: canta muy bonito.</p>"},
+  {emoji:"🧩",title:"Construir una oración",body:"<p><b>Construyamos una oración paso a paso</b> con estas palabras: el, niño, alto, salta, la cerca</p><p>Paso 1: armamos el sujeto (artículo + sustantivo + adjetivo): <b>El niño alto</b></p><p>Paso 2: armamos el predicado (verbo + lo demás): <b>salta la cerca</b></p><p class='resultado'>✅ Oración completa: El niño alto salta la cerca.</p>"},
+  {emoji:"🎭",title:"Elementos del poema",body:"<p>🎭 Partes de un poema:</p><ul><li><b>Título:</b> el nombre del poema.</li><li><b>Autor:</b> quién lo escribió.</li><li><b>Verso:</b> cada línea del poema.</li><li><b>Estrofa:</b> un grupo de versos juntos.</li></ul><div class='poema'><p class='titulo'>La Lluvia</p><p class='autor'>Autor: anónimo (texto de ejemplo)</p><p>La lluvia canta sobre el tejado,<br>y moja despacio todo el sembrado.<br>Las gotas brillan como cristal,<br>cayendo suaves sin hacer mal.</p></div><p>Este poema tiene <b>1 estrofa</b> con <b>4 versos</b>.</p>"},
+  {emoji:"🎵",title:"Rima consonante y asonante",body:"<p>La <b>rima</b> es la repetición de sonidos al final de los versos:</p><ul><li>🟣 <b>Rima consonante:</b> se repiten las mismas vocales <b>Y</b> consonantes. Ejemplo: <b>verde</b> / <b>pierde</b> (ambas terminan en \"-erde\").</li><li>🟡 <b>Rima asonante:</b> solo se repiten las vocales. Ejemplo: <b>casa</b> / <b>cara</b> (las vocales \"a-a\" son iguales, pero la consonante \"s\" y \"r\" son distintas).</li></ul><p>En el poema \"La Lluvia\": <b>tejado/sembrado</b> y <b>cristal/mal</b> son ejemplos de rima <b>consonante</b>.</p>"}
+ ]
+};
+
+var QUIZ={
+ 1:[
+  {temaId:1,q:"Ordená estas palabras: mango, casa, árbol, perro. ¿Cuál va PRIMERO?",opts:["mango","casa","árbol","perro"],correct:2,exp:"\"árbol\" empieza con A, la primera letra del abecedario entre estas cuatro palabras.",cardRef:2},
+  {temaId:1,q:"¿Cuál de estas palabras va PRIMERO en orden alfabético: gato, gallina, globo?",opts:["gato","gallina","globo","Las tres van igual"],correct:1,exp:"Gato y gallina comparten \"ga\", pero la tercera letra decide: gaLlina (l) va antes que gaTo (t).",cardRef:3},
+  {temaId:1,q:"Ordená: caja, cama, cara, casa. ¿Cuál va PRIMERO?",opts:["caja","cama","cara","casa"],correct:0,exp:"Las cuatro empiezan con \"ca\", así que comparamos la tercera letra: j, m, r, s. La \"j\" va primero.",cardRef:4},
+  {temaId:1,q:"¿Dónde va la letra Ñ en el abecedario español?",opts:["Antes de la N","Entre la N y la O","Después de la Z","Entre la M y la N"],correct:1,exp:"La Ñ es una letra propia del español que va justo entre la N y la O.",cardRef:5},
+  {temaId:1,q:"¿Por qué es útil ordenar alfabéticamente la lista de asistencia de la clase?",opts:["Para que se vea más bonita","Para encontrar rápido el nombre de cualquier estudiante sin leer toda la lista","Porque el maestro siempre lo pide","Para que ocupe menos espacio"],correct:1,exp:"El orden alfabético nos ayuda a encontrar la información más rápido, sin tener que revisar todo.",cardRef:6},
+  {temaId:1,q:"¿Cuál de estos NO usa el orden alfabético?",opts:["Un diccionario","Una agenda telefónica","Un calendario de los meses del año","El directorio de una biblioteca"],correct:2,exp:"Los meses del año van en orden cronológico (enero, febrero...), no alfabético.",cardRef:6},
+  {temaId:1,q:"Ordená: libro, llave, luna. ¿Cuál va PRIMERO?",opts:["libro","llave","luna","Las tres van igual"],correct:0,exp:"Hoy la \"ll\" no es una letra aparte: comparamos i, l, u en la segunda letra. La \"i\" de libro va primero.",cardRef:5},
+  {temaId:1,q:"Ordená: pelota, perro, pintura. ¿Cuál va ÚLTIMO?",opts:["pelota","perro","pintura","Las tres van igual"],correct:2,exp:"Pelota y perro comparten \"pe\", pintura tiene \"pi\" (la i va después de la e), así que pintura queda de última.",cardRef:4}
+ ],
+ 2:[
+  {temaId:2,q:"¿Cuál palabra es el VERBO en: \"El perro corre en el parque\"?",opts:["perro","corre","parque","el"],correct:1,exp:"\"corre\" indica la acción que hace el perro.",cardRef:0},
+  {temaId:2,q:"¿Cuál palabra es el VERBO en: \"Las flores crecen en el jardín\"?",opts:["flores","crecen","jardín","las"],correct:1,exp:"\"crecen\" indica un proceso: algo que va pasando poco a poco.",cardRef:0},
+  {temaId:2,q:"Conjugá IR en presente para \"ustedes/ellos\":",opts:["voy","va","van","vamos"],correct:2,exp:"La forma de IR en presente para ustedes/ellos es \"van\".",cardRef:2},
+  {temaId:2,q:"Conjugá ESTAR en pasado para \"yo\":",opts:["estoy","estaré","estuve","está"],correct:2,exp:"La forma de ESTAR en pasado para \"yo\" es \"estuve\".",cardRef:3},
+  {temaId:2,q:"Mañana ___ una fiesta en la escuela.",opts:["hay","había","habrá","hubo"],correct:2,exp:"\"Mañana\" es pista de futuro, así que usamos \"habrá\".",cardRef:4},
+  {temaId:2,q:"\"Ayer jugamos fútbol toda la tarde.\" ¿En qué tiempo está el verbo \"jugamos\"?",opts:["Presente","Pasado","Futuro","No es un verbo"],correct:1,exp:"La palabra \"ayer\" indica que la acción ya pasó: pasado.",cardRef:5},
+  {temaId:2,q:"\"Mañana iremos al cine.\" ¿En qué tiempo está el verbo \"iremos\"?",opts:["Presente","Pasado","Futuro","No es un verbo"],correct:2,exp:"La palabra \"mañana\" indica que la acción va a pasar: futuro.",cardRef:5},
+  {temaId:2,q:"\"Nosotros estamos felices.\" El verbo \"estamos\" está en forma:",opts:["Singular","Plural","Ninguna de las dos","Futuro"],correct:1,exp:"\"Nosotros\" siempre es plural, así que el verbo también lo es.",cardRef:6}
+ ],
+ 3:[
+  {temaId:3,q:"En el cuento, ¿quién encontró el cofre?",opts:["Tomás","Daniela","La maestra","Un dragón"],correct:1,exp:"El texto dice: \"Daniela encontró un cofre escondido...\"",cardRef:1},
+  {temaId:3,q:"¿Dónde estaba escondido el cofre?",opts:["Detrás de una cascada en el bosque","Dentro de la escuela","En el fondo del mar","En una cueva de hielo"],correct:0,exp:"El texto dice: \"un cofre escondido detrás de una cascada en el bosque\".",cardRef:1},
+  {temaId:3,q:"¿Qué encontraron al final de la cueva?",opts:["Un dragón dormido","Una piedra brillante de color azul","Un mapa nuevo","Nada, la cueva estaba vacía"],correct:1,exp:"El texto dice: \"encontraron una gran piedra brillante de color azul\".",cardRef:1},
+  {temaId:3,q:"¿Cómo se sintieron Daniela y Tomás cuando escucharon el sonido extraño?",opts:["Muy aburridos","Asustados, aunque siguieron con valentía","Felices y tranquilos","Con mucha hambre"],correct:1,exp:"El texto dice que \"se asustaron un poco, pero decidieron seguir adelante con valentía\".",cardRef:2},
+  {temaId:3,q:"¿Qué tipo de texto es el relato de Daniela y Tomás?",opts:["Noticia","Cuento","Instrucciones","Carta"],correct:1,exp:"Es una historia inventada con personajes y aventura: un cuento.",cardRef:3},
+  {temaId:3,q:"¿Cuál es el propósito principal de una NOTICIA?",opts:["Entretener con una historia inventada","Informar sobre hechos reales y recientes","Dar pasos para hacer algo","Expresar sentimientos en versos"],correct:1,exp:"La noticia siempre informa de hechos reales que pasaron hace poco.",cardRef:3},
+  {temaId:3,q:"¿Cuál de estos es un ejemplo de texto INSTRUCTIVO?",opts:["Una receta de cocina con pasos","Un poema sobre el mar","Un cuento de aventuras","Una carta a un amigo"],correct:0,exp:"Las instrucciones dan pasos ordenados para lograr algo, como una receta.",cardRef:4},
+  {temaId:3,q:"¿Qué tienen en común el cuento y la leyenda?",opts:["Ambos cuentan algo que pasó la semana pasada de verdad","Ambos narran historias, aunque la leyenda se relaciona con tradiciones de un lugar","Ambos dan instrucciones paso a paso","Ambos se escriben siempre en verso"],correct:1,exp:"Cuento y leyenda narran historias; la leyenda además se liga a una tradición o lugar real.",cardRef:5}
+ ],
+ 4:[
+  {temaId:4,q:"En \"El perro grande corre rápido\", ¿cuál palabra es el ARTÍCULO?",opts:["El","perro","grande","corre"],correct:0,exp:"\"El\" acompaña al sustantivo \"perro\": es el artículo.",cardRef:0},
+  {temaId:4,q:"En \"El perro grande corre rápido\", ¿cuál palabra es el SUSTANTIVO?",opts:["El","perro","grande","corre"],correct:1,exp:"\"perro\" nombra al animal: es el sustantivo.",cardRef:0},
+  {temaId:4,q:"En \"El perro grande corre rápido\", ¿cuál palabra es el ADJETIVO?",opts:["El","perro","grande","corre"],correct:2,exp:"\"grande\" describe cómo es el perro: es el adjetivo.",cardRef:0},
+  {temaId:4,q:"¿Cuál de estas palabras es un PRONOMBRE PERSONAL?",opts:["nosotros","perro","grande","jardín"],correct:0,exp:"\"nosotros\" reemplaza el nombre de personas: es un pronombre personal.",cardRef:1},
+  {temaId:4,q:"En \"Los niños juegan fútbol en el parque\", ¿cuál es el SUJETO?",opts:["Los niños","juegan fútbol","en el parque","fútbol"],correct:0,exp:"El sujeto es de quién se habla: \"Los niños\".",cardRef:2},
+  {temaId:4,q:"En \"Los niños juegan fútbol en el parque\", ¿cuál es el PREDICADO?",opts:["Los niños","juegan fútbol en el parque","el parque","niños"],correct:1,exp:"El predicado lleva el verbo y dice qué hace el sujeto: \"juegan fútbol en el parque\".",cardRef:2},
+  {temaId:4,q:"¿Cuántos versos tiene la estrofa del poema \"La Lluvia\"?",opts:["2","4","6","8"],correct:1,exp:"El poema tiene una estrofa con 4 versos.",cardRef:4},
+  {temaId:4,q:"Las palabras \"verde\" y \"pierde\", ¿qué tipo de rima forman?",opts:["Consonante","Asonante","No riman","Aguda"],correct:0,exp:"Comparten las mismas vocales Y consonantes al final (\"-erde\"): rima consonante.",cardRef:5},
+  {temaId:4,q:"Las palabras \"casa\" y \"cara\", ¿qué tipo de rima forman?",opts:["Consonante","Asonante","No riman","Llana"],correct:1,exp:"Solo se repiten las vocales \"a-a\"; las consonantes \"s\" y \"r\" son distintas: rima asonante.",cardRef:5}
+ ]
+};
+
+/* ======================= STATE ======================= */
+var state={
+  view:"home",
+  studyTemaId:null,
+  studyIndex:0,
+  quizTemaId:null,
+  quizQuestions:[],
+  quizIndex:0,
+  quizFirstCorrect:[],
+  quizAttemptsWrong:0,
+  quizLocked:false,
+  quizReviewShown:false,
+  completed:{}
+};
+
+function temaById(id){for(var i=0;i<TEMAS.length;i++){if(TEMAS[i].id===id)return TEMAS[i];}return null;}
+
+/* ======================= VIEW SWITCHING ======================= */
+function showView(name){
+  var views=document.querySelectorAll(".view");
+  for(var i=0;i<views.length;i++){views[i].classList.remove("active");}
+  document.getElementById("view-"+name).classList.add("active");
+  state.view=name;
+  var homeBtn=document.getElementById("btn-topbar-home");
+  var title=document.getElementById("topbar-title");
+  if(name==="home"){homeBtn.classList.remove("show");title.textContent="⛏️ Español 4° · Modo Bloques";}
+  else{
+    homeBtn.classList.add("show");
+    if(name==="study")title.textContent="📖 Estudiar";
+    else if(name==="quiz")title.textContent="⚔️ Quiz";
+    else if(name==="results")title.textContent="🏆 Resultados";
+  }
+}
+document.getElementById("btn-topbar-home").addEventListener("click",function(){showView("home");renderHome();});
+document.getElementById("btn-home").addEventListener("click",function(){showView("home");renderHome();});
+
+/* ======================= HOME ======================= */
+function renderHome(){
+  var grid=document.getElementById("tema-grid");
+  grid.innerHTML="";
+  TEMAS.forEach(function(t){
+    var done=state.completed[t.id];
+    var card=document.createElement("div");
+    card.className="tema-card";
+    card.style.setProperty("--accent",t.color);
+    var badgeHtml=done!==undefined?"<span class='t-badge done'>"+done+"% ✓</span>":"<span class='t-badge'>Sin intentar</span>";
+    card.innerHTML=
+      "<span class='t-emoji'>"+t.emoji+"</span>"+
+      "<span class='t-name'>"+t.nombre+"</span>"+
+      "<span class='t-desc'>"+t.contenido+"</span>"+
+      badgeHtml+
+      "<div class='t-btns'>"+
+        "<button class='btn-block btn-stone' data-act='study' data-id='"+t.id+"'>📖 Estudiar</button>"+
+        "<button class='btn-block' style='background:"+t.color+"' data-act='quiz' data-id='"+t.id+"'>⚔️ Quiz</button>"+
+      "</div>";
+    grid.appendChild(card);
+  });
+  grid.querySelectorAll("button[data-act='study']").forEach(function(b){
+    b.addEventListener("click",function(){openStudy(parseInt(b.getAttribute("data-id"),10),0);});
+  });
+  grid.querySelectorAll("button[data-act='quiz']").forEach(function(b){
+    b.addEventListener("click",function(){startQuiz(parseInt(b.getAttribute("data-id"),10));});
+  });
+}
+document.getElementById("btn-quiz-final").addEventListener("click",function(){startQuiz("all");});
+
+/* ======================= STUDY ======================= */
+function openStudy(temaId,jumpIndex){
+  state.studyTemaId=temaId;
+  var tema=temaById(temaId);
+  var cards=STUDY[temaId];
+  var track=document.getElementById("study-track");
+  track.innerHTML="";
+
+  var portada=document.createElement("article");
+  portada.className="study-card";
+  portada.innerHTML="<div class='study-card-inner' style='--accent2:"+tema.color+"'>"+
+    "<span class='study-emoji'>"+tema.emoji+"</span><h2>"+tema.nombre+"</h2>"+
+    "<div class='study-body'><p>🎯 <b>Aprendizaje esperado:</b><br>"+tema.habilidad+"</p>"+
+    "<p>📋 <b>Contenido:</b><br>"+tema.contenido+"</p>"+
+    "<p class='tip'>💡 Deslizá hacia abajo (o usá las flechas) para repasar cada tarjeta de este tema.</p></div></div>";
+  track.appendChild(portada);
+
+  cards.forEach(function(c){
+    var art=document.createElement("article");
+    art.className="study-card";
+    art.innerHTML="<div class='study-card-inner' style='--accent2:"+tema.color+"'>"+
+      "<span class='study-emoji'>"+c.emoji+"</span><h2>"+c.title+"</h2>"+
+      "<div class='study-body'>"+c.body+"</div></div>";
+    track.appendChild(art);
+  });
+
+  buildStudyProgress(cards.length+1,tema.color);
+  showView("study");
+  var idx=jumpIndex||0;
+  requestAnimationFrame(function(){
+    track.scrollTo({top:idx*track.clientHeight,behavior:"auto"});
+    state.studyIndex=idx;
+    updateStudyProgress();
+  });
+}
+
+function buildStudyProgress(n,color){
+  var bar=document.getElementById("study-progress");
+  bar.innerHTML="";
+  for(var i=0;i<n;i++){
+    var s=document.createElement("span");
+    s.style.setProperty("--accent2",color);
+    bar.appendChild(s);
+  }
+}
+function updateStudyProgress(){
+  var track=document.getElementById("study-track");
+  var h=track.clientHeight||1;
+  var idx=Math.round(track.scrollTop/h);
+  state.studyIndex=idx;
+  var spans=document.querySelectorAll("#study-progress span");
+  spans.forEach(function(s,i){s.classList.toggle("fill",i<=idx);});
+  document.getElementById("study-up").disabled=(idx<=0);
+  document.getElementById("study-down").disabled=(idx>=spans.length-1);
+}
+document.getElementById("study-track").addEventListener("scroll",function(){
+  window.clearTimeout(window._stScrollT);
+  window._stScrollT=window.setTimeout(updateStudyProgress,80);
+});
+function studyStep(dir){
+  var track=document.getElementById("study-track");
+  var h=track.clientHeight;
+  var n=document.querySelectorAll("#study-progress span").length;
+  var next=Math.min(Math.max(state.studyIndex+dir,0),n-1);
+  track.scrollTo({top:next*h,behavior:"smooth"});
+}
+document.getElementById("study-up").addEventListener("click",function(){studyStep(-1);});
+document.getElementById("study-down").addEventListener("click",function(){studyStep(1);});
+document.addEventListener("keydown",function(e){
+  if(state.view!=="study")return;
+  if(e.key==="ArrowUp"||e.key==="PageUp"){e.preventDefault();studyStep(-1);}
+  else if(e.key==="ArrowDown"||e.key==="PageDown"){e.preventDefault();studyStep(1);}
+});
+
+/* ======================= QUIZ ======================= */
+function shuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=a[i];a[i]=a[j];a[j]=tmp;
+  }
+  return a;
+}
+function startQuiz(temaIdOrAll){
+  var qs;
+  if(temaIdOrAll==="all"){
+    qs=[];
+    for(var k=1;k<=4;k++){qs=qs.concat(QUIZ[k]);}
+    qs=shuffle(qs);
+  }else{
+    qs=shuffle(QUIZ[temaIdOrAll]);
+  }
+  state.quizTemaId=temaIdOrAll;
+  state.quizQuestions=qs;
+  state.quizIndex=0;
+  state.quizFirstCorrect=new Array(qs.length).fill(null);
+  showView("quiz");
+  renderQuizQuestion();
+}
+function renderQuizQuestion(){
+  state.quizAttemptsWrong=0;
+  state.quizLocked=false;
+  state.quizReviewShown=false;
+  document.getElementById("quiz-review").innerHTML="";
+  var total=state.quizQuestions.length;
+  var idx=state.quizIndex;
+  var q=state.quizQuestions[idx];
+  document.getElementById("quiz-progress-fill").style.width=((idx/total)*100)+"%";
+  var tema=temaById(q.temaId);
+  document.getElementById("quiz-counter").textContent="Pregunta "+(idx+1)+" de "+total+" · "+tema.emoji+" "+tema.nombre;
+  document.getElementById("quiz-q").textContent=q.q;
+  renderHearts(4);
+  var optsWrap=document.getElementById("quiz-opts");
+  optsWrap.innerHTML="";
+  q.opts.forEach(function(opt,i){
+    var b=document.createElement("button");
+    b.className="opt-btn";
+    b.textContent=opt;
+    b.addEventListener("click",function(){handleAnswer(i,b);});
+    optsWrap.appendChild(b);
+  });
+  document.getElementById("quiz-feedback").innerHTML="";
+}
+function renderHearts(n){
+  var wrap=document.getElementById("quiz-lives");
+  wrap.innerHTML="";
+  for(var i=0;i<4;i++){
+    var span=document.createElement("span");
+    span.textContent=i<n?"❤️":"🖤";
+    wrap.appendChild(span);
+  }
+}
+function handleAnswer(i,btnEl){
+  if(state.quizLocked)return;
+  var idx=state.quizIndex;
+  var q=state.quizQuestions[idx];
+  if(state.quizFirstCorrect[idx]===null){
+    state.quizFirstCorrect[idx]=(i===q.correct);
+  }
+  var optsWrap=document.getElementById("quiz-opts");
+  var allBtns=optsWrap.querySelectorAll(".opt-btn");
+  var fb=document.getElementById("quiz-feedback");
+
+  if(i===q.correct){
+    state.quizLocked=true;
+    allBtns.forEach(function(b,bi){
+      if(bi===q.correct)b.classList.add("correct");
+      b.disabled=true;
+    });
+    fb.innerHTML="<p class='msg-good'>✅ ¡Correcto! 💎</p><div class='exp-box'>"+q.exp+"</div>"+
+      "<button class='btn-block btn-blue' id='btn-quiz-next'>Siguiente ➡️</button>";
+    document.getElementById("btn-quiz-next").addEventListener("click",advanceQuiz);
+  }else{
+    state.quizAttemptsWrong++;
+    btnEl.classList.add("wrong","flash");
+    setTimeout(function(){btnEl.classList.remove("flash");},320);
+    renderHearts(4-state.quizAttemptsWrong);
+    if(state.quizAttemptsWrong<3){
+      var left=4-state.quizAttemptsWrong;
+      fb.innerHTML="<p class='msg-warn'>❌ ¡Casi! Te quedan "+left+" intento(s). Probá de nuevo.</p>";
+    }else if(state.quizAttemptsWrong===3){
+      var leftN=4-state.quizAttemptsWrong;
+      fb.innerHTML="<p class='msg-warn'>❌ Te queda "+leftN+" intento. Repasá esta tarjeta antes de volver a intentar:</p>";
+      showReviewCard(q);
+    }else{
+      state.quizLocked=true;
+      allBtns.forEach(function(b,bi){
+        if(bi===q.correct)b.classList.add("correct");
+        b.disabled=true;
+      });
+      fb.innerHTML="<p class='msg-bad'>La respuesta correcta era: \""+q.opts[q.correct]+"\"</p><div class='exp-box'>"+q.exp+"</div>"+
+        "<button class='btn-block btn-blue' id='btn-quiz-next'>Siguiente ➡️</button>";
+      document.getElementById("btn-quiz-next").addEventListener("click",advanceQuiz);
+    }
+  }
+}
+function showReviewCard(q){
+  if(state.quizReviewShown)return;
+  state.quizReviewShown=true;
+  var tema=temaById(q.temaId);
+  var card=STUDY[q.temaId][q.cardRef];
+  var wrap=document.getElementById("quiz-review");
+  wrap.innerHTML="<p class='quiz-review-label'>📖 Repaso rápido</p>"+
+    "<div class='study-card-inner' style='--accent2:"+tema.color+"'>"+
+    "<span class='study-emoji'>"+card.emoji+"</span><h2>"+card.title+"</h2>"+
+    "<div class='study-body'>"+card.body+"</div></div>"+
+    "<button class='btn-block btn-wood' id='btn-jump-study' style='margin-top:10px;width:100%'>📖 Ir a Estudiar este tema</button>";
+  document.getElementById("btn-jump-study").addEventListener("click",function(){
+    openStudy(q.temaId,q.cardRef+1);
+  });
+}
+function advanceQuiz(){
+  state.quizIndex++;
+  if(state.quizIndex>=state.quizQuestions.length){finishQuiz();}
+  else{renderQuizQuestion();}
+}
+
+/* ======================= RESULTS ======================= */
+function finishQuiz(){
+  var qs=state.quizQuestions;
+  var correctCount=0;
+  qs.forEach(function(q,i){if(state.quizFirstCorrect[i])correctCount++;});
+  var score=Math.round((correctCount/qs.length)*100);
+
+  if(state.quizTemaId!=="all"){state.completed[state.quizTemaId]=score;}
+  else{
+    var byTema={};
+    qs.forEach(function(q,i){
+      if(!byTema[q.temaId])byTema[q.temaId]={c:0,t:0};
+      byTema[q.temaId].t++;
+      if(state.quizFirstCorrect[i])byTema[q.temaId].c++;
+    });
+    Object.keys(byTema).forEach(function(tid){
+      state.completed[tid]=Math.round((byTema[tid].c/byTema[tid].t)*100);
+    });
+  }
+
+  showView("results");
+  var msg,color;
+  if(score>=90){msg="🏆 ¡Diamante! Dominás este tema.";color="var(--good)";}
+  else if(score>=70){msg="💚 ¡Aprobado! Vas muy bien.";color="var(--good)";}
+  else if(score>=50){msg="🟡 Regular. Repasá un poco más.";color="var(--t3)";}
+  else{msg="🔁 ¡A repasar! Volvé al modo Estudiar.";color="var(--bad)";}
+
+  document.getElementById("results-title").textContent=score>=70?"¡Misión completa!":"¡Casi lo logramos!";
+  document.getElementById("results-msg").textContent=msg;
+  document.getElementById("gauge-num").textContent=score;
+
+  var r=52,circ=2*Math.PI*r;
+  var fill=document.getElementById("gauge-fill");
+  fill.style.stroke=color;
+  fill.setAttribute("stroke-dasharray",circ);
+  fill.setAttribute("stroke-dashoffset",circ);
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      fill.style.transition="stroke-dashoffset 1s ease";
+      fill.setAttribute("stroke-dashoffset",circ*(1-score/100));
+    });
+  });
+
+  var byTema2={};
+  qs.forEach(function(q,i){
+    if(!byTema2[q.temaId])byTema2[q.temaId]={c:0,t:0};
+    byTema2[q.temaId].t++;
+    if(state.quizFirstCorrect[i])byTema2[q.temaId].c++;
+  });
+  var bd=document.getElementById("results-breakdown");
+  bd.innerHTML="";
+  Object.keys(byTema2).forEach(function(tid){
+    var tema=temaById(parseInt(tid,10));
+    var pct=Math.round((byTema2[tid].c/byTema2[tid].t)*100);
+    var row=document.createElement("div");
+    row.className="bd-row";
+    row.innerHTML="<span class='bd-label'>"+tema.emoji+" "+tema.nombre+"</span>"+
+      "<span class='bd-bar'><span class='bd-bar-fill' style='width:"+pct+"%;background:"+tema.color+"'></span></span>"+
+      "<span class='bd-pct'>"+pct+"%</span>";
+    bd.appendChild(row);
+  });
+
+  var failedWrap=document.getElementById("results-failed");
+  failedWrap.innerHTML="";
+  var anyFailed=false;
+  qs.forEach(function(q,i){
+    if(!state.quizFirstCorrect[i]){
+      if(!anyFailed){failedWrap.innerHTML="<h3>📋 Preguntas para repasar</h3>";anyFailed=true;}
+      var item=document.createElement("div");
+      item.className="fail-item";
+      item.innerHTML="<p class='fq'>"+q.q+"</p><p class='fa'>Respuesta correcta: "+q.opts[q.correct]+"</p><p>"+q.exp+"</p>";
+      failedWrap.appendChild(item);
+    }
+  });
+}
+document.getElementById("btn-retry").addEventListener("click",function(){startQuiz(state.quizTemaId);});
+
+/* ======================= INIT ======================= */
+renderHome();
+</script>
+</body>
+</html>
