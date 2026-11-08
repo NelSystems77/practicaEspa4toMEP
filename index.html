@@ -1,766 +1,978 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laboratorio Banana — Repaso de Español 4° Grado</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Jardín del Saber · Práctica de Español 4.º</title>
+<meta name="description" content="Práctica interactiva de Español para cuarto grado (MEP): fábula, leyenda, carta, ortografía, medios de comunicación y más. Defiende tu jardín respondiendo preguntas.">
+<meta name="theme-color" content="#4aa63b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌻%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --banana:#FFC93C;
-    --banana-dark:#E8A800;
-    --peel-brown:#6B4226;
-    --navy:#1B3A63;
-    --navy-deep:#0F2440;
-    --cream:#FFF8E7;
-    --green:#3FA65B;
-    --red:#E3543A;
-    --card-shadow: 0 6px 0 rgba(107,66,38,0.18);
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--cream);
-    font-family:'Nunito',sans-serif;
-    color:var(--navy-deep);
-    padding-bottom:80px;
-  }
-  h1,h2,h3,.display{font-family:'Baloo 2',sans-serif;}
+:root{
+  --sky1:#7fd1ff;--sky2:#d6f3ff;
+  --grass1:#58b947;--grass2:#4aa63b;--grass-d:#2e7d32;
+  --soil:#6b4423;--wood:#a8702f;--wood-l:#c98f48;--wood-d:#7a4a1c;
+  --cream:#fff8e1;--ink:#26331f;--ink2:#4a5a40;
+  --sun:#ffd23f;--sun-d:#e0a800;
+  --ok:#2e7d32;--okbg:#e3f6d8;--bad:#b3261e;--badbg:#fde7e4;--info:#0d5fa8;--infobg:#e1f1fd;
+  --focus:#0b4fd1;
+  --r:18px;
+  --font:'Fredoka','Trebuchet MS','Segoe UI',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+html{font-size:100%}
+body{margin:0;font-family:var(--font);font-size:1.1rem;line-height:1.5;color:var(--ink);
+  background:linear-gradient(180deg,var(--sky1) 0,var(--sky2) 280px,#e9f9d5 281px,#b9e18b 100%);
+  background-attachment:fixed;min-height:100vh}
+body::before{content:"";position:fixed;inset:0 0 auto 0;height:280px;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(60px 28px at 12% 60px,#fff 98%,transparent) ,
+    radial-gradient(90px 34px at 30% 110px,#ffffffd9 98%,transparent),
+    radial-gradient(70px 30px at 70% 70px,#fff 98%,transparent),
+    radial-gradient(100px 36px at 88% 130px,#ffffffcc 98%,transparent)}
+a{color:var(--info)}
+:focus-visible{outline:4px solid var(--focus);outline-offset:3px;border-radius:8px}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;padding:8px 14px;border-radius:8px;z-index:99}
+.skip:focus{left:8px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#app{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:16px 16px 56px}
+h1,h2,h3{font-weight:700;line-height:1.2;margin:.2em 0 .4em}
+h1{font-size:clamp(1.9rem,6vw,3rem)}
+h2{font-size:clamp(1.4rem,4.5vw,2rem)}
+h3{font-size:1.25rem}
+p{margin:.5em 0}
 
-  /* ===== Header ===== */
-  header.hero{
-    background:linear-gradient(160deg, var(--banana) 0%, var(--banana) 55%, var(--navy) 55%, var(--navy) 100%);
-    padding:28px 20px 34px;
-    position:relative;
-    overflow:hidden;
-  }
-  .hero-inner{max-width:760px;margin:0 auto;position:relative;z-index:2;}
-  .mascot{
-    font-size:52px;
-    display:inline-block;
-    animation:bob 2.6s ease-in-out infinite;
-  }
-  @keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-8px) rotate(4deg);}}
-  header.hero h1{
-    color:var(--navy-deep);
-    font-size:clamp(1.5rem,5vw,2.3rem);
-    margin:8px 0 2px;
-    line-height:1.15;
-  }
-  header.hero p.subtitle{
-    color:var(--peel-brown);
-    font-weight:700;
-    margin:0 0 18px;
-  }
-  .school-tag{
-    display:inline-block;
-    background:var(--navy-deep);
-    color:var(--banana);
-    font-family:'Baloo 2',sans-serif;
-    font-size:0.75rem;
-    padding:4px 12px;
-    border-radius:20px;
-    margin-bottom:14px;
-  }
+/* letreros de madera */
+.sign{background:linear-gradient(180deg,var(--wood-l),var(--wood));color:#fff;border:4px solid var(--wood-d);border-radius:var(--r);
+  padding:10px 18px;box-shadow:0 5px 0 var(--wood-d),0 8px 14px #0003;text-shadow:0 2px 0 #0005}
+.card{background:var(--cream);border:4px solid var(--wood-d);border-radius:var(--r);padding:16px 18px;box-shadow:0 6px 0 #0002;margin:14px 0}
+.card.lawn-card{background:#f4ffe6}
+.btn{font:inherit;font-weight:700;font-size:1.1rem;cursor:pointer;color:#fff;text-shadow:0 2px 0 #0004;
+  background:linear-gradient(180deg,#6bcb4d,var(--grass2));border:4px solid var(--grass-d);border-radius:999px;
+  padding:12px 24px;min-height:48px;box-shadow:0 5px 0 var(--grass-d);transition:transform .08s,box-shadow .08s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--grass-d)}
+.btn.sun{background:linear-gradient(180deg,#ffe27a,var(--sun-d));border-color:#a77700;box-shadow:0 5px 0 #a77700;color:#3b2a00;text-shadow:none}
+.btn.wood{background:linear-gradient(180deg,var(--wood-l),var(--wood));border-color:var(--wood-d);box-shadow:0 5px 0 var(--wood-d)}
+.btn.ghost{background:#fff;color:var(--ink);border-color:var(--wood-d);box-shadow:0 5px 0 var(--wood-d);text-shadow:none}
+.btn.small{padding:6px 14px;min-height:40px;font-size:1rem}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.row.center{justify-content:center}
+.grow{flex:1}
 
-  /* peel progress bar - signature element */
-  .peel-wrap{
-    background:var(--navy-deep);
-    border-radius:40px;
-    padding:6px;
-    box-shadow:0 4px 0 rgba(0,0,0,0.25) inset;
-  }
-  .peel-track{
-    position:relative;
-    height:26px;
-    background:#0a1a30;
-    border-radius:30px;
-    overflow:hidden;
-  }
-  .peel-fill{
-    position:absolute;top:0;left:0;bottom:0;
-    width:0%;
-    background:repeating-linear-gradient(90deg, var(--banana) 0 18px, var(--banana-dark) 18px 20px);
-    border-radius:30px;
-    transition:width .5s ease;
-    display:flex;align-items:center;justify-content:flex-end;
-  }
-  .peel-emoji{font-size:16px;transform:translateX(8px);}
-  .peel-label{
-    color:var(--banana);
-    font-family:'Baloo 2',sans-serif;
-    font-size:0.8rem;
-    text-align:right;
-    margin-top:6px;
-  }
+/* barra superior */
+.top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.pill{background:#fffbe6;border:3px solid var(--wood-d);border-radius:999px;padding:4px 14px;font-weight:700;display:inline-flex;gap:6px;align-items:center}
+.pill .sunico{font-size:1.3rem}
 
-  /* ===== Nav dots ===== */
-  nav.modnav{
-    position:sticky;top:0;z-index:50;
-    background:var(--navy-deep);
-    display:flex;overflow-x:auto;
-    gap:6px;padding:10px 14px;
-    box-shadow:0 3px 8px rgba(0,0,0,0.2);
-  }
-  nav.modnav a{
-    flex:0 0 auto;
-    color:var(--banana);
-    text-decoration:none;
-    font-family:'Baloo 2',sans-serif;
-    font-size:0.78rem;
-    background:rgba(255,201,60,0.12);
-    padding:7px 12px;
-    border-radius:16px;
-    white-space:nowrap;
-    border:1px solid rgba(255,201,60,0.25);
-  }
-  nav.modnav a.done{background:var(--green);color:#fff;border-color:var(--green);}
+/* inicio */
+.hero{text-align:center;padding:18px 8px 6px}
+.hero h1{color:#fff;text-shadow:0 4px 0 var(--grass-d),0 6px 14px #0004;margin-bottom:0}
+.hero .sub{display:inline-block;margin-top:10px;font-size:1.15rem}
+.hero .sun-big{font-size:4rem;display:inline-block;animation:spin 18s linear infinite;filter:drop-shadow(0 4px 6px #0003)}
+.exam-banner{background:#fff3b0;border:4px solid var(--sun-d);border-radius:var(--r);padding:10px 16px;text-align:center;font-weight:700;margin:12px 0}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:14px 0}
+.menu .btn{flex-direction:column;padding:18px 14px;border-radius:26px;text-align:center}
+.menu .btn .big{font-size:2.4rem;line-height:1}
+.menu .btn small{font-weight:500;font-size:.9rem;text-shadow:none;opacity:.95}
+.garden{display:flex;flex-wrap:wrap;gap:8px;font-size:2.2rem}
+.garden .slot{width:60px;height:60px;display:grid;place-items:center;border-radius:12px;background:#8d5b2b;border:3px solid var(--wood-d);position:relative}
+.garden .slot.locked{filter:grayscale(1) brightness(.6);opacity:.7}
+.garden .slot span.need{position:absolute;bottom:-2px;right:2px;font-size:.7rem;background:#fff;border-radius:8px;padding:0 4px;color:var(--ink)}
 
-  /* ===== Layout ===== */
-  main{max-width:760px;margin:0 auto;padding:20px 16px;}
-  section.modulo{
-    background:#fff;
-    border-radius:20px;
-    box-shadow:var(--card-shadow);
-    border:3px solid var(--navy-deep);
-    margin-bottom:28px;
-    overflow:hidden;
-    scroll-margin-top:70px;
-  }
-  .modulo-head{
-    background:var(--navy-deep);
-    color:var(--banana);
-    padding:14px 18px;
-    display:flex;justify-content:space-between;align-items:center;gap:10px;
-  }
-  .modulo-head h2{margin:0;font-size:1.05rem;}
-  .modulo-head .pts{
-    background:var(--banana);color:var(--navy-deep);
-    font-size:0.75rem;font-weight:800;
-    padding:3px 10px;border-radius:12px;white-space:nowrap;
-  }
-  .modulo-body{padding:18px;}
-  .indicador{
-    font-size:0.82rem;color:var(--peel-brown);
-    background:#FFF3D6;border-left:4px solid var(--banana-dark);
-    padding:8px 12px;border-radius:8px;margin-bottom:14px;font-style:italic;
-  }
-  .resumen{
-    background:#F0F6FF;border-radius:12px;padding:12px 14px;
-    font-size:0.9rem;margin-bottom:16px;border:1px dashed var(--navy);
-  }
-  .resumen strong{color:var(--navy);}
-  .actividad{margin-bottom:22px;}
-  .actividad h3{font-size:0.95rem;margin:0 0 10px;color:var(--navy-deep);}
-  .frase{background:var(--cream);padding:10px 12px;border-radius:10px;margin-bottom:10px;font-size:0.95rem;line-height:1.7;}
+/* mapa */
+.world{margin:22px 0}
+.world h2{display:flex;gap:10px;align-items:center;margin-bottom:2px}
+.world .wd{margin:0 0 8px;color:var(--ink2);font-weight:500}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;
+  padding:14px;border-radius:var(--r);border:4px solid var(--grass-d);
+  background:repeating-linear-gradient(90deg,var(--grass1) 0 64px,var(--grass2) 64px 128px)}
+.tile{font:inherit;text-align:left;cursor:pointer;background:var(--cream);color:var(--ink);border:4px solid var(--wood-d);border-radius:16px;padding:10px 12px;
+  box-shadow:0 5px 0 var(--wood-d);display:flex;flex-direction:column;gap:2px;min-height:112px;transition:transform .1s}
+.tile:hover{transform:translateY(-3px)}
+.tile .ti{font-size:2rem;line-height:1}
+.tile .tt{font-weight:700;line-height:1.2}
+.tile .tm{font-size:.9rem;color:var(--ink2)}
+.tile.done{background:#e8ffd6;border-color:var(--ok)}
+.stars{letter-spacing:2px;color:#c58a00;font-size:1.15rem}
+.stars .off{color:#bbb}
+.tag{display:inline-block;background:var(--infobg);color:var(--info);border:2px solid var(--info);border-radius:999px;padding:0 10px;font-size:.85rem;font-weight:700}
+.tag.comp{background:#f1e6ff;color:#5b2aa0;border-color:#5b2aa0}
 
-  textarea, input[type=text]{
-    width:100%;font-family:'Nunito',sans-serif;font-size:0.95rem;
-    border:2px solid #ddd;border-radius:10px;padding:9px 11px;
-    background:#fdfdfd;
-  }
-  textarea:focus, input[type=text]:focus, select:focus{outline:3px solid var(--banana);border-color:var(--navy);}
-  select{
-    font-family:'Nunito',sans-serif;font-size:0.9rem;
-    border:2px solid #ddd;border-radius:8px;padding:7px 8px;background:#fff;
-  }
-  table.tabla{width:100%;border-collapse:collapse;font-size:0.85rem;margin-bottom:6px;}
-  table.tabla th{background:var(--navy);color:#fff;padding:6px;text-align:left;font-family:'Baloo 2';font-size:0.8rem;}
-  table.tabla td{padding:6px;border-bottom:1px solid #eee;vertical-align:middle;}
-  table.tabla input, table.tabla select{width:100%;}
+/* lección */
+.indicator{background:var(--infobg);border-left:8px solid var(--info);padding:10px 14px;border-radius:10px;margin:10px 0}
+.lesson p.ex,.ex{background:#fffbe0;border:2px dashed var(--sun-d);border-radius:10px;padding:8px 12px}
+.lesson ul,.lesson ol{padding-left:1.3em}
+.lesson li{margin:.3em 0}
 
-  .blank-btns{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
-  .blank-btns button{
-    border:2px solid var(--navy);background:#fff;color:var(--navy);
-    border-radius:8px;padding:3px 9px;font-weight:800;cursor:pointer;font-size:0.9rem;
-  }
-  .blank-btns button.sel{background:var(--navy);color:#fff;}
-  .blank-slot{
-    display:inline-flex;align-items:center;justify-content:center;
-    min-width:26px;height:26px;border:2px dashed var(--navy);border-radius:6px;
-    padding:0 4px;font-weight:800;color:var(--navy);background:#eef4ff;
-  }
+/* batalla */
+.lane{position:relative;height:150px;border-radius:var(--r);border:4px solid var(--grass-d);overflow:hidden;margin:10px 0;
+  background:repeating-linear-gradient(90deg,var(--grass1) 0 20%,var(--grass2) 20% 40%);box-shadow:inset 0 -10px 0 #0001}
+.lane .house{position:absolute;left:0;top:0;bottom:0;width:34px;background:linear-gradient(90deg,#8d5b2b,#a9763c);border-right:4px solid var(--wood-d);display:grid;place-items:center;font-size:1.4rem}
+.unit{position:absolute;bottom:14px;font-size:4rem;line-height:1;transition:left .7s cubic-bezier(.3,1.4,.6,1),opacity .5s,transform .5s;filter:drop-shadow(0 6px 3px #0004)}
+.plant{left:6%}
+.zombie{left:78%}
+.zombie .hat{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:2rem}
+.zombie.near{left:24%}
+.zombie.bite{animation:shake .4s 2}
+.zombie.dead{opacity:0;transform:rotate(80deg) translateY(30px);left:60%}
+.plant.hit{animation:shake .4s 2}
+.plant.shoot{animation:pop .4s}
+.pea{position:absolute;left:14%;bottom:60px;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#b6f58a,#3a9c2a);border:2px solid #1e6a15;animation:pea .55s linear forwards}
+.boom{position:absolute;left:58%;bottom:50px;font-size:3rem;animation:pop .6s forwards}
+.wave{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.wave span{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#fff;border:3px solid var(--wood-d);font-size:.95rem}
+.wave .ok{background:var(--okbg);border-color:var(--ok)}
+.wave .bad{background:var(--badbg);border-color:var(--bad)}
+.wave .cur{background:var(--sun);transform:scale(1.15)}
+.qbox .txt{background:#fff;border:3px solid var(--wood-l);border-radius:12px;padding:10px 14px;margin:8px 0;white-space:pre-line;font-size:1.05rem}
+.qbox h2{font-size:clamp(1.15rem,3.8vw,1.5rem);margin:.4em 0}
+.opts{display:grid;gap:10px;margin-top:10px}
+.opt{font:inherit;text-align:left;cursor:pointer;background:#fff;color:var(--ink);border:4px solid var(--wood-l);border-radius:14px;padding:10px 14px;min-height:52px;
+  display:flex;gap:12px;align-items:center;box-shadow:0 4px 0 var(--wood-l);transition:transform .08s}
+.opt:hover:not([disabled]){transform:translateY(-2px);border-color:var(--wood-d)}
+.opt .k{flex:none;width:34px;height:34px;border-radius:50%;background:var(--sun);border:3px solid var(--sun-d);display:grid;place-items:center;font-weight:700}
+.opt.right{background:var(--okbg);border-color:var(--ok);box-shadow:0 4px 0 var(--ok)}
+.opt.wrong{background:var(--badbg);border-color:var(--bad);box-shadow:0 4px 0 var(--bad)}
+.opt[disabled]{cursor:default}
+.opt.picked{background:#fff3b0;border-color:var(--sun-d)}
+input.ans{font:inherit;width:100%;padding:12px 14px;border:4px solid var(--wood-l);border-radius:14px;font-size:1.2rem}
+.fb{border-radius:14px;padding:12px 16px;margin-top:14px;border:4px solid}
+.fb.ok{background:var(--okbg);border-color:var(--ok);color:#1b4d1f}
+.fb.bad{background:var(--badbg);border-color:var(--bad);color:#6d150f}
+.fb h3{margin:0 0 4px}
 
-  .btn{
-    font-family:'Baloo 2',sans-serif;
-    background:var(--banana);color:var(--navy-deep);
-    border:none;border-radius:10px;padding:9px 16px;
-    font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--banana-dark);
-    font-size:0.9rem;
-  }
-  .btn:active{transform:translateY(2px);box-shadow:none;}
-  .btn.secondary{background:var(--navy);color:var(--banana);box-shadow:0 3px 0 var(--navy-deep);}
-  .btn.small{padding:5px 10px;font-size:0.78rem;}
+/* resultados */
+.big-stars{font-size:3rem;text-align:center;letter-spacing:6px}
+.bars{display:grid;gap:10px}
+.bar{display:grid;grid-template-columns:minmax(120px,220px) 1fr 52px;gap:10px;align-items:center}
+.bar .track{height:20px;background:#e5e5e5;border-radius:999px;overflow:hidden;border:2px solid var(--wood-d)}
+.bar .fill{height:100%;background:linear-gradient(90deg,#8fe05d,var(--grass2))}
+.bar .fill.mid{background:linear-gradient(90deg,#ffe27a,var(--sun-d))}
+.bar .fill.low{background:linear-gradient(90deg,#ff9a8f,#d8453a)}
+.level{display:inline-block;padding:4px 14px;border-radius:999px;font-weight:700;border:3px solid}
+.level.av{background:var(--okbg);border-color:var(--ok);color:#1b4d1f}
+.level.in{background:#fff3b0;border-color:#a77700;color:#5a4000}
+.level.ini{background:var(--badbg);border-color:var(--bad);color:#6d150f}
+details.rev{background:#fff;border:3px solid var(--wood-l);border-radius:12px;padding:8px 12px;margin:8px 0}
+details.rev summary{cursor:pointer;font-weight:700}
 
-  .feedback{
-    margin-top:8px;padding:8px 10px;border-radius:8px;font-size:0.85rem;font-weight:700;display:none;
-  }
-  .feedback.ok{background:#E4F7E9;color:var(--green);display:block;}
-  .feedback.bad{background:#FDE9E6;color:var(--red);display:block;}
-  .reveal-box{
-    margin-top:8px;background:#FFF3D6;border:1px dashed var(--banana-dark);
-    border-radius:8px;padding:10px 12px;font-size:0.88rem;display:none;
-  }
-  .reveal-box.show{display:block;}
-  label.chk{display:flex;align-items:center;gap:8px;font-size:0.85rem;margin-top:8px;cursor:pointer;}
+/* auditoría */
+.tbl-wrap{overflow-x:auto;border-radius:12px;border:3px solid var(--wood-d);background:#fff}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.98rem}
+th,td{padding:8px 10px;border-bottom:2px solid #eadcc0;text-align:left;vertical-align:top}
+th{background:var(--wood);color:#fff;position:sticky;top:0}
+td.num{text-align:center;font-weight:700}
+.chip{display:inline-block;border-radius:999px;padding:0 10px;font-weight:700;font-size:.9rem;border:2px solid}
+.chip.ok{background:var(--okbg);border-color:var(--ok);color:#1b4d1f}
+.chip.warn{background:#fff3b0;border-color:#a77700;color:#5a4000}
+.chip.miss{background:var(--badbg);border-color:var(--bad);color:#6d150f}
+.alert{background:#fff3b0;border:4px solid #a77700;border-radius:14px;padding:10px 14px;margin:12px 0}
 
-  .mc-opt{
-    display:block;background:#F5F5F5;border:2px solid #eee;border-radius:10px;
-    padding:9px 12px;margin-bottom:7px;cursor:pointer;font-size:0.9rem;
-  }
-  .mc-opt.correct{background:#E4F7E9;border-color:var(--green);}
-  .mc-opt.wrong{background:#FDE9E6;border-color:var(--red);}
-  .mc-opt input{margin-right:8px;}
+footer{margin-top:30px;text-align:center;color:var(--ink2);font-size:.9rem}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#222;color:#fff;border-radius:999px;padding:8px 18px;z-index:50}
 
-  .lectura{
-    background:#FFF8E7;border:2px solid var(--banana-dark);border-radius:14px;
-    padding:14px 16px;margin-bottom:16px;font-size:0.92rem;line-height:1.65;
-  }
-  .lectura h4{margin:0 0 8px;font-family:'Baloo 2';color:var(--navy);}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes pop{0%{transform:scale(.4)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+@keyframes pea{from{left:14%}to{left:62%}}
+@media (max-width:560px){
+  body{font-size:1.02rem}
+  .unit{font-size:3rem}
+  .lane{height:120px}
+  .bar{grid-template-columns:1fr 52px}.bar .lbl{grid-column:1/-1}.bar .track{grid-column:1}
+  .btn{padding:10px 16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+@media (forced-colors:active){.btn,.opt,.tile,.card{border:3px solid CanvasText}}
+[data-focus]:focus,[data-focus]:focus-visible{outline:none}
+button[data-focus]:focus-visible{outline:4px solid var(--focus)}
 
-  footer.final{
-    max-width:760px;margin:0 auto;padding:0 16px 40px;text-align:center;
-  }
-  .final-card{
-    background:var(--navy-deep);color:var(--banana);border-radius:20px;padding:26px 20px;
-  }
-  .final-card h2{margin-top:0;}
-  #finalScore{font-size:2.4rem;font-family:'Baloo 2';}
-  .fine-print{font-size:0.75rem;color:#a9b8cf;margin-top:10px;}
-
-  .toast{
-    position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
-    background:var(--navy-deep);color:var(--banana);padding:10px 20px;
-    border-radius:30px;font-family:'Baloo 2';font-size:0.85rem;
-    box-shadow:0 4px 14px rgba(0,0,0,0.3);opacity:0;pointer-events:none;transition:opacity .3s, transform .3s;
-    z-index:200;
-  }
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
-
-  @media (prefers-reduced-motion: reduce){
-    .mascot{animation:none;}
-    *{transition:none !important;}
-  }
 </style>
 </head>
 <body>
-
-<header class="hero">
-  <div class="hero-inner">
-    <span class="school-tag">MEP · Escuela San Rafael de Coronado · 4° Grado</span>
-    <div><span class="mascot">🍌🥼🔬</span></div>
-    <h1>Laboratorio Banana</h1>
-    <p class="subtitle">Repaso interactivo de Español — ¡Ayuda al equipo de bananas científicas a llegar al 100%!</p>
-    <div class="peel-wrap">
-      <div class="peel-track"><div class="peel-fill" id="peelFill"><span class="peel-emoji">🍌</span></div></div>
-    </div>
-    <div class="peel-label" id="peelLabel">0 / 52 puntos completados</div>
-  </div>
-</header>
-
-<nav class="modnav" id="modNav">
-  <a href="#m1">M1 Puntuación</a>
-  <a href="#m2">M2 Acentos</a>
-  <a href="#m3">M3 Señales</a>
-  <a href="#m4">M4 Textos</a>
-  <a href="#m5">M5 Palabras</a>
-  <a href="#m6">M6 Lectura</a>
-</nav>
-
-<main>
-
-  <!-- MODULO 1 -->
-  <section class="modulo" id="m1">
-    <div class="modulo-head"><h2>Módulo 1 · Mayúsculas y Puntuación</h2><span class="pts">11 pts</span></div>
-    <div class="modulo-body">
-      <div class="indicador">Aplica correctamente las normas de mayúsculas e identifica los signos de puntuación básicos.</div>
-      <div class="resumen">
-        <strong>Recuerda:</strong> mayúscula al iniciar una oración, después de un punto, y en nombres propios (personas, mascotas, países, ríos, cantones). Los signos <strong>¿ ?</strong> encierran preguntas y <strong>¡ !</strong> encierran exclamaciones; la <strong>coma (,)</strong> separa elementos de una lista; los <strong>dos puntos (:)</strong> anuncian una enumeración; el <strong>punto y coma (;)</strong> separa oraciones complejas.
-      </div>
-
-      <div class="actividad">
-        <h3>1.1 · Corrección de mayúsculas y puntos (5 pts)</h3>
-        <div class="frase">"el domingo pasado fuimos a visitar el volcán irazú con mi tío carlos y mi perrita lola nos tomamos muchas fotos hermosas el clima estaba muy fresco y despejado"</div>
-        <textarea id="a11" rows="3" placeholder="Escribe el texto corregido aquí..."></textarea>
-        <div><button class="btn small" style="margin-top:8px;" onclick="revealAnswer('r11')">Ver respuesta correcta</button></div>
-        <div class="reveal-box" id="r11">El domingo pasado fuimos a visitar el volcán Irazú con mi tío Carlos y mi perrita Lola. Nos tomamos muchas fotos hermosas. El clima estaba muy fresco y despejado.</div>
-        <label class="chk"><input type="checkbox" onchange="selfGrade('a11',this.checked,5)"> Comparé mi respuesta y la corregí correctamente (marca para sumar tus puntos)</label>
-      </div>
-
-      <div class="actividad">
-        <h3>1.2 · Coloca el signo de puntuación adecuado (6 pts)</h3>
-        <div class="frase">
-          <span class="blank-slot" id="slot1">?</span> Qué alegría verte tan recuperado <span class="blank-slot" id="slot2">?</span>
-        </div>
-        <div class="frase">
-          Mi mamá compró en la feria varias frutas <span class="blank-slot" id="slot3">?</span> manzanas <span class="blank-slot" id="slot4">?</span> peras <span class="blank-slot" id="slot5">?</span> uvas y papayas.
-        </div>
-        <div class="frase">
-          <span class="blank-slot" id="slot6">?</span> A qué hora inicia la clase de Español el jueves <span class="blank-slot" id="slot7">?</span>
-        </div>
-        <div class="frase">
-          Estudiamos mucho para el examen de la escuela San Rafael <span class="blank-slot" id="slot8">?</span> por lo tanto, obtendremos excelentes calificaciones.
-        </div>
-        <p style="font-size:0.85rem;color:var(--peel-brown);margin-bottom:2px;"><strong>Elige un espacio y luego un signo:</strong></p>
-        <div id="slotPicker" style="margin-bottom:8px;"></div>
-        <div class="blank-btns" id="punctButtons"></div>
-        <button class="btn" style="margin-top:10px;" onclick="checkModule12()">Revisar</button>
-        <div class="feedback" id="fb12"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MODULO 2 -->
-  <section class="modulo" id="m2">
-    <div class="modulo-head"><h2>Módulo 2 · Acentuación y Clasificación</h2><span class="pts">10 pts</span></div>
-    <div class="modulo-body">
-      <div class="indicador">Identifica sílaba tónica, acento prosódico/ortográfico, y clasifica palabras en agudas, graves, esdrújulas y sobreesdrújulas.</div>
-      <div class="resumen">
-        <strong>Agudas:</strong> fuerza en la última sílaba (tilde si termina en N, S o vocal).<br>
-        <strong>Graves:</strong> fuerza en la penúltima (tilde si NO termina en N, S ni vocal).<br>
-        <strong>Esdrújulas:</strong> fuerza en la antepenúltima — ¡TODAS llevan tilde!<br>
-        <strong>Sobreesdrújulas:</strong> fuerza antes de la antepenúltima — TODAS llevan tilde.
-      </div>
-
-      <div class="actividad">
-        <h3>2.1 · Separa en sílabas y marca la tónica (4 pts)</h3>
-        <table class="tabla">
-          <tr><th>Palabra</th><th>División en sílabas</th><th>Sílaba tónica</th><th>Tipo de acento</th></tr>
-          <tr><td>Mariposa</td><td><input type="text" id="t21_div_0" placeholder="ma-ri-po-sa"></td><td><input type="text" id="t21_ton_0" placeholder="po"></td>
-            <td><select id="t21_tipo_0"><option value="">--</option><option value="Prosódico">Prosódico</option><option value="Ortográfico">Ortográfico</option></select></td></tr>
-          <tr><td>Corazón</td><td><input type="text" id="t21_div_1"></td><td><input type="text" id="t21_ton_1"></td>
-            <td><select id="t21_tipo_1"><option value="">--</option><option value="Prosódico">Prosódico</option><option value="Ortográfico">Ortográfico</option></select></td></tr>
-          <tr><td>Lápiz</td><td><input type="text" id="t21_div_2"></td><td><input type="text" id="t21_ton_2"></td>
-            <td><select id="t21_tipo_2"><option value="">--</option><option value="Prosódico">Prosódico</option><option value="Ortográfico">Ortográfico</option></select></td></tr>
-          <tr><td>Caracol</td><td><input type="text" id="t21_div_3"></td><td><input type="text" id="t21_ton_3"></td>
-            <td><select id="t21_tipo_3"><option value="">--</option><option value="Prosódico">Prosódico</option><option value="Ortográfico">Ortográfico</option></select></td></tr>
-        </table>
-        <button class="btn small" onclick="checkModule21()">Revisar tónica y tipo</button>
-        <div class="feedback" id="fb21"></div>
-        <div><button class="btn small secondary" style="margin-top:8px;" onclick="revealAnswer('r21')">Ver división correcta</button></div>
-        <div class="reveal-box" id="r21">Ma-ri-po-sa (tónica: po, Prosódico) · Co-ra-zón (tónica: zón, Ortográfico) · Lá-piz (tónica: lá, Ortográfico) · Ca-ra-col (tónica: col, Prosódico)</div>
-      </div>
-
-      <div class="actividad">
-        <h3>2.2 · Clasifica cada palabra (6 pts)</h3>
-        <table class="tabla" id="tabla22"></table>
-        <button class="btn small" onclick="checkModule22()">Revisar clasificación</button>
-        <div class="feedback" id="fb22"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MODULO 3 -->
-  <section class="modulo" id="m3">
-    <div class="modulo-head"><h2>Módulo 3 · Códigos No Lingüísticos</h2><span class="pts">4 pts</span></div>
-    <div class="modulo-body">
-      <div class="indicador">Identifica e interpreta códigos que comunican sin usar palabras habladas o escritas.</div>
-      <div class="resumen">Las señales visuales, gestos y sonidos de alerta también comunican mensajes: una sirena, un dedo sobre los labios, una luz roja.</div>
-      <div class="actividad">
-        <h3>3.1 · Une cada señal con su significado (4 pts)</h3>
-        <table class="tabla" id="tabla31"></table>
-        <button class="btn small" onclick="checkModule31()">Revisar</button>
-        <div class="feedback" id="fb31"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MODULO 4 -->
-  <section class="modulo" id="m4">
-    <div class="modulo-head"><h2>Módulo 4 · Textos Normativos y Descriptivos</h2><span class="pts">10 pts</span></div>
-    <div class="modulo-body">
-      <div class="indicador">Elabora textos normativos breves y textos descriptivos usando adjetivos calificativos.</div>
-      <div class="resumen"><strong>Texto normativo:</strong> da reglas o instrucciones claras. <strong>Texto descriptivo:</strong> usa adjetivos calificativos (alto, verde, cariñoso...) para explicar cómo es algo o alguien.</div>
-
-      <div class="actividad">
-        <h3>4.1 · Reglamento de la Biblioteca Escolar (5 pts)</h3>
-        <p style="font-size:0.88rem;">Escribe 3 reglas claras para los estudiantes:</p>
-        <textarea id="a41" rows="4" placeholder="1. ...&#10;2. ...&#10;3. ..."></textarea>
-        <div><button class="btn small" style="margin-top:8px;" onclick="revealAnswer('r41')">Ver ejemplo de respuesta</button></div>
-        <div class="reveal-box" id="r41">Ejemplo: 1. Hablar en voz baja dentro de la sala. 2. Tratar los libros con cuidado y limpieza. 3. Devolver los materiales a tiempo.</div>
-        <label class="chk"><input type="checkbox" onchange="selfGrade('a41',this.checked,5)"> Escribí 3 reglas normativas claras</label>
-      </div>
-
-      <div class="actividad">
-        <h3>4.2 · Párrafo descriptivo de un animal típico de Costa Rica (5 pts)</h3>
-        <p style="font-size:0.88rem;">Incluye al menos 4 adjetivos calificativos (ej: el yigüirro, el perezoso, el jaguar).</p>
-        <textarea id="a42" rows="4" placeholder="Escribe tu párrafo aquí..."></textarea>
-        <div><button class="btn small" style="margin-top:8px;" onclick="revealAnswer('r42')">Ver ejemplo de respuesta</button></div>
-        <div class="reveal-box" id="r42">Ejemplo: "El perezoso es un animal tranquilo, pequeño y de pelaje café. Le gusta vivir en los árboles altos de la montaña."</div>
-        <label class="chk"><input type="checkbox" onchange="selfGrade('a42',this.checked,5)"> Usé al menos 4 adjetivos calificativos</label>
-      </div>
-    </div>
-  </section>
-
-  <!-- MODULO 5 -->
-  <section class="modulo" id="m5">
-    <div class="modulo-head"><h2>Módulo 5 · Estructura de Palabras y Diccionario</h2><span class="pts">11 pts</span></div>
-    <div class="modulo-body">
-      <div class="indicador">Identifica prefijos y sufijos y reconoce el uso del orden alfabético en el diccionario.</div>
-      <div class="resumen"><strong>Prefijo:</strong> se añade antes de la raíz (des-, sub-, in-). <strong>Sufijo:</strong> se añade después (-ería, -ista, -ero, -ito).</div>
-
-      <div class="actividad">
-        <h3>5.1 · Prefijos y sufijos (6 pts)</h3>
-        <table class="tabla">
-          <tr><th>Palabra</th><th>¿Prefijo o Sufijo?</th><th>Elemento agregado</th><th>Palabra primitiva</th></tr>
-          <tr><td>Zapatería</td>
-            <td><select id="t51_tipo_0"><option value="">--</option><option>Prefijo</option><option>Sufijo</option></select></td>
-            <td><input type="text" id="t51_elem_0" placeholder="-ería"></td>
-            <td><input type="text" id="t51_raiz_0" placeholder="Zapat"></td></tr>
-          <tr><td>Desarmar</td>
-            <td><select id="t51_tipo_1"><option value="">--</option><option>Prefijo</option><option>Sufijo</option></select></td>
-            <td><input type="text" id="t51_elem_1"></td>
-            <td><input type="text" id="t51_raiz_1"></td></tr>
-          <tr><td>Carnicero</td>
-            <td><select id="t51_tipo_2"><option value="">--</option><option>Prefijo</option><option>Sufijo</option></select></td>
-            <td><input type="text" id="t51_elem_2"></td>
-            <td><input type="text" id="t51_raiz_2"></td></tr>
-          <tr><td>Imposible</td>
-            <td><select id="t51_tipo_3"><option value="">--</option><option>Prefijo</option><option>Sufijo</option></select></td>
-            <td><input type="text" id="t51_elem_3"></td>
-            <td><input type="text" id="t51_raiz_3"></td></tr>
-        </table>
-        <button class="btn small" onclick="checkModule51()">Revisar</button>
-        <div class="feedback" id="fb51"></div>
-      </div>
-
-      <div class="actividad">
-        <h3>5.2 · Orden alfabético (5 pts)</h3>
-        <p style="font-size:0.88rem;">Asigna el número de orden (1 al 5) como aparecerían en el diccionario:</p>
-        <table class="tabla" id="tabla52"></table>
-        <button class="btn small" onclick="checkModule52()">Revisar orden</button>
-        <div class="feedback" id="fb52"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MODULO 6 -->
-  <section class="modulo" id="m6">
-    <div class="modulo-head"><h2>Módulo 6 · Comprensión Lectora</h2><span class="pts">6 pts</span></div>
-    <div class="modulo-body">
-      <div class="indicador">Resuelve comprensiones de lectura aplicando estrategias de ideas principales y vocabulario por contexto.</div>
-
-      <div class="lectura">
-        <h4>Un rincón verde en San Rafael de Coronado</h4>
-        <p>El cantón de Vázquez de Coronado, especialmente el distrito de San Rafael, es reconocido en Costa Rica por sus hermosos paisajes montañosos, su clima fresco y su rica tradición ganadera. Muchas familias visitan esta zona durante los fines de semana para respirar aire puro, observar los verdes potreros y disfrutar de deliciosos quesos artesanales elaborados por los productores locales.</p>
-        <p>Además de su belleza natural, la comunidad se distingue por la impresionante arquitectura de su parroquia, la iglesia de San Rafael Arcángel, construida con una estructura metálica traída desde Alemania a principios del siglo XX. Cuidar nuestras tradiciones y preservar los bosques de las zonas altas de Coronado es una responsabilidad ineludible de todos los ciudadanos para garantizar el agua de las futuras generaciones.</p>
-      </div>
-
-      <div class="actividad">
-        <h3>¿Cuál es la idea principal del primer párrafo? (2 pts)</h3>
-        <div id="mc1"></div>
-      </div>
-
-      <div class="actividad">
-        <h3>¿Por qué es fundamental cuidar los bosques de las zonas altas de Coronado? (2 pts)</h3>
-        <textarea id="a63" rows="2" placeholder="Escribe tu respuesta..."></textarea>
-        <div><button class="btn small" style="margin-top:8px;" onclick="revealAnswer('r63')">Ver respuesta</button></div>
-        <div class="reveal-box" id="r63">Para garantizar el abastecimiento de agua para las futuras generaciones.</div>
-        <label class="chk"><input type="checkbox" onchange="selfGrade('a63',this.checked,2)"> Mi respuesta menciona el agua para el futuro</label>
-      </div>
-
-      <div class="actividad">
-        <h3>En "una responsabilidad ineludible", la palabra subrayada significa: (2 pts)</h3>
-        <div id="mc2"></div>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="final">
-  <div class="final-card">
-    <h2>🍌 Resultado del Laboratorio</h2>
-    <div id="finalScore">0 / 52</div>
-    <p id="finalMsg">¡Sigue completando actividades para ver tu progreso!</p>
-    <button class="btn" onclick="resetAll()">Reiniciar todo el progreso</button>
-    <p class="fine-print">Nota: el examen real vale 100 pts; esta práctica cubre los módulos 1 a 6 del documento de repaso (52 pts en total).</p>
-  </div>
-</footer>
-
-<div class="toast" id="toast"></div>
-
+<a class="skip" href="#app">Saltar al contenido</a>
+<div id="live" class="vh" role="status" aria-live="polite"></div>
+<main id="app"><noscript><p class="card">Esta práctica necesita JavaScript activado.</p></noscript></main>
 <script>
-/* ===================== STATE ===================== */
-const STORAGE_KEY = 'banana_espanol_4to_v1';
-const TOTAL_POINTS = 52;
-let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-// state = { itemId: {earned:true/false, points:N} }
+/* ===== BANCO DE CONTENIDOS (parte 1: Lectura, textos y gramática) ===== */
+/* q(n, enunciado, [correcta, ...incorrectas], explicación, textoDeApoyo) — n: 1 conocimiento, 2 aplicación, 3 análisis */
+/* w(n, enunciado, [respuestasAceptadas], explicación) — respuesta escrita */
+const q = (n, p, o, e, txt) => ({ k: 'm', n, p, o, e, txt });
+const w = (n, p, a, e, txt) => ({ k: 'w', n, p, a, e, txt });
+const T_ = [];
 
-function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-
-function award(itemId, points){
-  if(!state[itemId]){
-    state[itemId] = {earned:true, points:points};
-    saveState();
-    updateProgress();
-    showToast('¡+' + points + ' pts! 🍌');
-    return true;
-  }
-  return false; // already scored once (first-attempt scoring)
-}
-
-function selfGrade(itemId, checked, points){
-  if(checked){ award(itemId, points); }
-  else {
-    if(state[itemId]){ delete state[itemId]; saveState(); updateProgress(); }
-  }
-}
-
-function revealAnswer(id){
-  document.getElementById(id).classList.toggle('show');
-}
-
-function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 1800);
-}
-
-function normalize(str){
-  return (str||'').toString().trim().toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // strip accents
-    .replace(/[-\s]+/g,'');
-}
-
-function updateProgress(){
-  let earned = 0;
-  Object.values(state).forEach(v=>{ if(v.earned) earned += v.points; });
-  const pct = Math.min(100, Math.round((earned/TOTAL_POINTS)*100));
-  document.getElementById('peelFill').style.width = pct + '%';
-  document.getElementById('peelLabel').textContent = earned + ' / ' + TOTAL_POINTS + ' puntos completados';
-  document.getElementById('finalScore').textContent = earned + ' / ' + TOTAL_POINTS;
-  const msg = document.getElementById('finalMsg');
-  if(earned === 0) msg.textContent = '¡Sigue completando actividades para ver tu progreso!';
-  else if(pct < 50) msg.textContent = '¡Buen inicio! El laboratorio banana cree en ti. 🍌';
-  else if(pct < 100) msg.textContent = '¡Vas muy bien! Ya casi terminas el repaso completo.';
-  else msg.textContent = '¡Repaso completado al 100%! Estás listo(a) para el examen. 🏆🍌';
-
-  // mark nav dots done per module based on module max points reached
-  const moduleMax = {m1:11,m2:10,m3:4,m4:10,m5:11,m6:6};
-  const modulePrefixes = {
-    m1:['a11','p_'], m2:['t21_','w22_'], m3:['s31_'], m4:['a41','a42'],
-    m5:['t51_','w52_'], m6:['mc1','a63','mc2']
-  };
-  document.querySelectorAll('#modNav a').forEach(a=>{
-    const id = a.getAttribute('href').substring(1);
-    let sum = 0;
-    Object.keys(state).forEach(k=>{
-      if(modulePrefixes[id].some(p=>k.startsWith(p))) sum += state[k].points;
-    });
-    if(sum >= moduleMax[id]) a.classList.add('done'); else a.classList.remove('done');
-  });
-}
-
-function resetAll(){
-  if(confirm('¿Seguro que quieres borrar todo tu progreso?')){
-    localStorage.removeItem(STORAGE_KEY);
-    location.reload();
-  }
-}
-
-/* ===================== MODULE 1.2 - Punctuation ===================== */
-const punctOptions = [',', '.', ':', ';', '¿', '?', '¡', '!'];
-const answers12 = {slot1:'¡', slot2:'!', slot3:':', slot4:',', slot5:',', slot6:'¿', slot7:'?', slot8:';'};
-let selectedSlot = null;
-
-function buildModule12(){
-  const picker = document.getElementById('slotPicker');
-  Object.keys(answers12).forEach((s,i)=>{
-    const btn = document.createElement('button');
-    btn.className='btn small secondary'; btn.style.marginRight='4px'; btn.style.marginBottom='4px';
-    btn.textContent = 'Espacio ' + (i+1);
-    btn.onclick = ()=>{ selectedSlot = s;
-      document.querySelectorAll('#slotPicker button').forEach(b=>b.style.opacity='0.6');
-      btn.style.opacity='1';
-    };
-    picker.appendChild(btn);
-  });
-  const wrap = document.getElementById('punctButtons');
-  punctOptions.forEach(p=>{
-    const btn = document.createElement('button');
-    btn.textContent = p;
-    btn.onclick = ()=>{
-      if(!selectedSlot){ showToast('Primero elige un espacio arriba ☝️'); return; }
-      document.getElementById(selectedSlot).textContent = p;
-    };
-    wrap.appendChild(btn);
-  });
-}
-
-function checkModule12(){
-  let correct = 0;
-  Object.keys(answers12).forEach(s=>{
-    if(document.getElementById(s).textContent === answers12[s]) correct++;
-  });
-  const fb = document.getElementById('fb12');
-  const pts = Math.round((correct/8)*6);
-  if(correct === 8){
-    fb.className='feedback ok'; fb.textContent='¡Perfecto! 8/8 signos correctos.';
-    award('p_full', 6);
-  } else {
-    fb.className='feedback bad'; fb.textContent = correct + '/8 correctos. ¡Sigue intentando, puedes corregir y revisar de nuevo!';
-  }
-}
-
-/* ===================== MODULE 2.1 - syllables ===================== */
-const ans21 = [
-  {ton:'po', tipo:'Prosódico'},
-  {ton:'zon', tipo:'Ortográfico'},
-  {ton:'la', tipo:'Ortográfico'},
-  {ton:'col', tipo:'Prosódico'}
-];
-function checkModule21(){
-  let correct = 0;
-  ans21.forEach((a,i)=>{
-    const ton = normalize(document.getElementById('t21_ton_'+i).value);
-    const tipo = document.getElementById('t21_tipo_'+i).value;
-    if(ton.includes(normalize(a.ton)) && tipo === a.tipo) correct++;
-  });
-  const fb = document.getElementById('fb21');
-  if(correct === 4){ fb.className='feedback ok'; fb.textContent='¡Las 4 están correctas!'; award('t21_full', 4); }
-  else { fb.className='feedback bad'; fb.textContent = correct + '/4 correctas. Revisa la sílaba tónica y el tipo de acento.'; }
-}
-
-/* ===================== MODULE 2.2 - classification ===================== */
-const words22 = [
-  {w:'teléfono', cat:'Esdrújula'}, {w:'Pared', cat:'Aguda'}, {w:'Árbol', cat:'Grave'},
-  {w:'Cantará', cat:'Aguda'}, {w:'Cuéntamelo', cat:'Sobreesdrújula'}, {w:'Máscara', cat:'Esdrújula'},
-  {w:'Café', cat:'Aguda'}, {w:'Camiseta', cat:'Grave'}
-];
-function buildModule22(){
-  const t = document.getElementById('tabla22');
-  let html = '<tr><th>Palabra</th><th>Clasificación</th></tr>';
-  words22.forEach((item,i)=>{
-    html += `<tr><td>${item.w}</td><td><select id="w22_${i}"><option value="">--</option>
-      <option>Aguda</option><option>Grave</option><option>Esdrújula</option><option>Sobreesdrújula</option>
-    </select></td></tr>`;
-  });
-  t.innerHTML = html;
-}
-function checkModule22(){
-  let correct = 0;
-  words22.forEach((item,i)=>{
-    if(document.getElementById('w22_'+i).value === item.cat) correct++;
-  });
-  const fb = document.getElementById('fb22');
-  if(correct === words22.length){ fb.className='feedback ok'; fb.textContent='¡Las 8 palabras clasificadas correctamente!'; award('w22_full', 6); }
-  else { fb.className='feedback bad'; fb.textContent = correct + '/8 correctas. Revisa la posición de la sílaba tónica.'; }
-}
-
-/* ===================== MODULE 3.1 - matching ===================== */
-const desc31 = [
-  {text:'Solicita hacer silencio en un lugar como un hospital o aula.', ans:'3'},
-  {text:'Indica la obligación de detener por completo el vehículo.', ans:'4'},
-  {text:'Alerta de una emergencia médica que requiere dar paso libre.', ans:'1'},
-  {text:'Indica el lugar correcto para depositar los desechos.', ans:'2'}
-];
-const senales31 = '1. Sirena continua de ambulancia · 2. Símbolo de bote de basura y flecha · 3. Persona con el dedo sobre los labios · 4. Luz roja fija en semáforo';
-function buildModule31(){
-  const t = document.getElementById('tabla31');
-  let html = `<tr><td colspan="2" style="font-size:0.78rem;color:var(--peel-brown);">${senales31}</td></tr>`;
-  desc31.forEach((d,i)=>{
-    html += `<tr><td>${d.text}</td><td><select id="s31_${i}"><option value="">--</option>
-      <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
-    </select></td></tr>`;
-  });
-  t.innerHTML = html;
-}
-function checkModule31(){
-  let correct = 0;
-  desc31.forEach((d,i)=>{ if(document.getElementById('s31_'+i).value === d.ans) correct++; });
-  const fb = document.getElementById('fb31');
-  if(correct === 4){ fb.className='feedback ok'; fb.textContent='¡Las 4 señales unidas correctamente!'; award('s31_full', 4); }
-  else { fb.className='feedback bad'; fb.textContent = correct + '/4 correctas.'; }
-}
-
-/* ===================== MODULE 5.1 - prefix/suffix ===================== */
-const words51 = [
-  {tipo:'Sufijo', elem:'eria', raiz:'zapat'},
-  {tipo:'Prefijo', elem:'des', raiz:'armar'},
-  {tipo:'Sufijo', elem:'ero', raiz:'carn'},
-  {tipo:'Prefijo', elem:'im', raiz:'posible'}
-];
-function checkModule51(){
-  let correct = 0;
-  words51.forEach((w,i)=>{
-    const tipo = document.getElementById('t51_tipo_'+i).value;
-    const elem = normalize(document.getElementById('t51_elem_'+i).value);
-    const raiz = normalize(document.getElementById('t51_raiz_'+i).value);
-    if(tipo === w.tipo && elem === normalize(w.elem) && raiz === normalize(w.raiz)) correct++;
-  });
-  const fb = document.getElementById('fb51');
-  if(correct === 4){ fb.className='feedback ok'; fb.textContent='¡Las 4 palabras están completas y correctas!'; award('t51_full', 6); }
-  else { fb.className='feedback bad'; fb.textContent = correct + '/4 correctas. Revisa mayúsculas/guiones no importan, pero sí el contenido.'; }
-}
-
-/* ===================== MODULE 5.2 - alphabetical order ===================== */
-const words52 = [
-  {w:'Coronado', ans:'4'}, {w:'Volcán', ans:'5'}, {w:'Bosque', ans:'2'}, {w:'Café', ans:'3'}, {w:'Árbol', ans:'1'}
-];
-function buildModule52(){
-  const t = document.getElementById('tabla52');
-  let html = '<tr><th>Palabra</th><th>Orden (1-5)</th></tr>';
-  words52.forEach((item,i)=>{
-    html += `<tr><td>${item.w}</td><td><select id="o52_${i}"><option value="">--</option>
-      <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
-    </select></td></tr>`;
-  });
-  t.innerHTML = html;
-}
-function checkModule52(){
-  let correct = 0;
-  words52.forEach((item,i)=>{ if(document.getElementById('o52_'+i).value === item.ans) correct++; });
-  const fb = document.getElementById('fb52');
-  if(correct === 5){ fb.className='feedback ok'; fb.textContent='¡Orden alfabético perfecto!'; award('o52_full', 5); }
-  else { fb.className='feedback bad'; fb.textContent = correct + '/5 correctas.'; }
-}
-
-/* ===================== MODULE 6 - multiple choice ===================== */
-function buildMC(containerId, options, correctIdx, itemId, points){
-  const c = document.getElementById(containerId);
-  options.forEach((opt,i)=>{
-    const label = document.createElement('label');
-    label.className='mc-opt';
-    label.innerHTML = `<input type="radio" name="${containerId}"> ${opt}`;
-    label.onclick = ()=>{
-      document.querySelectorAll('#'+containerId+' .mc-opt').forEach(l=>l.classList.remove('correct','wrong'));
-      if(i === correctIdx){ label.classList.add('correct'); award(itemId, points); }
-      else { label.classList.add('wrong'); }
-    };
-    c.appendChild(label);
-  });
-}
-
-/* ===================== INIT ===================== */
-buildModule12();
-buildModule22();
-buildModule31();
-buildModule52();
-buildMC('mc1', [
-  'La historia de la importación de metal desde Alemania.',
-  'La importancia de San Rafael de Coronado por sus paisajes, clima y tradición ganadera.',
-  'La fabricación de automóviles y carreteras en las montañas.'
-], 1, 'mc1', 2);
-buildMC('mc2', [
-  'Opcional o voluntaria.',
-  'Que no se puede evitar o esquivar; obligatoria.',
-  'Aburrida y difícil de realizar.'
-], 1, 'mc2', 2);
-
-// restore checkbox states from storage
-['a11','a41','a42','a63'].forEach(id=>{
-  if(state[id] && state[id].earned){
-    const cb = document.querySelector(`label.chk input[onchange*="${id}"]`);
-    if(cb) cb.checked = true;
-  }
+/* ---------- MUNDO 0: LECTURA Y TEXTOS ---------- */
+const FAB = "La cigarra cantó y bailó todo el verano. La hormiga, en cambio, trabajó sin descanso para guardar comida. Cuando llegó el invierno, la cigarra no tenía nada que comer y fue a pedirle ayuda a la hormiga.";
+T_.push({
+  id: 'i1', ind: '1', ap: '1.8', w: 0, t: 'La fábula', ic: '🦊',
+  d: 'Identifica la fábula como un texto narrativo que presenta una enseñanza o moraleja.',
+  l: [
+    '<p>La <strong>fábula</strong> es un <strong>texto narrativo</strong> corto: cuenta una historia con personajes, lugar y hechos.</p>',
+    '<ul><li>Sus personajes casi siempre son <strong>animales</strong> (o cosas) que piensan y hablan como personas.</li><li>Al final deja una <strong>moraleja</strong>: una enseñanza o consejo.</li></ul>',
+    '<p class="ex">Ejemplo: «La liebre y la tortuga» → moraleja: <em>con constancia se alcanzan las metas</em>.</p>'
+  ],
+  q: [
+    q(1, '¿Qué es una fábula?', ['Una narración breve con animales que actúan como personas y que deja una enseñanza', 'Un texto con pasos para armar un objeto', 'Un escrito que informa noticias recientes', 'Un poema con versos y rimas'], 'La fábula es un texto narrativo: cuenta una historia corta. Sus personajes suelen ser animales con cualidades humanas y al final deja una enseñanza.'),
+    q(1, 'La enseñanza que deja una fábula al final se llama…', ['moraleja', 'título', 'saludo', 'onomatopeya'], 'La moraleja es el mensaje o consejo que nos deja la fábula.'),
+    q(2, 'Marca la característica que NO corresponde a una fábula.', ['Informa noticias con datos reales y fechas exactas', 'Tiene animales con rasgos humanos', 'Es un relato corto', 'Termina con una moraleja'], 'Informar noticias con datos reales es propio del texto informativo. La fábula inventa una historia para enseñar algo.'),
+    q(2, '«La liebre se burló de la tortuga por ser lenta. Pero la tortuga caminó sin detenerse y ganó la carrera.» ¿Cuál es la moraleja más adecuada?', ['Con constancia se logran las metas y no hay que burlarse de los demás.', 'Los animales rápidos siempre ganan.', 'Nunca hay que participar en carreras.', 'Las tortugas corren más que las liebres.'], 'La tortuga ganó por no rendirse y la liebre fue burlona. La moraleja habla de constancia y respeto, no de quién corre más.'),
+    q(3, '¿Cuál fue la causa de que la cigarra no tuviera comida en invierno?', ['No guardó alimento durante el verano porque solo cantó y bailó', 'La hormiga le robó la comida', 'El invierno llegó muy temprano', 'La cigarra no sabía hablar'], 'El texto relaciona causa y efecto: como la cigarra no trabajó en verano (causa), en invierno no tuvo comida (efecto).', FAB),
+    q(3, 'Según la fábula de la cigarra y la hormiga, ¿qué enseñanza transmite?', ['Hay que ser responsables y prevenir el futuro', 'Cantar es malo', 'Las hormigas son mejores que las cigarras', 'El invierno es una estación peligrosa'], 'La moraleja se deduce de lo que les pasa a los personajes: quien trabaja y se prepara, está listo para las dificultades.', FAB)
+  ]
 });
 
-updateProgress();
+const LEY = "Cuentan los abuelos que, en las noches de luna llena, se oye cerca del río un llanto muy triste. Dicen que es el espíritu de una mujer que busca a su hijo perdido. Por eso, desde hace muchos años, los vecinos no se acercan al río después de las ocho de la noche.";
+T_.push({
+  id: 'i12', ind: '12', ap: '7.1', w: 0, t: 'La leyenda', ic: '🌙',
+  d: 'Comprende el contenido de una leyenda, sus características y acontecimientos principales.',
+  l: [
+    '<p>La <strong>leyenda</strong> es un relato <strong>tradicional</strong>, contado de generación en generación (casi siempre de forma oral).</p>',
+    '<ul><li>Mezcla <strong>hechos reales</strong> (un lugar, un río, un pueblo) con <strong>elementos fantásticos</strong> (espíritus, monstruos).</li><li>Suele explicar el origen de un lugar, de un fenómeno o dar una advertencia.</li><li>Tiene personajes, acontecimientos principales, lugar y tiempo.</li></ul>'
+  ],
+  q: [
+    q(1, '¿Qué es una leyenda?', ['Un relato tradicional que mezcla hechos reales con elementos fantásticos', 'Una receta de cocina', 'Una noticia del periódico', 'Una carta a un familiar'], 'La leyenda nace en la tradición de un pueblo y combina realidad con fantasía.'),
+    q(1, '¿Cómo se han transmitido las leyendas durante muchos años?', ['De forma oral, de abuelos a nietos', 'Solo por televisión', 'Únicamente por internet', 'Con mensajes de texto'], 'Antes de que se escribieran, las leyendas se contaban de boca en boca, de generación en generación.'),
+    q(2, '¿Qué se oye cerca del río, según la leyenda?', ['Un llanto muy triste', 'Una canción alegre', 'El ladrido de un perro', 'Campanas de iglesia'], 'La información está explícita en la primera oración del texto: «se oye cerca del río un llanto muy triste».', LEY),
+    q(2, '¿Por qué los vecinos no se acercan al río después de las ocho de la noche?', ['Por temor al espíritu que llora en las noches', 'Porque el río se seca', 'Porque no hay luz en el pueblo', 'Porque deben dormir temprano'], 'La leyenda explica y justifica una costumbre del pueblo: evitar el río de noche.', LEY),
+    q(3, 'En la leyenda leída, ¿qué elemento es fantástico?', ['El espíritu de la mujer que busca a su hijo', 'El río', 'Los vecinos', 'La luna llena'], 'El río, los vecinos y la luna existen en la realidad. Un espíritu que llora es un elemento sobrenatural.', LEY),
+    q(3, '¿Cuál es el acontecimiento principal de este relato?', ['Se oye por las noches el llanto de una mujer que busca a su hijo', 'Los vecinos construyen un puente', 'Un niño pesca en el río', 'Llega la época de lluvias'], 'El acontecimiento principal es el hecho alrededor del cual gira todo el relato: el llanto en el río.', LEY)
+  ]
+});
+
+T_.push({
+  id: 'i13', ind: '13', ap: '7.1', w: 0, t: 'Leyendas de Costa Rica', ic: '🇨🇷',
+  d: 'Menciona el nombre de algunas leyendas que se cuentan en el país.',
+  l: [
+    '<ul><li><strong>La Llorona:</strong> espíritu de una mujer que llora por sus hijos cerca de los ríos de noche.</li><li><strong>La Carreta sin Bueyes:</strong> se oye el rechinar de una carreta sin que nadie la jale.</li><li><strong>El Cadejos:</strong> perro grande y peludo que aparece de noche.</li><li><strong>La Segua:</strong> mujer hermosa que se transforma en una calavera de caballo para asustar a quien anda de noche.</li><li><strong>El Padre sin Cabeza:</strong> fantasma de un sacerdote sin cabeza que aparece en caminos oscuros.</li><li><strong>La Tulevieja:</strong> ser misterioso que asusta cerca de ríos y quebradas.</li></ul>'
+  ],
+  q: [
+    q(1, '¿Cuál de estos títulos es una leyenda costarricense?', ['La Carreta sin Bueyes', 'Caperucita Roja', 'Los tres cerditos', 'Pinocho'], 'Los otros títulos son cuentos clásicos de otros países. La Carreta sin Bueyes se cuenta en Costa Rica.'),
+    q(2, 'Se escucha por la noche el rechinar de una carreta, pero no se ve ningún buey. ¿De qué leyenda se trata?', ['La Carreta sin Bueyes', 'La Segua', 'El Cadejos', 'La Llorona'], 'El nombre de la leyenda describe el hecho misterioso: una carreta que suena sin bueyes.'),
+    q(2, 'Una mujer hermosa que se convierte en una calavera de caballo para asustar a quienes andan de noche es…', ['La Segua', 'La Llorona', 'El Padre sin Cabeza', 'El Cadejos'], 'La Segua es una leyenda tradicional costarricense que advierte sobre los peligros de andar de noche.'),
+    q(2, 'Un espíritu que llora cerca del río buscando a sus hijos es el de…', ['La Llorona', 'La Segua', 'El Cadejos', 'La Carreta sin Bueyes'], 'La Llorona se identifica por su llanto triste cerca de los ríos.'),
+    q(2, '¿Cuál leyenda tiene como personaje a un perro grande y peludo?', ['El Cadejos', 'La Tulevieja', 'El Padre sin Cabeza', 'La Llorona'], 'El Cadejos se describe como un perro grande y peludo que aparece de noche.'),
+    q(3, '¿Para qué crees que los pueblos siguen contando las leyendas?', ['Para conservar sus tradiciones y dar advertencias de convivencia o seguridad', 'Para reemplazar los libros de texto', 'Para anunciar el clima', 'Para vender productos'], 'Las leyendas son patrimonio cultural: guardan la identidad de una comunidad y muchas veces aconsejan cómo comportarse.')
+  ]
+});
+
+const CARTA = "San Rafael de Coronado, 9 de noviembre de 2026\n\nQuerida abuela Rosa:\n\nTe saludo con mucho cariño. Te escribo para contarte que ya terminé mi proyecto de ciencias.\n\nQuiero invitarte a la feria del sábado, a las 10 a. m., en la escuela. ¡Será muy divertido!\n\nCon cariño, se despide tu nieto,\n\nMateo Rojas\nEstudiante de cuarto grado";
+T_.push({
+  id: 'i14', ind: '14', ap: '11.2', w: 0, t: 'La carta', ic: '✉️',
+  d: 'Identifica las partes de una carta: lugar y fecha, datos del destinatario, saludo, introducción, cuerpo de la carta o mensaje, despedida y firma, nombre y cargo del remitente.',
+  l: [
+    '<ol><li><strong>Lugar y fecha</strong> (arriba): San Rafael de Coronado, 9 de noviembre de 2026.</li><li><strong>Destinatario</strong>: la persona que recibe la carta.</li><li><strong>Saludo</strong>: «Querida abuela:».</li><li><strong>Introducción</strong>: presenta el motivo.</li><li><strong>Cuerpo o mensaje</strong>: lo que se quiere comunicar.</li><li><strong>Despedida</strong>: «Con cariño…».</li><li><strong>Firma</strong>, nombre y <strong>cargo</strong> del <strong>remitente</strong> (quien escribe).</li></ol>'
+  ],
+  q: [
+    q(1, 'El destinatario de una carta es…', ['la persona que recibe la carta', 'la persona que la escribe', 'la fecha de envío', 'la despedida'], 'Destinatario = quien recibe. Remitente = quien escribe y envía.'),
+    q(1, '¿Dónde se escriben el lugar y la fecha en una carta?', ['Al inicio, en la parte superior', 'Al final, después de la firma', 'En medio del mensaje', 'No se escriben'], 'El lugar y la fecha encabezan la carta: indican dónde y cuándo fue escrita.'),
+    q(2, '¿Cuál es el saludo de esta carta?', ['Querida abuela Rosa:', 'Con cariño, se despide tu nieto,', 'San Rafael de Coronado, 9 de noviembre de 2026', 'Mateo Rojas'], 'El saludo es la frase con la que se inicia la comunicación con el destinatario.', CARTA),
+    q(2, '¿Quién es el remitente de la carta?', ['Mateo Rojas', 'La abuela Rosa', 'La maestra', 'La escuela'], 'El remitente es quien escribe y firma: Mateo. La abuela Rosa es la destinataria.', CARTA),
+    q(2, '¿Cuál es el mensaje o cuerpo principal de la carta?', ['La invitación a la feria del sábado', 'El saludo cariñoso', 'La fecha en que se escribió', 'La firma de Mateo'], 'El cuerpo de la carta contiene lo que se quiere comunicar: aquí, la invitación a la feria.', CARTA),
+    q(3, '¿Cuál es el orden correcto de las partes de una carta?', ['Lugar y fecha, destinatario y saludo, introducción, mensaje, despedida, firma', 'Firma, saludo, mensaje, fecha, despedida', 'Mensaje, saludo, fecha, firma, despedida', 'Despedida, lugar, mensaje, saludo, firma'], 'Una carta sigue un orden lógico: se ubica en lugar y tiempo, se saluda, se explica el motivo, se dice el mensaje y se cierra con despedida y firma.')
+  ]
+});
+
+const ABE = "Las abejas viven en colmenas. En cada colmena hay una reina, obreras y zánganos. Las obreras recogen el néctar de las flores para fabricar miel. Además, al visitar las flores llevan polen de una a otra, y así ayudan a las plantas a producir frutos.";
+T_.push({
+  id: 'i15', ind: '15', ap: '1.8', w: 0, t: 'Comprensión de lectura', ic: '🔎',
+  d: 'Realiza comprensiones de lectura identificando información explícita dentro del texto y contestando de forma coherente.',
+  l: [
+    '<p>La <strong>información explícita</strong> es la que el texto dice <em>directamente</em>: puedes encontrarla subrayada o con las mismas palabras.</p>',
+    '<ul><li>Lee todo el texto con calma.</li><li>Lee la pregunta y <strong>busca la respuesta en el texto</strong>.</li><li>Responde con una oración completa y coherente.</li></ul>'
+  ],
+  q: [
+    q(1, '¿Qué significa «información explícita»?', ['La que el texto dice directamente', 'La que debes inventar', 'La que está en otro libro', 'La que no aparece en el texto'], 'Información explícita es la que está escrita claramente en el texto; la respuesta puede localizarse leyendo.'),
+    q(2, '¿Dónde viven las abejas, según el texto?', ['En colmenas', 'En madrigueras', 'En nidos de ramas', 'En cuevas'], 'La primera oración lo dice: «Las abejas viven en colmenas».', ABE),
+    q(2, '¿Qué recogen las obreras de las flores?', ['Néctar', 'Frutos', 'Agua', 'Hojas'], 'El texto indica que las obreras recogen el néctar de las flores para fabricar miel.', ABE),
+    q(2, '¿Cómo ayudan las abejas a las plantas?', ['Llevan polen de una flor a otra', 'Les dan agua', 'Les quitan las hojas', 'Las siembran en la tierra'], 'Al transportar el polen, las plantas pueden producir frutos. Está dicho en la última oración.', ABE),
+    q(3, '¿Cuál de estas informaciones NO aparece en el texto?', ['Cuántos años vive una abeja', 'Que hay una reina en cada colmena', 'Que las obreras fabrican miel', 'Que hay zánganos en la colmena'], 'Responder con coherencia significa apoyarse en el texto: la edad de las abejas no se menciona, por eso no podemos asegurarla leyendo solo este fragmento.', ABE),
+    q(3, 'Escoge la respuesta coherente a: «¿Para qué recogen néctar las obreras?»', ['Para fabricar miel', 'Para dormir', 'Para construir carreteras', 'Para que la reina vuele'], 'Una respuesta coherente se relaciona con la pregunta y con lo que dice el texto: el néctar se usa para fabricar miel.', ABE)
+  ]
+});
+
+const LLU = "Llovió toda la noche, por eso el río creció y cubrió el camino. Por esa razón, los vecinos tuvieron que usar otro sendero para llegar al pueblo. Pedro, que tiene un perro café, llegó una hora tarde.";
+T_.push({
+  id: 'c1', ind: '·', ap: '1.8', w: 0, t: 'Estrategias de lectura', ic: '💡',
+  d: 'Aprendizaje esperado 1.8: estrategias de comprensión lectora (conocimientos previos, relectura, subrayado, ideas fundamentales y complementarias, resumen, recapitulación), relación causa-efecto, ideas relevantes e irrelevantes y fluidez.',
+  l: [
+    '<ul><li><strong>Conocimientos previos:</strong> lo que ya sabes del tema ayuda a entender.</li><li><strong>Relectura:</strong> volver a leer lo que no quedó claro.</li><li><strong>Subrayado:</strong> marcar las ideas más importantes.</li><li><strong>Ideas fundamentales</strong> (esenciales) y <strong>complementarias</strong> (dan detalles).</li><li><strong>Resumen:</strong> las ideas principales con tus palabras.</li><li><strong>Causa y efecto:</strong> la causa dice <em>por qué</em> ocurre algo; el efecto, <em>qué ocurrió</em>.</li><li><strong>Fluidez:</strong> leer con ritmo, pausas en los signos y buena entonación, sin silabear.</li></ul>'
+  ],
+  q: [
+    q(1, 'Subrayar un texto sirve para…', ['destacar las ideas más importantes', 'borrar partes del texto', 'cambiar el título', 'leer más lento'], 'El subrayado ayuda a localizar las ideas fundamentales para estudiarlas después.'),
+    q(1, 'Leer con fluidez significa…', ['leer con ritmo, respetando pausas y entonación', 'leer sílaba por sílaba', 'leer lo más rápido posible sin entender', 'leer en voz muy baja'], 'La fluidez es leer con velocidad adecuada, buena pronunciación y entonación, respetando los signos de puntuación.'),
+    q(2, '¿Cuál es la causa de que el río cubriera el camino?', ['Llovió toda la noche', 'Pedro tiene un perro', 'Los vecinos llegaron tarde', 'Había otro sendero'], 'La causa responde a «¿por qué pasó?». El texto lo indica con «por eso»: llovió toda la noche.', LLU),
+    q(2, '¿Qué idea es irrelevante (no importante) para entender por qué Pedro llegó tarde?', ['Que Pedro tiene un perro café', 'Que el río cubrió el camino', 'Que los vecinos usaron otro sendero', 'Que llovió toda la noche'], 'Las ideas irrelevantes no ayudan a explicar el hecho principal. El color o la existencia del perro no tienen relación con el retraso.', LLU),
+    q(3, '¿Cuál es el mejor resumen del texto?', ['Por la lluvia, el río cubrió el camino y los vecinos debieron usar otro sendero, por eso Pedro llegó tarde.', 'Pedro tiene un perro café que ladra mucho.', 'Hay muchos senderos cerca del pueblo.', 'El río es muy largo y profundo.'], 'Un buen resumen reúne las ideas fundamentales (causa, efecto y consecuencia) con pocas palabras y sin detalles irrelevantes.', LLU),
+    q(3, 'No entiendes una parte del texto. ¿Qué estrategia te conviene usar primero?', ['Releer esa parte con atención', 'Saltarla y no pensar más', 'Memorizarla sin comprenderla', 'Cambiar de libro'], 'La relectura es una estrategia de comprensión: permite aclarar dudas y encontrar detalles que no se vieron.')
+  ]
+});
+
+T_.push({
+  id: 'c2', ind: '·', ap: '7.1', w: 0, t: 'Tipos de texto y textos breves', ic: '🧩',
+  d: 'Aprendizaje esperado 7.1 y 11.2: diferentes tipos de textos (expositivos, narrativos, descriptivos) y textos breves: recados, instrucciones, cuentos, adivinanzas, trabalenguas, chistes, refranes, frases célebres, dichos populares, noticias, poesías e informes.',
+  l: [
+    '<ul><li><strong>Narrativo:</strong> cuenta hechos (cuento, fábula, leyenda).</li><li><strong>Descriptivo:</strong> dice cómo es algo o alguien.</li><li><strong>Expositivo:</strong> explica o informa un tema (informe).</li><li><strong>Noticia:</strong> informa un hecho reciente (qué, quién, cuándo, dónde).</li><li><strong>Poesía:</strong> versos, a veces con rima.</li><li><strong>Adivinanza:</strong> acertijo en verso. <strong>Trabalenguas:</strong> juego para pronunciar. <strong>Chiste:</strong> hace reír.</li><li><strong>Refrán / dicho popular:</strong> enseñanza de la sabiduría popular. <strong>Frase célebre:</strong> dicha por una persona famosa.</li><li><strong>Recado:</strong> mensaje breve. <strong>Instrucciones:</strong> pasos para hacer algo.</li></ul>'
+  ],
+  q: [
+    q(1, '¿Para qué sirve un recado?', ['Para dejar un mensaje breve a alguien', 'Para contar una leyenda', 'Para describir un paisaje', 'Para rimar'], 'El recado es un texto muy corto que comunica un mensaje a una persona ausente.'),
+    q(2, '«Tres tristes tigres tragaban trigo en un trigal.» ¿Qué tipo de texto breve es?', ['Un trabalenguas', 'Una noticia', 'Un recado', 'Una carta'], 'Los trabalenguas son frases difíciles de pronunciar que se usan para jugar y practicar la dicción.'),
+    q(2, '«Verde por fuera, blanca por dentro; si quieres que te lo diga, espera.» Es…', ['una adivinanza', 'un refrán', 'una instrucción', 'un informe'], 'La adivinanza describe algo con pistas para que se adivine (aquí, la pera).'),
+    q(2, '«Más vale pájaro en mano que ciento volando.» Es…', ['un refrán o dicho popular', 'una adivinanza', 'una noticia', 'un recado'], 'Los refranes son frases populares que dejan una enseñanza de la vida cotidiana.'),
+    q(2, 'Un texto que enumera los materiales y los pasos para armar un barco de papel es…', ['un texto instructivo (instrucciones)', 'una leyenda', 'una noticia', 'un poema'], 'Las instrucciones indican pasos ordenados para lograr algo.'),
+    q(3, '«Los volcanes son aberturas de la Tierra por donde salen gases, ceniza y roca fundida.» ¿Qué tipo de texto es?', ['Expositivo, porque explica un tema', 'Narrativo, porque cuenta una historia', 'Instructivo, porque da pasos', 'Poético, porque tiene versos'], 'El texto expositivo da información clara sobre un tema; no cuenta personajes ni da órdenes.'),
+    q(3, '«La casa es amplia, de paredes azules y un jardín lleno de flores.» ¿Qué tipo de texto es?', ['Descriptivo, porque dice cómo es la casa', 'Narrativo, porque cuenta un suceso', 'Un recado', 'Una noticia'], 'La descripción presenta características (cómo es) de lugares, personas, animales u objetos.')
+  ]
+});
+
+/* ---------- MUNDO 1: GRAMÁTICA Y VOCABULARIO ---------- */
+T_.push({
+  id: 'i2', ind: '2', ap: '11.2', w: 1, t: 'Pronombres personales', ic: '🙋',
+  d: 'Identifica los pronombres personales: yo, tú, él, ella, nosotros, nosotras, ustedes, ellos y ellas y relaciona cada uno con la persona a la que representa.',
+  l: [
+    '<p>El <strong>pronombre personal</strong> reemplaza al nombre de una persona, animal o cosa para no repetirlo.</p>',
+    '<ul><li><strong>Yo</strong>: quien habla. <strong>Tú</strong>: a quien le hablo.</li><li><strong>Él / ella</strong>: de quien hablo (uno).</li><li><strong>Nosotros / nosotras</strong>: yo y otros.</li><li><strong>Ustedes</strong>: varias personas a quienes les hablo.</li><li><strong>Ellos / ellas</strong>: de quienes hablo (varios).</li></ul>',
+    '<p class="ex">Ana y Luis juegan → <em>Ellos</em> juegan. María y yo cantamos → <em>Nosotras</em> cantamos.</p>'
+  ],
+  q: [
+    q(1, '¿Cuál de estas palabras es un pronombre personal?', ['ella', 'mesa', 'correr', 'bonita'], '«Ella» reemplaza al nombre de una mujer. «Mesa» es sustantivo, «correr» verbo y «bonita» adjetivo.'),
+    q(2, 'En «María y yo fuimos al parque», ¿qué pronombre reemplaza a «María y yo»?', ['Nosotras', 'Ellas', 'Ustedes', 'Yo'], 'Incluye a quien habla («yo») y a otra mujer; por eso es «nosotras».'),
+    q(2, 'Reemplaza «Pedro y Luis» por un pronombre: «Pedro y Luis juegan fútbol».', ['Ellos juegan fútbol', 'Nosotros jugamos fútbol', 'Ustedes juegan fútbol', 'Ellas juegan fútbol'], 'Se habla de dos varones (tercera persona plural): «ellos».'),
+    q(2, 'Le hablas a tus compañeros: «____ son muy amables».', ['Ustedes', 'Ellos', 'Nosotros', 'Yo'], 'Cuando te diriges a varias personas, usas «ustedes».'),
+    q(3, 'En «Ana llegó tarde porque ella perdió el bus», ¿a quién representa «ella»?', ['A Ana', 'A la maestra', 'A quien lee', 'A todas las niñas'], 'El pronombre «ella» evita repetir «Ana»: representa a la misma persona mencionada antes.'),
+    q(3, '¿Cuál pareja está bien relacionada?', ['Yo → la persona que habla', 'Tú → una persona de la que hablo', 'Ellos → quien habla', 'Nosotros → un solo varón'], '«Yo» representa a quien habla; «tú», a quien escucha; «ellos», a varios de los que se habla; «nosotros», a quien habla y otros.')
+  ]
+});
+
+T_.push({
+  id: 'c3', ind: '·', ap: '11.2', w: 1, t: 'Sustantivo, adjetivo, artículo y verbo', ic: '🧱',
+  d: 'Aprendizaje esperado 11.2: estructuras y unidades básicas gramaticales: sustantivo, adjetivo, artículo, verbo y pronombre personal.',
+  l: [
+    '<ul><li><strong>Sustantivo:</strong> nombra personas, animales, cosas, lugares (<em>niña, perro, escuela</em>).</li><li><strong>Adjetivo:</strong> dice cómo es el sustantivo (<em>pequeño, alegre</em>).</li><li><strong>Artículo:</strong> acompaña al sustantivo: el, la, los, las, un, una, unos, unas.</li><li><strong>Verbo:</strong> indica acción o estado (<em>corre, salta, es</em>).</li></ul>',
+    '<p class="ex">Las flores amarillas adornan el jardín. → Las (artículo), flores (sustantivo), amarillas (adjetivo), adornan (verbo).</p>'
+  ],
+  q: [
+    q(1, 'El sustantivo es la palabra que…', ['nombra personas, animales, cosas o lugares', 'indica una acción', 'dice cómo es algo', 'acompaña al verbo'], 'Los sustantivos nombran: niña, perro, mesa, Costa Rica.'),
+    q(1, '¿Cuál de estas palabras es un artículo?', ['las', 'correr', 'rápido', 'casa'], 'Los artículos son: el, la, los, las, un, una, unos, unas.'),
+    q(2, 'En «Las flores amarillas adornan el jardín», ¿cuál es el adjetivo?', ['amarillas', 'flores', 'adornan', 'jardín'], '«Amarillas» dice cómo son las flores: es un adjetivo.'),
+    q(2, 'En «El perro corre por la calle», ¿cuál es el verbo?', ['corre', 'perro', 'el', 'calle'], 'El verbo expresa la acción: «corre».'),
+    q(2, '¿Qué palabra completa mejor la oración? «Las casas ____ están en la montaña».', ['grandes', 'grande', 'correr', 'la'], 'El adjetivo debe concordar con el sustantivo: casas (plural) → grandes (plural).'),
+    q(3, 'En la oración «Mi hermana pequeña pinta un dibujo», ¿cuántos sustantivos hay?', ['2 (hermana, dibujo)', '1', '3', '4'], 'Sustantivos: «hermana» y «dibujo». «Pequeña» es adjetivo, «pinta» verbo y «un» artículo.')
+  ]
+});
+
+T_.push({
+  id: 'c4', ind: '·', ap: '11.1', w: 1, t: 'Uso de mayúsculas', ic: '🔠',
+  d: 'Aprendizaje esperado 11.1: mayúsculas al iniciar una oración y al escribir sustantivos propios.',
+  l: [
+    '<ul><li>Se escribe <strong>mayúscula</strong> al iniciar un escrito y después de un punto.</li><li>Los <strong>sustantivos propios</strong> (nombres de personas, mascotas, lugares, países, escuelas) llevan mayúscula inicial: <em>Ana, Costa Rica, Coronado, Rocky</em>.</li><li>Los sustantivos comunes van en minúscula: <em>niña, ciudad, perro</em>.</li><li>Los días de la semana y los meses se escriben con minúscula.</li></ul>'
+  ],
+  q: [
+    q(1, '¿Cuándo se escribe letra mayúscula?', ['Al iniciar una oración y en los nombres propios', 'En todos los sustantivos', 'En todos los verbos', 'En todas las palabras largas'], 'Mayúscula al inicio de la oración y en los sustantivos propios.'),
+    q(2, '¿Cuál oración está bien escrita?', ['Mi amiga Ana vive en Cartago.', 'mi amiga ana vive en cartago.', 'Mi Amiga ana vive en Cartago.', 'Mi amiga Ana vive en cartago.'], 'La oración inicia con mayúscula y los nombres propios (Ana, Cartago) también la llevan.'),
+    q(2, '¿Cuál de estas palabras debe escribirse con mayúscula inicial?', ['Costa Rica', 'ciudad', 'escuela', 'río'], '«Costa Rica» es un nombre propio. «Ciudad», «escuela» y «río» son sustantivos comunes.'),
+    q(3, 'Corrige: «el perro de lucía se llama rocky».', ['El perro de Lucía se llama Rocky.', 'El Perro de Lucía se llama Rocky.', 'el perro de Lucía se llama Rocky.', 'El perro de lucía se llama Rocky.'], 'Hay que poner mayúscula al inicio («El») y en los nombres propios (Lucía, Rocky).'),
+    w(3, 'Escribe correctamente (con mayúsculas y punto final): ana vive en san josé', ['Ana vive en San José.', 'Ana vive en San José'], 'Se escribe mayúscula al iniciar (Ana) y en los nombres propios (San José). Al final va punto.')
+  ]
+});
+
+T_.push({
+  id: 'i16', ind: '16', ap: '7.1', w: 1, t: 'Familias de palabras', ic: '👨‍👩‍👧',
+  d: 'Identifica, clasifica y forma familias de palabras a partir de una palabra raíz, relacionándolas por su significado y utilizándolas adecuadamente en oraciones y textos breves.',
+  l: [
+    '<p>Una <strong>familia de palabras</strong> reúne palabras que comparten la misma <strong>raíz</strong> y tienen significados relacionados.</p>',
+    '<ul><li>pan → <em>panadero, panadería, empanada</em></li><li>zapato → <em>zapatero, zapatería, zapatilla</em></li><li>flor → <em>florero, florecer, florería</em></li><li>mar → <em>marino, marinero, marítimo</em></li></ul>',
+    '<p class="ex">¡Cuidado! «Pantalón» empieza como «pan», pero no pertenece a su familia: no tiene relación de significado.</p>'
+  ],
+  q: [
+    q(1, 'Las palabras de una misma familia comparten…', ['la raíz y un significado relacionado', 'solo el número de sílabas', 'la misma tilde', 'las mismas rimas'], 'Lo que une a la familia es la raíz y su relación de significado.'),
+    q(2, '¿Cuál palabra pertenece a la familia de «zapato»?', ['zapatería', 'zapallo', 'zarpa', 'zanahoria'], '«Zapatería» deriva de zapato: es donde se venden o arreglan zapatos.'),
+    q(2, '¿Cuál es la palabra raíz de «florecer, florero, florería»?', ['flor', 'floro', 'floren', 'ecer'], 'Todas comparten «flor»: es la palabra primitiva de la familia.'),
+    q(2, 'Completa: «El ____ preparó pan fresco en la panadería».', ['panadero', 'zapatero', 'marinero', 'florero'], 'La palabra debe pertenecer a la familia de «pan»: panadero.'),
+    q(3, '¿Cuál palabra NO pertenece a la familia de «mar»?', ['marzo', 'marino', 'marinero', 'marítimo'], '«Marzo» es un mes del año; no está relacionado con el significado de «mar».'),
+    q(3, '¿Qué palabra pertenece a la familia de «libro»?', ['librería', 'libre', 'libélula', 'liberar'], '«Librería» es el lugar donde se venden libros. «Libre» parece parecida, pero significa otra cosa.')
+  ]
+});
+
+T_.push({
+  id: 'c5', ind: '·', ap: '7.1', w: 1, t: 'Sinónimos y antónimos', ic: '↔️',
+  d: 'Aprendizaje esperado 7.1: aplicación de estrategias de comprensión del significado del vocabulario nuevo: sinónimos y antónimos.',
+  l: [
+    '<ul><li><strong>Sinónimos:</strong> palabras con significado igual o muy parecido (<em>feliz – contento, bonito – hermoso</em>).</li><li><strong>Antónimos:</strong> palabras con significado opuesto (<em>alto – bajo, rápido – lento</em>).</li></ul>',
+    '<p class="ex">Truco: sustituye la palabra en la oración. Si el sentido se mantiene, es sinónimo; si se invierte, es antónimo.</p>'
+  ],
+  q: [
+    q(1, 'Los antónimos son palabras…', ['de significado opuesto', 'de significado parecido', 'que suenan igual', 'que se escriben igual'], 'Antónimo = significado contrario: grande / pequeño.'),
+    q(2, '¿Cuál es un sinónimo de «contento»?', ['feliz', 'triste', 'enojado', 'cansado'], 'Contento y feliz significan casi lo mismo.'),
+    q(2, '¿Cuál es el antónimo de «rápido»?', ['lento', 'veloz', 'ligero', 'ágil'], 'Lo contrario de rápido es lento. Veloz, ligero y ágil son sinónimos.'),
+    q(2, 'Cambia la palabra subrayada por un sinónimo: «Es un paisaje hermoso».', ['bello', 'feo', 'oscuro', 'antiguo'], '«Hermoso» y «bello» son sinónimos y mantienen el sentido de la oración.'),
+    q(3, '¿Cuál palabra NO es sinónimo de las demás? frío – helado – gélido – caliente', ['caliente', 'frío', 'helado', 'gélido'], '«Caliente» es el antónimo; las otras tres se refieren a baja temperatura.'),
+    q(3, '«Los vecinos son generosos». ¿Qué antónimo cambiaría el sentido de la oración?', ['egoístas', 'amables', 'bondadosos', 'dadivosos'], 'Generoso comparte con los demás; su opuesto es egoísta.')
+  ]
+});
+
+T_.push({
+  id: 'i17', ind: '17', ap: '7.1', w: 1, t: 'Palabras parónimas', ic: '👯',
+  d: 'Reconoce, diferencia y utiliza palabras parónimas de acuerdo con su significado, aplicándolas correctamente en oraciones y textos breves.',
+  l: [
+    '<p>Las <strong>palabras parónimas</strong> son parecidas en su escritura y pronunciación, pero tienen <strong>significados diferentes</strong>.</p>',
+    '<ul><li><strong>afecto</strong> (cariño) / <strong>efecto</strong> (resultado)</li><li><strong>actitud</strong> (comportamiento) / <strong>aptitud</strong> (capacidad)</li><li><strong>adoptar</strong> (tomar como propio) / <strong>adaptar</strong> (ajustar)</li><li><strong>especie</strong> (tipo de ser vivo) / <strong>especia</strong> (condimento)</li></ul>'
+  ],
+  q: [
+    q(1, '¿Qué son las palabras parónimas?', ['Palabras parecidas con significados diferentes', 'Palabras con significados iguales', 'Palabras que significan lo contrario', 'Palabras que riman'], 'Se parecen mucho al leerlas o pronunciarlas, pero significan algo distinto.'),
+    q(2, 'Completa: «Siento mucho ____ por mi abuela».', ['afecto', 'efecto', 'aptitud', 'especia'], '«Afecto» significa cariño; «efecto» es resultado de una causa.'),
+    q(2, 'Completa: «La medicina hizo un buen ____ en el enfermo».', ['efecto', 'afecto', 'actitud', 'adoptar'], '«Efecto» es el resultado o consecuencia de algo.'),
+    q(2, 'Completa: «El jaguar es una ____ en peligro de extinción».', ['especie', 'especia', 'efecto', 'actitud'], '«Especie» es un tipo de ser vivo. «Especia» es un condimento, como el orégano.'),
+    q(2, 'Completa: «Mi mamá usa una ____ para dar sabor a la sopa».', ['especia', 'especie', 'aptitud', 'afecto'], 'Una especia se usa en la cocina (pimienta, canela, orégano…).'),
+    q(3, '¿En cuál oración se usa bien «actitud»?', ['Tiene una actitud positiva ante los retos.', 'La actitud de la medicina fue muy larga.', 'Mi actitud es una especia para sopa.', 'Aprendí una actitud de cocina.'], '«Actitud» es la manera de comportarse o mostrarse ante algo. «Aptitud» sería la capacidad para hacer algo.'),
+    q(3, '«Mi familia va a ____ un perrito de la calle». ¿Qué palabra usas?', ['adoptar', 'adaptar', 'adoptó', 'adaptado'], '«Adoptar» es recibir como propio a alguien; «adaptar» es modificar algo para ajustarlo.')
+  ]
+});
+
+/* ===== BANCO DE CONTENIDOS (parte 2: Ortografía, medios y comunicación) ===== */
+
+/* ---------- MUNDO 2: ORTOGRAFÍA ---------- */
+T_.push({
+  id: 'i3', ind: '3', ap: '11.1', w: 2, t: 'El hiato', ic: '✂️',
+  d: 'Diferencia palabras que presentan hiato de aquellas que no lo presentan.',
+  l: [
+    '<p>El <strong>hiato</strong> es el encuentro de <strong>dos vocales que se pronuncian en sílabas distintas</strong>.</p>',
+    '<ul><li>Vocal abierta + vocal abierta (a, e, o): <em>po-e-ta, ca-er, le-er</em>.</li><li>Vocal cerrada <strong>acentuada con tilde</strong> (í, ú) junto a una abierta: <em>pa-ís, dí-a, ba-úl, rí-o</em>.</li><li>Vocales iguales: <em>le-er, co-o-pe-rar</em>.</li></ul>',
+    '<p class="ex">No es hiato (es diptongo): <em>tie-rra, cui-da-do, rui-do</em>.</p>'
+  ],
+  q: [
+    q(1, '¿Qué es un hiato?', ['Dos vocales juntas que se pronuncian en sílabas separadas', 'Dos vocales juntas en una misma sílaba', 'Tres vocales juntas', 'Dos consonantes juntas'], 'En el hiato las vocales no forman una sola sílaba: pa-ís.'),
+    q(2, '¿Cuál palabra tiene hiato?', ['país', 'cuidado', 'tierra', 'aire'], 'País se separa pa-ís: la «í» tónica rompe el encuentro. En las demás, las vocales forman diptongo.'),
+    q(2, 'Separa en sílabas la palabra «poeta».', ['po-e-ta', 'poe-ta', 'p-oe-ta', 'po-eta'], 'La «o» y la «e» son vocales abiertas: no forman diptongo, sino hiato.'),
+    q(2, '¿Cuál palabra NO presenta hiato?', ['ruido', 'baúl', 'día', 'leer'], 'Ruido se divide rui-do: «ui» es diptongo. Baúl (ba-úl), día (dí-a) y leer (le-er) tienen hiato.'),
+    q(3, '¿Por qué «día» tiene hiato?', ['Porque la «i» es tónica (lleva tilde) y está junto a la «a»', 'Porque tiene dos consonantes', 'Porque la «a» no se pronuncia', 'Porque es una palabra aguda'], 'Cuando una vocal cerrada es tónica y se pone junto a una abierta, se separan en sílabas: dí-a.'),
+    w(3, 'Separa en sílabas con guiones la palabra «maíz».', ['ma-íz'], '«Maíz» tiene hiato: ma-íz. La «í» tónica se separa de la «a».')
+  ]
+});
+
+T_.push({
+  id: 'i4', ind: '4', ap: '11.1', w: 2, t: 'Diptongos y triptongos', ic: '🔗',
+  d: 'Reconoce y clasifica diptongos y triptongos en palabras y textos breves, separando correctamente las palabras en sílabas y aplicándolos adecuadamente en producciones escritas.',
+  l: [
+    '<ul><li><strong>Vocales abiertas:</strong> a, e, o. <strong>Vocales cerradas:</strong> i, u.</li><li><strong>Diptongo:</strong> dos vocales en <em>una misma sílaba</em> (abierta + cerrada, cerrada + abierta o dos cerradas distintas): <em>ai-re, tie-rra, cui-da-do, ciu-dad</em>.</li><li><strong>Triptongo:</strong> tres vocales en una misma sílaba (cerrada + abierta + cerrada): <em>Pa-ra-guay, miau, es-tu-diáis</em>.</li></ul>'
+  ],
+  q: [
+    q(1, '¿Qué es un diptongo?', ['Dos vocales juntas en la misma sílaba', 'Dos vocales en sílabas distintas', 'Tres vocales en la misma sílaba', 'Dos consonantes en una sílaba'], 'El diptongo une dos vocales en una sola sílaba: tie-rra.'),
+    q(1, '¿Qué es un triptongo?', ['Tres vocales seguidas en una sola sílaba (cerrada + abierta + cerrada)', 'Tres sílabas seguidas', 'Dos vocales abiertas juntas', 'Una vocal con tilde'], 'Triptongo = tres vocales en una sílaba, como «uay» en Paraguay.'),
+    q(2, '¿Cuál palabra tiene triptongo?', ['Paraguay', 'cuento', 'aire', 'ciudad'], 'En Pa-ra-guay, la sílaba «guay» tiene u + a + y (cerrada, abierta, cerrada): triptongo.'),
+    q(2, 'Separa en sílabas la palabra «cuidado».', ['cui-da-do', 'cu-i-da-do', 'cuid-a-do', 'cui-dad-o'], 'La «ui» forma diptongo y no se separa: cui-da-do.'),
+    q(2, 'Clasifica «miau».', ['Triptongo', 'Diptongo', 'Hiato', 'No tiene vocales juntas'], '«Miau» tiene i + a + u en una sola sílaba: triptongo.'),
+    q(3, '¿Cuántas sílabas tiene «ciudad» y por qué?', ['2: ciu-dad, porque «iu» es diptongo', '3: ci-u-dad, porque hay hiato', '1: ciudad', '4: ci-u-da-d'], 'La «i» y la «u» son vocales cerradas distintas y forman diptongo: ciu-dad.'),
+    w(3, 'Separa en sílabas la palabra «tierra» (usa guiones).', ['tie-rra'], '«Ie» es diptongo y la «rr» no se separa: tie-rra.')
+  ]
+});
+
+T_.push({
+  id: 'i5', ind: '5', ap: '11.1', w: 2, t: 'gue, gui, güe, güi', ic: '🐧',
+  d: 'Escribe correctamente palabras y oraciones con gue, gui, güe y güi.',
+  l: [
+    '<ul><li><strong>gue, gui:</strong> la <em>u no se pronuncia</em> (solo hace suave la g): <em>guerra, guitarra, guiso</em>.</li><li><strong>güe, güi</strong> (con diéresis): la <em>u sí se pronuncia</em>: <em>pingüino, cigüeña, lingüista, vergüenza, bilingüe</em>.</li></ul>'
+  ],
+  q: [
+    q(1, '¿Cuándo se usa la diéresis (ü) en güe y güi?', ['Cuando la u se pronuncia', 'Cuando la u no se pronuncia', 'Siempre que hay una g', 'Solo al inicio de la palabra'], 'La diéresis indica que la «u» suena: pin-güi-no.'),
+    q(2, 'Completa: «El pin__ino vive en el polo».', ['gü', 'gu', 'g', 'gui'], 'Se pronuncia «pin-güi-no»: la u suena, entonces lleva diéresis: pingüino.'),
+    q(2, 'Completa: «Toco la __tarra con mi tío».', ['gui', 'güi', 'gi', 'ghi'], 'Se pronuncia «gitarra» con g suave y la u no suena: guitarra.'),
+    q(2, '¿Cuál palabra está bien escrita?', ['cigüeña', 'ciguena', 'cigueña', 'cigüena'], 'Se pronuncia «ci-güe-ña»: la u suena, por eso lleva diéresis.'),
+    q(3, '¿Por qué «guerra» NO lleva diéresis?', ['Porque la u no se pronuncia', 'Porque es una palabra corta', 'Porque tiene doble r', 'Porque va al inicio'], 'En «guerra» la u solo sirve para que la g suene suave; si no se pronuncia, no lleva diéresis.'),
+    w(3, 'Escribe correctamente el nombre del animal que se pronuncia «pin-güi-no».', ['pingüino', 'Pingüino'], 'La «u» se pronuncia, por eso hay que escribir la diéresis: pingüino.'),
+    w(3, 'Completa la palabra: ver___nza (se pronuncia «ver-güen-za»).', ['vergüenza'], 'En «vergüenza» la «u» suena, por lo que lleva diéresis: vergüenza.')
+  ]
+});
+
+T_.push({
+  id: 'i6', ind: '6', ap: '11.1', w: 2, t: 'Uso de r y rr', ic: '🐕',
+  d: 'Aplica correctamente las reglas ortográficas relacionadas con el uso de r, rr al escribir palabras, oraciones y textos breves, demostrando precisión en su escritura.',
+  l: [
+    '<ul><li>Al <strong>inicio</strong> de palabra suena fuerte con <strong>una sola r</strong>: <em>rosa, rata, ropa</em>.</li><li>Después de <strong>n, l, s</strong> suena fuerte con <strong>una r</strong>: <em>honra, alrededor, Israel</em>.</li><li><strong>Entre vocales</strong>: r suave (<em>cara, pero</em>) y rr fuerte (<em>carro, perro</em>).</li><li>La <strong>rr</strong> nunca se escribe al inicio ni al final de una palabra, y no se separa al dividir en sílabas: <em>pe-rro</em>.</li></ul>'
+  ],
+  q: [
+    q(1, 'La «r» al inicio de una palabra suena…', ['fuerte y se escribe con una sola r', 'suave y se escribe con rr', 'fuerte y se escribe con rr', 'no suena'], 'Al inicio (rosa, rata, río) siempre se usa una sola r con sonido fuerte.'),
+    q(2, 'Completa: «El pe__o ladra mucho».', ['rr', 'r', 'rrr', 'rh'], 'Entre vocales y con sonido fuerte se escribe rr: perro.'),
+    q(2, 'Completa: «La __ata come queso».', ['r', 'rr', 'rrr', 'h'], 'Al inicio de la palabra el sonido fuerte se escribe con una sola r: rata.'),
+    q(2, 'Completa: «Los vecinos quieren hon__ar a la maestra».', ['r', 'rr', 'rrr', 'h'], 'Después de «n» el sonido fuerte se escribe con una sola r: honrar.'),
+    q(3, '¿Qué diferencia hay entre «caro» y «carro»?', ['Cambia el significado: costoso y vehículo', 'Ninguna, significan lo mismo', 'Solo cambia la tilde', 'Una de ellas está mal escrita'], 'Un solo cambio de r a rr modifica el significado. Por eso es importante escribir con precisión.'),
+    w(3, 'Escribe con la ortografía correcta: «La ___osa es muy bonita» (se pronuncia «rrosa»).', ['rosa', 'Rosa'], 'Al inicio de palabra no se usa rr: se escribe rosa.'),
+    w(3, 'Escribe la palabra: «Mi papá maneja un ___ (vehículo)», con sonido fuerte entre vocales.', ['carro'], 'Entre vocales y con sonido fuerte: carro.')
+  ]
+});
+
+T_.push({
+  id: 'i18', ind: '18', ap: '7.1', w: 2, t: 'Uso de B y V', ic: '🅱️',
+  d: 'Aplica correctamente las reglas ortográficas estudiadas sobre el uso de B y V al escribir palabras, oraciones y textos breves, identificando y corrigiendo errores de escritura.',
+  l: [
+    '<p><strong>Se escribe B:</strong></p><ul><li>Antes de <strong>l</strong> y <strong>r</strong>: <em>blanco, brazo</em>.</li><li>Después de <strong>m</strong>: <em>también, cambio, hombre</em>.</li><li>Terminación <strong>-bir</strong>: <em>escribir, recibir</em> (excepto <em>hervir, servir, vivir</em>).</li><li>Pretérito imperfecto en <strong>-aba</strong>: <em>jugaba, cantaba, caminaba</em>.</li><li>Palabras que empiezan con <strong>biblio-</strong>, <strong>bu-, bur-, bus-</strong>: <em>biblioteca, burro, buscar</em>.</li></ul>',
+    '<p><strong>Se escribe V:</strong></p><ul><li>Después de <strong>n</strong>: <em>invitar, envolver</em>.</li><li>Terminaciones <strong>-ivo / -iva</strong>: <em>activo, deportiva</em>.</li><li>Terminaciones <strong>-ave, -eve</strong>: <em>llave, breve</em>, y verbos en <strong>-vir</strong>: <em>servir, vivir</em>.</li></ul>'
+  ],
+  q: [
+    q(1, 'Después de la letra «m» se escribe…', ['b', 'v', 'bv', 'w'], 'Antes de b va siempre m (no n): también, hombre.'),
+    q(2, 'Completa: «El niño jug__a con sus amigos».', ['ab', 'av', 'b', 'v'], 'Los verbos del pretérito imperfecto terminan en -aba: jugaba.'),
+    q(2, 'Completa: «Mi mamá me in__itó al cine».', ['v', 'b', 'bv', 'w'], 'Después de «n» se escribe v: invitó.'),
+    q(2, 'Completa: «Voy a escri__ir una carta».', ['b', 'v', 'bv', 'w'], 'Los verbos terminados en -bir llevan b: escribir (excepto hervir, servir, vivir).'),
+    q(3, '¿Cuál palabra está mal escrita?', ['anbulancia', 'bonito', 'envidia', 'hombre'], 'Se escribe «ambulancia»: antes de b va m.'),
+    q(3, 'Corrige el error: «El pájaro hizo su nido en el árvol».', ['árbol', 'ábrol', 'arvol', 'harbol'], 'La b va antes de l o r: árbol.'),
+    w(3, 'Escribe correctamente la palabra que significa «lugar con libros para leer y prestar»: bi_lioteca.', ['biblioteca'], 'Las palabras que inician con «biblio» se escriben con b: biblioteca.')
+  ]
+});
+
+T_.push({
+  id: 'i19', ind: '19', ap: '7.1', w: 2, t: 'C, S, Z, Q, K, GE, GI, JE, JI', ic: '🔤',
+  d: 'Aplica correctamente las reglas ortográficas estudiadas sobre el uso de C, S, Z, Q y K, GE, GI, JE, JI, al escribir palabras, oraciones y textos breves, identificando y corrigiendo errores de escritura.',
+  l: [
+    '<ul><li><strong>c:</strong> suena /k/ con a, o, u (<em>casa, cosa, cuna</em>); suena /s/ con e, i (<em>cena, cielo</em>).</li><li><strong>z:</strong> con a, o, u (<em>zapato, zorro, zumo</em>). Al formar plurales, z cambia a c: <em>luz → luces</em>.</li><li><strong>q:</strong> siempre con <em>ue, ui</em>: <em>queso, quiso</em>.</li><li><strong>k:</strong> en palabras de origen extranjero: <em>kilo, koala, kiwi</em>.</li><li><strong>ge, gi</strong> (sonido j): <em>gente, gigante</em>; verbos en <strong>-ger, -gir</strong>: <em>proteger, elegir</em>; terminación <strong>-gen</strong>: <em>origen, imagen</em>.</li><li><strong>je, ji:</strong> <em>jefe, jirafa, jinete</em>; verbo <em>tejer</em> y sus formas.</li></ul>'
+  ],
+  q: [
+    q(1, 'La letra «q» siempre se escribe acompañada de…', ['ue o ui (que, qui)', 'a o o', 'a o u', 'z'], 'La q va con u muda: queso, quiso.'),
+    q(1, '¿En qué tipo de palabras se usa la letra «k»?', ['En palabras de origen extranjero, como kilo o koala', 'En todas las palabras con sonido k', 'Solo al final de las palabras', 'En los verbos'], 'La k se conserva en palabras que vienen de otros idiomas: kilo, koala, kiwi.'),
+    q(2, 'El plural de «luz» es…', ['luces', 'luzes', 'luses', 'lukes'], 'Antes de e no se escribe z: la z cambia a c en el plural.'),
+    q(2, 'Completa: «La __irafa come hojas altas».', ['j', 'g', 'x', 'h'], 'Se escribe jirafa con j (ji).'),
+    q(2, 'Completa: «El gi__ante era muy alto».', ['g', 'j', 'x', 'h'], 'Se escribe gigante con g (gi).'),
+    q(3, '¿Cuál oración está bien escrita?', ['El gigante comió queso en la cima.', 'El jigante comió queso en la cima.', 'El gigante comió keso en la cima.', 'El gigante comió queso en la zima.'], 'Gigante lleva g (gi) y queso lleva q (que). La c suena /s/ en «cima».'),
+    w(3, 'Escribe correctamente la forma del verbo: «Debemos _______ el ambiente» (de proteger, con g).', ['proteger'], 'Los verbos terminados en -ger se escriben con g: proteger.'),
+    w(3, 'Escribe el plural de «lápiz».', ['lápices', 'lapices'], 'Cuando una palabra terminada en z forma el plural, cambia z por c: lápices.')
+  ]
+});
+
+T_.push({
+  id: 'c6', ind: '·', ap: '7.1', w: 2, t: 'Palabras homófonas', ic: '👂',
+  d: 'Aprendizaje esperado 7.1: relación entre palabras con fonemas que suenan igual pero con grafemas distintos. Palabras homófonas con b/v, c/s/z, q/c/k, ge/gi, je/ji.',
+  l: [
+    '<p>Las <strong>palabras homófonas</strong> suenan igual, pero se escriben distinto y tienen otro significado.</p>',
+    '<ul><li><strong>b/v:</strong> <em>vaca / baca, bello / vello, botar (tirar) / votar (elegir), tubo / tuvo</em></li><li><strong>c/s/z:</strong> <em>casa / caza, cocer / coser, siento / ciento, asar / azar</em></li><li><strong>g/j:</strong> <em>gira / jira (excursión)</em></li><li><strong>h/sin h:</strong> <em>hola / ola, hojear / ojear</em></li></ul>',
+    '<p class="ex">Truco: lee la oración completa. El contexto te dice cuál palabra necesitas.</p>'
+  ],
+  q: [
+    q(1, 'Las palabras homófonas son las que…', ['suenan igual pero se escriben distinto', 'se escriben y suenan igual', 'tienen significado opuesto', 'riman con otra palabra'], 'Homófonas: mismo sonido, distinta escritura y significado.'),
+    q(2, 'Completa: «Mi mamá va a ____ el botón de mi camisa».', ['coser', 'cocer', 'cazar', 'cozer'], '«Coser» es unir con aguja e hilo. «Cocer» es cocinar con calor.'),
+    q(2, 'Completa: «Debemos ____ la basura en el basurero».', ['botar', 'votar', 'bohtar', 'vottar'], '«Botar» es tirar algo. «Votar» es elegir en una elección.'),
+    q(2, 'Completa: «Los ciudadanos van a ____ por el presidente».', ['votar', 'botar', 'bhotar', 'votah'], '«Votar» es dar el voto en una elección.'),
+    q(2, 'Completa: «El cazador salió de ____ al amanecer».', ['caza', 'casa', 'cassa', 'kaza'], '«Caza» es buscar animales para atraparlos. «Casa» es la vivienda. En esta oración el sentido pide caza.'),
+    q(3, '¿Cuál oración usa correctamente la palabra «baca» (rejilla sobre un carro para llevar equipaje)?', ['Pusimos la maleta en la baca del carro.', 'Pusimos la maleta en la vaca del carro.', 'La baca da leche en la finca.', 'La baca come pasto en el potrero.'], '«Baca» es la rejilla del techo del carro; «vaca» es el animal que da leche. Suenan igual, pero se escriben y significan distinto.'),
+    q(3, '«Cien» y «sien» son homófonas. ¿Cuál es el número?', ['cien', 'sien', 'Ambas', 'Ninguna'], '«Cien» es el número 100. «Sien» es una parte de la cabeza, a los lados de la frente.')
+  ]
+});
+
+T_.push({
+  id: 'i20', ind: '20', ap: '7.1', w: 2, t: 'Ahí, hay y ¡ay!', ic: '👉',
+  d: 'Diferencia y utiliza correctamente ahí, hay y ¡ay! de acuerdo con su significado y función comunicativa al completar, construir y revisar oraciones y textos breves.',
+  l: [
+    '<ul><li><strong>Ahí</strong> (con h y tilde): indica <em>lugar</em>, equivale a «allí»: <em>Pon el libro ahí.</em></li><li><strong>Hay</strong> (con h, sin tilde): forma del verbo <em>haber</em>, indica <em>existencia</em>: <em>Hay tres gatos en el patio.</em></li><li><strong>¡Ay!</strong> (con signos de exclamación): expresa <em>dolor, sorpresa o lamento</em>: <em>¡Ay, me caí!</em></li></ul>'
+  ],
+  q: [
+    q(1, '¿Cuál de las tres palabras indica un lugar?', ['ahí', 'hay', 'ay', 'Ninguna'], '«Ahí» equivale a «allí» y señala un lugar.'),
+    q(2, 'Completa: «____ tres gatos jugando en el patio».', ['Hay', 'Ahí', 'Ay', 'Ahy'], '«Hay» indica que existen o están presentes algunos seres o cosas.'),
+    q(2, 'Completa: «Deja la mochila ____, sobre la silla».', ['ahí', 'hay', '¡ay!', 'ahi'], 'Señala un lugar (allí); se escribe con h y tilde.'),
+    q(2, 'Completa: «¡____, me duele el dedo!».', ['Ay', 'Hay', 'Ahí', 'Ai'], '«¡Ay!» es una interjección que expresa dolor, sorpresa o queja.'),
+    q(3, '¿Cuál oración tiene un error?', ['Ahí tres niños en la fila.', 'Hay tres niños en la fila.', '¡Ay! Qué susto me diste.', 'Pon el vaso ahí, por favor.'], 'En la primera oración se quiere indicar existencia; debe usarse «hay»: «Hay tres niños en la fila».'),
+    w(3, 'Completa con la palabra correcta: «No ____ pan en la casa».', ['hay'], 'Indica que no existe pan: forma del verbo haber, «hay».')
+  ]
+});
+
+T_.push({
+  id: 'i21', ind: '21', ap: '12.1', w: 3, t: 'Onomatopeyas', ic: '💥',
+  d: 'Reconoce, interpreta y utiliza onomatopeyas para representar sonidos de animales, personas, objetos y elementos de la naturaleza en oraciones, diálogos, historietas y textos breves.',
+  l: [
+    '<p>La <strong>onomatopeya</strong> es una palabra que <strong>imita un sonido</strong>.</p>',
+    '<ul><li>Animales: <em>guau, miau, muuu, pío, quiquiriquí, cuac, croac, oinc</em>.</li><li>Personas: <em>achís</em> (estornudo), <em>ñam ñam</em> (comer), <em>shhh</em> (silencio), <em>ja, ja</em>.</li><li>Objetos: <em>tic tac</em> (reloj), <em>ring</em> (teléfono), <em>pum</em> (golpe), <em>din don</em> (timbre).</li><li>Naturaleza: <em>plic</em> (gota), <em>splash</em> (agua), <em>fiuuu</em> (viento), <em>bum</em> (trueno).</li></ul>',
+    '<p class="ex">En historietas se escriben con letras grandes y signos de exclamación: ¡CRASH!</p>'
+  ],
+  q: [
+    q(1, '¿Qué es una onomatopeya?', ['Una palabra que imita un sonido', 'Una palabra que describe un color', 'Una palabra que indica un lugar', 'Un signo de puntuación'], 'Las onomatopeyas reproducen con palabras sonidos reales: guau, tic tac.'),
+    q(2, '¿Qué onomatopeya representa el sonido de un reloj?', ['tic tac', 'guau', 'achís', 'splash'], 'El reloj hace «tic tac».'),
+    q(2, 'Une el sonido con quien lo hace: «miau».', ['gato', 'perro', 'vaca', 'gallo'], 'El gato hace «miau»; el perro, «guau»; la vaca, «muuu»; el gallo, «quiquiriquí».'),
+    q(2, '¿Cuál onomatopeya usarías para representar un estornudo?', ['¡Achís!', '¡Guau!', '¡Bum!', '¡Plic!'], '«¡Achís!» imita el sonido de un estornudo (sonido de una persona).'),
+    q(2, 'Completa la historieta: «Cuando la gota cayó del grifo hizo ____».', ['plic', 'miau', 'achís', 'quiquiriquí'], '«Plic» imita el sonido de una gota de agua (elemento de la naturaleza).'),
+    q(3, '«El trueno retumbó en el cielo: ¡______!». ¿Qué onomatopeya es más adecuada?', ['bum', 'guau', 'tic tac', 'ñam ñam'], 'El trueno es un sonido fuerte de la naturaleza; «¡bum!» lo representa.'),
+    q(3, '¿En cuál texto se usa correctamente una onomatopeya?', ['—¡Cuac, cuac!— dijo el pato al entrar al estanque.', '—¡Miau, miau!— dijo el pato al entrar al estanque.', '—¡Guau, guau!— dijo el gato en el árbol.', '—¡Achís!— dijo la gallina al cantar.'], 'La onomatopeya debe corresponder con quien produce el sonido: el pato hace «cuac».')
+  ]
+});
+
+/* ---------- MUNDO 3: MEDIOS Y COMUNICACIÓN ---------- */
+T_.push({
+  id: 'i7', ind: '7', ap: '—', w: 3, t: 'Medios, valores y antivalores', ic: '🤝',
+  d: 'Reconoce qué son los medios de comunicación, su importancia en la vida cotidiana y los valores y antivalores que pueden estar presentes en ellos.',
+  l: [
+    '<p>Los <strong>medios de comunicación</strong> son los canales que usamos para <strong>informar, educar, entretener y comunicarnos</strong> con muchas personas.</p>',
+    '<ul><li><strong>Importancia:</strong> nos mantienen informados, nos enseñan, nos divierten y nos conectan con familia y amistades.</li><li><strong>Valores:</strong> veracidad (decir la verdad), respeto, honestidad, solidaridad, responsabilidad.</li><li><strong>Antivalores:</strong> mentira (noticias falsas), irrespeto, burla, violencia, discriminación, egoísmo.</li></ul>',
+    '<p class="ex">Antes de compartir una noticia, verifica que sea cierta y no haga daño.</p>'
+  ],
+  q: [
+    q(1, '¿Para qué sirven los medios de comunicación?', ['Para informar, educar, entretener y comunicarnos', 'Solo para jugar', 'Solo para vender cosas', 'Para evitar que aprendamos'], 'Cumplen varias funciones importantes en la vida cotidiana.'),
+    q(1, '¿Cuál de estos es un valor que deben mostrar los medios de comunicación?', ['La veracidad (decir la verdad)', 'La mentira', 'La burla', 'La discriminación'], 'Los valores promueven el bien. La veracidad es esencial para informar bien.'),
+    q(2, '¿Cuál de estas situaciones muestra un antivalor?', ['Difundir una noticia falsa para engañar', 'Compartir información verificada', 'Respetar la opinión de otras personas', 'Avisar sobre una emergencia'], 'La mentira y el engaño son antivalores porque dañan a las personas.'),
+    q(2, 'Un programa muestra cómo ayudar a una familia damnificada. ¿Qué valor promueve?', ['La solidaridad', 'El egoísmo', 'La burla', 'La mentira'], 'Ayudar a quien lo necesita es solidaridad.'),
+    q(3, 'Recibes por celular un mensaje que se burla de una compañera. ¿Qué antivalor está presente y qué debes hacer?', ['Irrespeto; no reenviarlo y avisar a un adulto', 'Honestidad; reenviarlo a todos', 'Solidaridad; reírme', 'Responsabilidad; responder con insultos'], 'La burla es irrespeto. Lo correcto es no compartirlo, ser empático y pedir ayuda a un adulto de confianza.'),
+    q(3, 'Antes de compartir una noticia sorprendente, ¿qué conviene hacer?', ['Verificar que sea cierta en fuentes confiables', 'Compartirla de inmediato', 'Cambiarle detalles para que impacte más', 'Esperar a que alguien más la comparta'], 'Verificar evita difundir noticias falsas. Es una muestra de responsabilidad.')
+  ]
+});
+
+T_.push({
+  id: 'i8', ind: '8', ap: '—', w: 3, t: 'Medios y sus características', ic: '📺',
+  d: 'Identifica diferentes medios de comunicación como televisión, radio, periódico, teléfono e Internet y sus características.',
+  l: [
+    '<ul><li><strong>Televisión:</strong> imagen + sonido; informa y entretiene.</li><li><strong>Radio:</strong> solo sonido; se escucha (música, noticias).</li><li><strong>Periódico:</strong> medio impreso, se lee; trae noticias, avisos y artículos.</li><li><strong>Teléfono:</strong> permite hablar o enviar mensajes con otra persona en el momento.</li><li><strong>Internet:</strong> red mundial con muchísima información, correo, videos y búsquedas.</li></ul>'
+  ],
+  q: [
+    q(1, '¿Qué medio de comunicación transmite solo sonido?', ['La radio', 'La televisión', 'El periódico', 'Internet'], 'La radio se escucha: no tiene imágenes.'),
+    q(1, '¿Cuál medio es impreso y se lee en papel?', ['El periódico', 'La radio', 'La televisión', 'El teléfono'], 'El periódico está impreso y trae noticias escritas.'),
+    q(2, '¿Cuál medio combina imagen y sonido?', ['La televisión', 'La radio', 'El periódico', 'La carta'], 'La televisión muestra imágenes en movimiento con sonido.'),
+    q(2, 'Quieres buscar información sobre los planetas y ver un video. ¿Qué medio usas?', ['Internet', 'La radio', 'El periódico', 'Una carta'], 'Internet permite buscar información y ver videos y fotos.'),
+    q(2, 'Para hablar con tu tía que vive lejos y escuchar su voz en el momento usas…', ['el teléfono', 'el periódico', 'la radio', 'un libro'], 'El teléfono permite comunicación en tiempo real entre dos personas.'),
+    q(3, '¿Qué diferencia principal hay entre el periódico y la radio?', ['El periódico se lee en papel y la radio se escucha', 'El periódico se escucha y la radio se lee', 'Ambos tienen imagen en movimiento', 'No hay ninguna diferencia'], 'Cada medio llega por un sentido distinto: el periódico, por la vista (lectura); la radio, por el oído.')
+  ]
+});
+
+T_.push({
+  id: 'c7', ind: '·', ap: '12.1', w: 3, t: 'Comunicación en la escuela y palabras con onomatopeya', ic: '🗣️',
+  d: 'Aprendizaje esperado 12.1: estrategias básicas de comunicación en las situaciones escolares (necesidades, peticiones, búsqueda de información, localizar objetos y personas) y palabras formadas por onomatopeya.',
+  l: [
+    '<ul><li><strong>Expresar necesidades:</strong> «Tengo sed, ¿puedo tomar agua?»</li><li><strong>Hacer peticiones con cortesía:</strong> «¿Me presta el borrador, por favor?» — gracias, permiso y por favor.</li><li><strong>Buscar información:</strong> preguntar a la maestra, consultar libros o la biblioteca.</li><li><strong>Localizar objetos y personas:</strong> «¿Dónde está la directora?», «Está en la oficina, al lado de la biblioteca».</li></ul>',
+    '<p><strong>Palabras formadas por onomatopeya:</strong> nacen de un sonido: <em>cuco</em> (cu-cú), <em>maullar</em> (miau), <em>croar</em> (croac), <em>zumbar</em> (zzz), <em>tintinear</em> (tin tin), <em>cacarear</em>.</p>'
+  ],
+  q: [
+    q(1, '¿Cuál es una manera cortés de hacer una petición en el aula?', ['«¿Me presta el borrador, por favor?»', '«Dame el borrador.»', '«¡Quiero el borrador ya!»', 'Quitarlo sin preguntar'], 'Una petición cortés usa palabras como «por favor» y «gracias».'),
+    q(2, 'Quieres saber dónde está la biblioteca. ¿Qué dices?', ['«Disculpe, ¿dónde queda la biblioteca?»', '«Biblioteca ya».', '«No sé dónde está».', '«Es una biblioteca».'], 'Para localizar lugares o personas, se pregunta con claridad y respeto.'),
+    q(2, 'Para expresar una necesidad, ¿qué es lo más adecuado?', ['«Maestra, tengo sed. ¿Puedo ir a tomar agua?»', 'Salir del aula sin avisar', 'Gritar «agua»', 'Quedarte callado'], 'Expresar la necesidad con claridad y pedir permiso es una estrategia de comunicación básica.'),
+    q(2, 'Necesitas información sobre los volcanes para una tarea. ¿Qué es lo mejor?', ['Consultar libros o preguntar a la maestra', 'Inventar los datos', 'No hacer la tarea', 'Copiar a un compañero sin leer'], 'La búsqueda de información se hace en fuentes confiables.'),
+    q(3, '¿De qué onomatopeya viene el verbo «maullar»?', ['miau', 'guau', 'muuu', 'pío'], 'Muchos verbos nacen de sonidos: maullar (miau), croar (croac), zumbar (zzz).'),
+    q(3, '¿Cuál de estas palabras se formó por onomatopeya?', ['cuco (por el canto cu-cú)', 'mesa', 'pared', 'cuaderno'], '«Cuco» nombra al ave por el sonido de su canto: cu-cú.')
+  ]
+});
+
+/* Índice y mundos */
+const WORLDS = [
+  { n: 'Prado de la Lectura', ic: '🌻', d: 'Fábulas, leyendas, cartas y comprensión', pl: '🌻' },
+  { n: 'Huerto de las Palabras', ic: '🥕', d: 'Gramática y vocabulario', pl: '🌱' },
+  { n: 'Invernadero de la Ortografía', ic: '🌵', d: 'Escribir sin errores', pl: '🥜' },
+  { n: 'Azotea de la Comunicación', ic: '📡', d: 'Medios, valores y sonidos', pl: '🌵' }
+];
+const T = {}; T_.forEach(t => T[t.id] = t);
+
+/* ===== AUDITORÍA: contenidos del temario → tema que los cubre ===== */
+const CONTENIDOS = [
+  ['1.8', 'Conocimientos previos, relectura, subrayado', 'c1'],
+  ['1.8', 'Ideas fundamentales y complementarias, resumen, recapitulación', 'c1'],
+  ['1.8', 'Relaciones de causa y efecto', 'c1'],
+  ['1.8', 'Ideas relevantes e irrelevantes', 'c1'],
+  ['1.8', 'Fluidez lectora', 'c1'],
+  ['1.8', 'La fábula como texto narrativo con moraleja (Ind. 1)', 'i1'],
+  ['11.2', 'Pronombre personal (Ind. 2)', 'i2'],
+  ['11.2', 'Sustantivo', 'c3'], ['11.2', 'Adjetivo', 'c3'], ['11.2', 'Artículo', 'c3'], ['11.2', 'Verbo', 'c3'],
+  ['11.2', 'Informes, noticias, poesías, instrucciones', 'c2'],
+  ['11.2', 'Cartas (Ind. 14)', 'i14'],
+  ['11.2', 'Cuentos y leyendas', 'i12'],
+  ['11.1', 'Mayúsculas al iniciar oración y en sustantivos propios', 'c4'],
+  ['11.1', 'Hiato (Ind. 3)', 'i3'],
+  ['11.1', 'Diptongo y triptongo (Ind. 4)', 'i4'],
+  ['11.1', 'Combinaciones gue-gui, güe-güi (Ind. 5)', 'i5'],
+  ['11.1', 'Uso de -r- y -rr- (Ind. 6)', 'i6'],
+  ['7.1', 'Textos expositivos, narrativos y descriptivos', 'c2'],
+  ['7.1', 'Recados, instrucciones, cuentos', 'c2'],
+  ['7.1', 'Adivinanzas, trabalenguas, chistes', 'c2'],
+  ['7.1', 'Refranes, frases célebres, dichos populares', 'c2'],
+  ['7.1', 'Leyendas: contenido y características (Ind. 12)', 'i12'],
+  ['7.1', 'Nombres de leyendas del país (Ind. 13)', 'i13'],
+  ['7.1', 'Comprensión de lectura: información explícita (Ind. 15)', 'i15'],
+  ['7.1', 'Familias de palabras: raíz (Ind. 16)', 'i16'],
+  ['7.1', 'Sinónimos y antónimos', 'c5'],
+  ['7.1', 'Parónimos (Ind. 17)', 'i17'],
+  ['7.1', 'Uso de B y V (Ind. 18)', 'i18'],
+  ['7.1', 'Uso de C, S, Z, Q y K, GE, GI, JE, JI (Ind. 19)', 'i19'],
+  ['7.1', 'Palabras homófonas b/v, c/s/z, q/c/k, ge/gi, je/ji', 'c6'],
+  ['7.1', 'ahí, hay, ay (Ind. 20)', 'i20'],
+  ['12.1', 'Estrategias de comunicación: necesidades, peticiones, búsqueda de información, localizar objetos y personas', 'c7'],
+  ['12.1', 'Palabras formadas por onomatopeya', 'c7'],
+  ['12.1', 'Onomatopeyas: animales, personas, objetos y naturaleza (Ind. 21)', 'i21'],
+  ['—', 'Medios de comunicación: concepto, importancia, valores y antivalores (Ind. 7)', 'i7'],
+  ['—', 'Televisión, radio, periódico, teléfono e Internet (Ind. 8)', 'i8']
+];
+const FALTAN = ['9', '10', '11'];
+
+(function () {
+  'use strict';
+  const LV = { 1: 'Conocimiento', 2: 'Aplicación', 3: 'Análisis y resolución de problemas' };
+  const LVI = { 1: '🌱', 2: '🌻', 3: '🌵' };
+  const ZHAT = { 1: '', 2: '🚧', 3: '🪣' };
+  const EXAM = new Date(2026, 10, 9);
+  const SAVE = 'jardin-del-saber-v1';
+  const PLANTS = [['🌻', 'Girasol', 0], ['🌱', 'Lanzaguisantes', 3], ['🥜', 'Nuez', 8], ['🌵', 'Cactus', 14], ['🍄', 'Hongo', 20], ['🌹', 'Rosa', 27], ['🌳', 'Árbol', 36], ['🍒', 'Cerezas', 46], ['🎃', 'Calabaza', 58], ['🌴', 'Palmera', 70]];
+  const MAXSTARS = T_.length * 3;
+
+  const app = document.getElementById('app');
+  const live = document.getElementById('live');
+  let S = loadSave();
+  let G = null;
+
+  function loadSave() {
+    let s = {};
+    try { s = JSON.parse(localStorage.getItem(SAVE)) || {}; } catch (e) { s = {}; }
+    s.sun = s.sun || 0; s.p = s.p || {}; s.ex = s.ex || {};
+    if (s.snd === undefined) s.snd = true;
+    return s;
+  }
+  function save() { try { localStorage.setItem(SAVE, JSON.stringify(S)); } catch (e) { /* sin almacenamiento */ } }
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const norm = s => String(s).trim().replace(/\s+/g, ' ').replace(/[.¡!¿?]+$/g, '').toLowerCase();
+  function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  const starsOf = p => p >= 90 ? 3 : p >= 70 ? 2 : p >= 50 ? 1 : 0;
+  const starsHtml = n => `<span class="stars" aria-label="${n} de 3 estrellas">${'★'.repeat(n)}<span class="off">${'★'.repeat(3 - n)}</span></span>`;
+  const totalStars = () => Object.values(S.p).reduce((a, x) => a + (x.stars || 0), 0);
+  const perf = p => p >= 85 ? ['Avanzado', 'av', 'Dominas el aprendizaje esperado; puedes aplicarlo en situaciones nuevas.'] : p >= 60 ? ['Intermedio', 'in', 'Logras lo esencial; repasa los temas marcados para llegar a avanzado.'] : ['Inicial', 'ini', 'Necesitas reforzar. Repasa las lecciones y vuelve a intentarlo: ¡sí se puede!'];
+  const say = t => { live.textContent = ''; setTimeout(() => live.textContent = t, 30); };
+
+  /* sonido (opcional) */
+  let ac = null;
+  function beep(f, d, type) {
+    if (!S.snd) return;
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = type || 'sine'; o.frequency.value = f; g.gain.value = .08;
+      o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + d);
+    } catch (e) { /* sin audio */ }
+  }
+  const sndOk = () => { beep(660, .12); setTimeout(() => beep(880, .18), 110); };
+  const sndBad = () => beep(180, .3, 'sawtooth');
+
+  /* ---------- Enrutador ---------- */
+  function route() {
+    const h = location.hash.replace(/^#\/?/, '').split('/');
+    const v = h[0] || 'inicio';
+    if (v === 'quiz' && !G) { go('mapa'); return; }
+    if (v === 'resultados' && !(G && G.done)) { go('mapa'); return; }
+    ({ inicio: home, mapa: map, leccion: () => lesson(h[1]), quiz: quiz, resultados: results, auditoria: audit, ayuda: help }[v] || home)();
+    window.scrollTo(0, 0);
+    const f = app.querySelector('[data-focus]'); if (f) { f.setAttribute('tabindex', '-1'); f.focus({ preventScroll: true }); }
+  }
+  function go(p) { if (location.hash === '#/' + p) route(); else location.hash = '#/' + p; }
+  window.addEventListener('hashchange', route);
+
+  const header = (back, title) => `<div class="top">${back ? `<a class="btn ghost small" href="#/${back}">← Volver</a>` : ''}<span class="grow"></span><span class="pill" title="Soles ganados"><span class="sunico" aria-hidden="true">☀️</span>${S.sun}<span class="vh"> soles</span></span><span class="pill" title="Estrellas"><span aria-hidden="true">⭐</span>${totalStars()}/${MAXSTARS}<span class="vh"> estrellas</span></span></div>${title ? `<h1 class="sign" data-focus>${title}</h1>` : ''}`;
+
+  /* ---------- Inicio ---------- */
+  function home() {
+    const days = Math.round((EXAM - new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())) / 864e5);
+    const when = days > 1 ? `Faltan ${days} días para el examen` : days === 1 ? '¡El examen es mañana!' : days === 0 ? '¡El examen es hoy! Mucho éxito' : 'Sigue practicando para tus próximas evaluaciones';
+    const st = totalStars();
+    app.innerHTML = `
+    <div class="top"><span class="grow"></span><span class="pill"><span class="sunico" aria-hidden="true">☀️</span>${S.sun}<span class="vh"> soles</span></span><span class="pill"><span aria-hidden="true">⭐</span>${st}/${MAXSTARS}<span class="vh"> estrellas</span></span></div>
+    <section class="hero">
+      <div class="sun-big" aria-hidden="true">🌞</div>
+      <h1 data-focus>El Jardín del Saber</h1>
+      <div class="sign sub">Español · Cuarto grado · Defiende tu jardín con lo que sabes</div>
+    </section>
+    <div class="exam-banner" role="note">📅 Examen de Español: lunes 9 de noviembre de 2026 — ${when}</div>
+    <nav class="menu" aria-label="Menú principal">
+      <a class="btn" href="#/mapa"><span class="big" aria-hidden="true">🌻</span>Entrar al jardín<small>${T_.length} niveles por tema</small></a>
+      <button class="btn sun" data-act="exam" data-k="short"><span class="big" aria-hidden="true">🧟</span>Simulacro corto<small>${T_.length} preguntas · 1 por tema</small></button>
+      <button class="btn wood" data-act="exam" data-k="full"><span class="big" aria-hidden="true">🏆</span>Simulacro completo<small>${T_.length * 2} preguntas · como el examen</small></button>
+      <a class="btn ghost" href="#/auditoria"><span class="big" aria-hidden="true">🔍</span>Auditoría del temario<small>Verifica que todo esté cubierto</small></a>
+      <a class="btn ghost" href="#/ayuda"><span class="big" aria-hidden="true">❓</span>Cómo estudiar<small>Plan de repaso y ayuda</small></a>
+    </nav>
+    <section class="card" aria-labelledby="gt"><h2 id="gt">🌱 Mi jardín</h2>
+      <p>Cada estrella que ganas desbloquea una planta nueva.</p>
+      <div class="garden">${PLANTS.map(p => { const on = st >= p[2]; return `<div class="slot ${on ? '' : 'locked'}" title="${p[1]}${on ? '' : ' (' + p[2] + ' ⭐)'}"><span role="img" aria-label="${p[1]}${on ? '' : ', bloqueada'}">${p[0]}</span>${on ? '' : `<span class="need">${p[2]}⭐</span>`}</div>`; }).join('')}</div>
+    </section>
+    <footer>Temario: Español, docente Iveth Hall Hall · Escuela San Rafael de Coronado. Práctica de estudio basada en el temario entregado.</footer>`;
+  }
+
+  /* ---------- Mapa ---------- */
+  function map() {
+    app.innerHTML = header('inicio', 'Mapa del jardín') + `<p>Elige un tema. Primero lee el <strong>semillero</strong> (repaso) y luego defiende el jardín. Los temas <span class="tag comp">Aprendizaje esperado</span> completan el temario más allá de los indicadores numerados.</p>` +
+      WORLDS.map((w, wi) => `<section class="world" aria-labelledby="w${wi}"><h2 id="w${wi}"><span aria-hidden="true">${w.ic}</span> ${w.n}</h2><p class="wd">${w.d}</p><div class="tiles">${T_.filter(t => t.w === wi).map(t => { const p = S.p[t.id]; return `<a class="tile ${p && p.stars >= 2 ? 'done' : ''}" href="#/leccion/${t.id}"><span class="ti" aria-hidden="true">${t.ic}</span><span class="tt">${t.t}</span><span class="tm">${t.ind === '·' ? '<span class="tag comp">Aprendizaje esperado ' + t.ap + '</span>' : '<span class="tag">Indicador ' + t.ind + '</span>'}</span><span>${starsHtml(p ? p.stars : 0)} ${p ? `<span class="tm">mejor: ${p.best}%</span>` : '<span class="tm">sin jugar</span>'}</span></a>`; }).join('')}</div></section>`).join('') +
+      `<div class="row center"><button class="btn sun" data-act="exam" data-k="short">🧟 Simulacro corto</button><button class="btn wood" data-act="exam" data-k="full">🏆 Simulacro completo</button></div>`;
+  }
+
+  /* ---------- Lección ---------- */
+  function lesson(id) {
+    const t = T[id]; if (!t) { go('mapa'); return; }
+    const c = [1, 2, 3].map(n => t.q.filter(x => x.n === n).length);
+    app.innerHTML = header('mapa') + `<h1 class="sign" data-focus><span aria-hidden="true">${t.ic}</span> ${t.t}</h1>
+    <div class="indicator"><strong>${t.ind === '·' ? 'Aprendizaje esperado ' + t.ap : 'Indicador ' + t.ind}</strong><br>${esc(t.d)}</div>
+    <section class="card lesson" aria-labelledby="sem"><h2 id="sem">🌰 Semillero (repaso rápido)</h2>${t.l.join('')}</section>
+    <section class="card"><h2>⚔️ Tu misión</h2><p>${t.q.length} preguntas en 3 niveles: ${LVI[1]} ${LV[1]} (${c[0]}), ${LVI[2]} ${LV[2]} (${c[1]}), ${LVI[3]} ${LV[3]} (${c[2]}). Cada respuesta te explica el porqué. Si fallas, la pregunta vuelve al final para que la intentes de nuevo.</p>
+    <div class="row"><button class="btn" data-act="level" data-id="${t.id}">🌱 ¡Defender el jardín!</button><a class="btn ghost" href="#/mapa">Volver al mapa</a></div></section>`;
+  }
+
+  /* ---------- Juego ---------- */
+  function mk(q, tid, retry) { return { q, t: tid, retry: !!retry, opts: q.k === 'm' ? shuffle(q.o.map((x, i) => ({ t: x, c: i === 0 }))) : null }; }
+  function startLevel(id) {
+    const t = T[id];
+    const list = [1, 2, 3].flatMap(n => shuffle(t.q.filter(x => x.n === n)));
+    G = { mode: 'level', id, queue: list.map(q => mk(q, id)), total: list.length, i: 0, res: [], answered: false, last: null, earned: 0, done: false };
+    go('quiz');
+  }
+  function pickExam(per) {
+    let out = [];
+    T_.forEach(t => {
+      const s = shuffle(t.q), got = [];
+      s.forEach(q => { if (got.length < per && !got.some(g => g.n === q.n)) got.push(q); });
+      s.forEach(q => { if (got.length < per && !got.includes(q)) got.push(q); });
+      got.forEach(q => out.push(mk(q, t.id)));
+    });
+    return [1, 2, 3].flatMap(n => shuffle(out.filter(x => x.q.n === n)));
+  }
+  function startExam(kind) {
+    const list = pickExam(kind === 'full' ? 2 : 1);
+    G = { mode: 'exam', kind, queue: list, total: list.length, i: 0, res: [], answered: false, last: null, earned: 0, done: false };
+    go('quiz');
+  }
+
+  function quiz() {
+    const cur = G.queue[G.i]; const q = cur.q; const isEx = G.mode === 'exam';
+    const t = T[cur.t]; const L = G.last;
+    const plant = WORLDS[t.w].pl;
+    const wave = Array.from({ length: G.total }, (_, k) => { const r = G.res[k]; return `<span class="${r ? (r.ok ? 'ok' : 'bad') : (k === Math.min(G.i, G.total - 1) ? 'cur' : '')}" aria-hidden="true">${r ? (r.ok ? '✓' : '✗') : k + 1}</span>`; }).join('');
+    const scene = isEx ? '' : `<div class="lane" aria-hidden="true"><div class="house">🏠</div>
+      <div class="unit plant ${L && L.ok ? 'shoot' : ''} ${L && !L.ok ? 'hit' : ''}">${plant}</div>
+      <div class="unit zombie ${L ? (L.ok ? 'dead' : 'bite near') : ''}"><span class="hat">${ZHAT[q.n]}</span>🧟</div>
+      ${L && L.ok ? '<div class="pea"></div><div class="boom">💥</div>' : ''}</div>`;
+    let body;
+    if (q.k === 'm') {
+      body = `<div class="opts" role="group" aria-label="Opciones de respuesta">${cur.opts.map((o, i) => {
+        let cls = '';
+        if (L && !isEx) { if (o.c) cls = 'right'; else if (L.idx === i) cls = 'wrong'; } else if (L && L.idx === i) cls = 'picked';
+        const mark = L && !isEx && o.c ? ' ✅ (correcta)' : L && !isEx && L.idx === i && !o.c ? ' ❌ (tu respuesta)' : L && isEx && L.idx === i ? ' (tu respuesta)' : '';
+        return `<button class="opt ${cls}" data-act="pick" data-i="${i}" ${L ? 'disabled' : ''}><span class="k" aria-hidden="true">${i + 1}</span><span>${esc(o.t)}${mark}</span></button>`;
+      }).join('')}</div>`;
+    } else {
+      body = `<form data-act="write" class="opts"><label for="ans" class="vh">Tu respuesta</label><input id="ans" class="ans" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Escribe tu respuesta aquí" value="${L ? esc(L.val) : ''}" ${L ? 'disabled' : ''}>${L ? '' : '<button class="btn" type="submit">Comprobar ✔</button>'}</form>`;
+    }
+    let fb = '';
+    if (L && !isEx) {
+      const correct = q.k === 'm' ? cur.opts.find(o => o.c).t : q.a[0];
+      fb = L.ok
+        ? `<div class="fb ok" role="status" id="fb"><h3>🌟 ¡Correcto! +${cur.retry ? 10 : 25} ☀️</h3><p>${esc(q.e)}</p><button class="btn" data-act="next" data-focus>${G.i + 1 >= G.queue.length ? 'Ver resultados' : 'Siguiente zombi →'}</button></div>`
+        : `<div class="fb bad" role="status" id="fb"><h3>🧟 ¡Casi! Respuesta correcta: «${esc(correct)}»</h3><p>${esc(q.e)}</p>${cur.retry ? '' : '<p><strong>Esta pregunta volverá al final para que la practiques otra vez.</strong></p>'}<button class="btn" data-act="next" data-focus>${G.i + 1 >= G.queue.length ? 'Ver resultados' : 'Siguiente zombi →'}</button></div>`;
+    } else if (L && isEx) {
+      fb = `<div class="row" style="margin-top:14px"><button class="btn" data-act="next" data-focus>${G.i + 1 >= G.queue.length ? 'Terminar simulacro' : 'Siguiente →'}</button></div>`;
+    }
+    app.innerHTML = `<div class="top"><button class="btn ghost small" data-act="quit">✖ Salir</button><span class="grow"></span><span class="pill"><span aria-hidden="true">☀️</span>${S.sun + G.earned}<span class="vh"> soles</span></span></div>
+    <div class="sign" style="padding:6px 16px"><strong>${isEx ? (G.kind === 'full' ? 'Simulacro completo' : 'Simulacro corto') : esc(t.t)}</strong> · Pregunta ${Math.min(G.i + 1, G.queue.length)} de ${G.queue.length}</div>
+    <div class="wave" aria-hidden="true">${wave}</div>
+    ${scene}
+    <section class="card qbox" aria-labelledby="qq">
+      <span class="tag">${LVI[q.n]} Nivel: ${LV[q.n]}</span> ${isEx ? `<span class="tag comp">${esc(t.t)}</span>` : ''}
+      ${q.txt ? `<div class="txt" role="region" aria-label="Texto de apoyo">${esc(q.txt)}</div>` : ''}
+      <h2 id="qq" ${!L ? 'data-focus' : ''}>${esc(q.p)}</h2>
+      ${body}${fb}
+      ${!isEx ? `<details style="margin-top:14px"><summary>📖 ¿Necesitas repasar? Ver semillero</summary><div class="lesson">${t.l.join('')}</div></details>` : ''}
+    </section>`;
+    if (L) { const n = app.querySelector('[data-act="next"]'); if (n) n.focus(); }
+    else { const i = app.querySelector('#ans'); if (i) i.focus(); }
+  }
+
+  function submit(idx, val) {
+    if (G.last) return;
+    const cur = G.queue[G.i], q = cur.q; let ok;
+    if (q.k === 'm') ok = cur.opts[idx].c; else ok = q.a.some(a => norm(a) === norm(val));
+    G.last = { ok, idx, val };
+    if (!cur.retry) G.res.push({ id: cur.t, n: q.n, ok, q, ans: q.k === 'm' ? cur.opts[idx].t : val, cor: q.k === 'm' ? cur.opts.find(o => o.c).t : q.a[0] });
+    else { const r = G.res.find(r => r.q === q); if (r) r.fixed = ok; }
+    if (G.mode === 'level') {
+      if (ok) { G.earned += cur.retry ? 10 : 25; sndOk(); say('¡Correcto!'); }
+      else { sndBad(); say('Incorrecto'); if (!cur.retry) { G.queue.push(mk(q, cur.t, true)); } }
+    }
+    quiz();
+  }
+  function next() {
+    G.i++; G.last = null; G.pick = undefined;
+    if (G.i >= G.queue.length) { finish(); return; }
+    quiz();
+  }
+  function finish() {
+    G.done = true;
+    const ok = G.res.filter(r => r.ok).length, tot = G.res.length;
+    G.pct = Math.round(100 * ok / tot);
+    if (G.mode === 'level') {
+      const bonus = 50; G.earned += bonus;
+      const p = S.p[G.id] || { best: 0, stars: 0, tries: 0 };
+      p.best = Math.max(p.best, G.pct); p.stars = Math.max(p.stars, starsOf(G.pct)); p.tries++; S.p[G.id] = p;
+    } else {
+      const k = G.kind; const e = S.ex[k] || { best: 0, tries: 0 }; e.best = Math.max(e.best, G.pct); e.tries++; S.ex[k] = e;
+      G.earned += G.kind === 'full' ? 150 : 75;
+    }
+    S.sun += G.earned; save();
+    go('resultados');
+  }
+
+  /* ---------- Resultados ---------- */
+  function results() {
+    const pc = G.pct, [lv, lc, ld] = perf(pc), ok = G.res.filter(r => r.ok).length;
+    const byN = [1, 2, 3].map(n => { const a = G.res.filter(r => r.n === n); const o = a.filter(r => r.ok).length; return { n, tot: a.length, ok: o, p: a.length ? Math.round(100 * o / a.length) : 0 }; });
+    const bar = (label, p, extra) => `<div class="bar"><span class="lbl">${label}</span><div class="track" role="img" aria-label="${p}%"><div class="fill ${p >= 80 ? '' : p >= 60 ? 'mid' : 'low'}" style="width:${p}%"></div></div><strong>${p}%</strong></div>`;
+    let extra = '';
+    if (G.mode === 'exam') {
+      const byT = T_.map(t => { const a = G.res.filter(r => r.id === t.id); const o = a.filter(r => r.ok).length; return { t, tot: a.length, p: a.length ? Math.round(100 * o / a.length) : 0 }; }).filter(x => x.tot);
+      const weak = byT.filter(x => x.p < 70);
+      extra = `<section class="card"><h2>📊 Resultado por tema</h2><div class="bars">${byT.map(x => bar(`${x.t.ic} ${x.t.t} (${x.tot})`, x.p)).join('')}</div></section>
+      <section class="card"><h2>🎯 A reforzar</h2>${weak.length ? `<ul>${weak.map(x => `<li><a href="#/leccion/${x.t.id}">${x.t.ic} ${x.t.t}</a> — ${x.p}%</li>`).join('')}</ul>` : '<p>¡Excelente! No hay temas por debajo del 70 %. Repasa los errores de abajo y estarás listo.</p>'}</section>`;
+    }
+    const wrong = G.res.filter(r => !r.ok);
+    const rev = `<section class="card"><h2>📝 Revisión de errores (${wrong.length})</h2>${wrong.length ? wrong.map(r => `<details class="rev"><summary>${esc(T[r.id].t)}: ${esc(r.q.p)}</summary>${r.q.txt ? `<p class="txt" style="white-space:pre-line">${esc(r.q.txt)}</p>` : ''}<p>❌ Tu respuesta: <strong>${esc(r.ans || '(sin respuesta)')}</strong></p><p>✅ Correcta: <strong>${esc(r.cor)}</strong></p><p>💡 ${esc(r.q.e)}</p></details>`).join('') : '<p>🎉 ¡Sin errores!</p>'}</section>`;
+    const idx = G.mode === 'level' ? T_.findIndex(t => t.id === G.id) : -1;
+    const nx = idx >= 0 && T_[idx + 1] ? T_[idx + 1] : null;
+    app.innerHTML = header('mapa') + `<h1 class="sign" data-focus>${pc >= 70 ? '🏆 ¡Jardín defendido!' : '🧟 Los zombis casi entran…'}</h1>
+    <section class="card"><div class="big-stars" aria-label="${starsOf(pc)} de 3 estrellas">${'⭐'.repeat(starsOf(pc))}${'☆'.repeat(3 - starsOf(pc))}</div>
+      <p style="text-align:center;font-size:1.4rem"><strong>${ok} de ${G.res.length} correctas (${pc} %)</strong> · +${G.earned} ☀️</p>
+      <p style="text-align:center"><span class="level ${lc}">Nivel de desempeño: ${lv}</span></p><p style="text-align:center">${ld} <em>(escala de práctica referencial)</em></p></section>
+    <section class="card"><h2>🧭 Por nivel cognitivo</h2><div class="bars">${byN.filter(x => x.tot).map(x => bar(`${LVI[x.n]} ${LV[x.n]} (${x.ok}/${x.tot})`, x.p)).join('')}</div></section>
+    ${extra}${rev}
+    <div class="row center">${G.mode === 'level' ? `<button class="btn" data-act="level" data-id="${G.id}">🔁 Reintentar</button>${nx ? `<a class="btn sun" href="#/leccion/${nx.id}">Siguiente tema →</a>` : ''}` : `<button class="btn" data-act="exam" data-k="${G.kind}">🔁 Nuevo simulacro</button>`}<a class="btn ghost" href="#/mapa">Mapa del jardín</a></div>`;
+  }
+
+  /* ---------- Auditoría ---------- */
+  function audit() {
+    const cnt = t => [1, 2, 3].map(n => t.q.filter(x => x.n === n).length);
+    const rows = T_.map(t => { const c = cnt(t); const ok = c.every(x => x >= 1) && t.q.length >= 5; return `<tr><td>${t.ind === '·' ? '—' : t.ind}</td><td>${t.ap}</td><td>${esc(t.d)}</td><td><a href="#/leccion/${t.id}">${t.ic} ${t.t}</a></td><td class="num">${c[0]}</td><td class="num">${c[1]}</td><td class="num">${c[2]}</td><td class="num">${t.q.length}</td><td><span class="chip ${ok ? 'ok' : 'warn'}">${ok ? '✔ Cubierto' : '⚠ Reforzar'}</span></td></tr>`; }).join('');
+    const orden = T_.filter(t => t.ind !== '·').sort((a, b) => a.ind - b.ind).map(t => t.ind);
+    const total = T_.reduce((a, t) => a + t.q.length, 0);
+    const cr = CONTENIDOS.map(c => { const t = T[c[2]]; return `<tr><td>${c[0]}</td><td>${esc(c[1])}</td><td><a href="#/leccion/${t.id}">${t.ic} ${t.t}</a></td><td class="num">${t.q.length}</td><td><span class="chip ${t.q.length >= 5 ? 'ok' : 'warn'}">${t.q.length >= 5 ? '✔' : '⚠'}</span></td></tr>`; }).join('');
+    app.innerHTML = header('inicio', '🔍 Auditoría del temario') + `
+    <section class="card"><h2>Resumen</h2><p><strong>${orden.length}</strong> indicadores del temario (${orden.join(', ')}) + <strong>${T_.length - orden.length}</strong> temas del «Aprendizaje esperado» que no tienen número de indicador = <strong>${T_.length}</strong> temas y <strong>${total}</strong> preguntas. Cada tema incluye preguntas de los tres niveles: conocimiento, aplicación y análisis.</p>
+    <div class="alert" role="note"><strong>⚠ Atención:</strong> en las imágenes recibidas la numeración salta del indicador <strong>8</strong> al <strong>12</strong>. Los indicadores <strong>${FALTAN.join(', ')}</strong> no aparecen en el temario fotografiado. Si existe otra página, envíala para agregarlos; mientras tanto, los contenidos de la columna «Aprendizaje esperado» están cubiertos en su totalidad.</div></section>
+    <section class="card"><h2>1) Indicadores ↔ preguntas</h2><div class="tbl-wrap"><table><caption class="vh">Indicadores y preguntas por nivel</caption><thead><tr><th>Ind.</th><th>Ap.</th><th>Indicador (texto del temario)</th><th>Tema</th><th title="Conocimiento">🌱</th><th title="Aplicación">🌻</th><th title="Análisis">🌵</th><th>Total</th><th>Estado</th></tr></thead><tbody>${rows}</tbody></table></div><p>🌱 Conocimiento · 🌻 Aplicación · 🌵 Análisis y resolución de problemas</p></section>
+    <section class="card"><h2>2) Contenidos del «Aprendizaje esperado» ↔ tema</h2><div class="tbl-wrap"><table><caption class="vh">Contenidos y su cobertura</caption><thead><tr><th>Ap.</th><th>Contenido</th><th>Tema que lo cubre</th><th>Preguntas</th><th>Estado</th></tr></thead><tbody>${cr}</tbody></table></div></section>`;
+  }
+
+  /* ---------- Ayuda ---------- */
+  function help() {
+    app.innerHTML = header('inicio', '❓ Cómo estudiar') + `
+    <section class="card"><h2>🎮 Cómo se juega</h2><ol><li>Elige un tema en el mapa y lee el <strong>semillero</strong>.</li><li>Cada pregunta es un zombi: si aciertas, tu planta lo derrota y ganas ☀️. Si fallas, lees la explicación y la pregunta vuelve al final.</li><li>Gana ⭐ según tu porcentaje: 50 % = 1, 70 % = 2, 90 % = 3. Con las ⭐ desbloqueas plantas en tu jardín.</li><li>Atajo de teclado: pulsa 1, 2, 3 o 4 para elegir una opción.</li></ol></section>
+    <section class="card"><h2>🗓 Plan rápido de repaso</h2><ol><li><strong>Diagnóstico:</strong> haz el simulacro corto.</li><li><strong>Refuerzo:</strong> repasa los temas con menos del 70 % (se muestran al final del simulacro).</li><li><strong>Ortografía:</strong> practica B/V, C/S/Z, G/J, R/RR, hiato y diptongo: son muchos indicadores.</li><li><strong>Cierre:</strong> haz el simulacro completo y revisa los errores.</li></ol></section>
+    <section class="card"><h2>📐 Niveles de desempeño (referencial)</h2><p><span class="level ini">Inicial</span> menos de 60 % · <span class="level in">Intermedio</span> 60 % a 84 % · <span class="level av">Avanzado</span> 85 % o más.</p><p>Las preguntas avanzan de <strong>conocimiento</strong> (recordar) a <strong>aplicación</strong> (usar en una situación) y <strong>análisis</strong> (razonar, corregir, resolver). Es una práctica de estudio; la calificación oficial la define la docente.</p></section>
+    <section class="card"><h2>⚙️ Ajustes</h2><div class="row"><button class="btn ghost" data-act="snd">${S.snd ? '🔊 Sonido: activado' : '🔇 Sonido: desactivado'}</button><button class="btn ghost" data-act="reset">🗑 Borrar mi progreso</button></div><p>Tu progreso se guarda solo en este navegador.</p></section>`;
+  }
+
+  /* ---------- Eventos ---------- */
+  app.addEventListener('click', e => {
+    const b = e.target.closest('[data-act]'); if (!b || b.tagName === 'FORM') return;
+    const a = b.dataset.act;
+    if (a === 'level') startLevel(b.dataset.id);
+    else if (a === 'exam') startExam(b.dataset.k);
+    else if (a === 'pick') { const i = +b.dataset.i; submit(i); }
+    else if (a === 'next') next();
+    else if (a === 'quit') { if (confirm('¿Salir de esta práctica? Se perderá el avance de esta partida.')) { G = null; go('mapa'); } }
+    else if (a === 'snd') { S.snd = !S.snd; save(); help(); }
+    else if (a === 'reset') { if (confirm('¿Borrar estrellas, soles y progreso?')) { S = { sun: 0, p: {}, ex: {}, snd: S.snd }; save(); help(); } }
+  });
+  app.addEventListener('submit', e => { e.preventDefault(); const inp = app.querySelector('#ans'); if (inp && G && !G.last) { if (!inp.value.trim()) { inp.focus(); return; } submit(0, inp.value); } });
+  document.addEventListener('keydown', e => {
+    if (!G || location.hash !== '#/quiz' || G.last || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (/^[1-4]$/.test(e.key) && document.activeElement.tagName !== 'INPUT') { const o = G.queue[G.i].opts; if (o && o[+e.key - 1]) submit(+e.key - 1); }
+  });
+  route();
+})();
+
 </script>
 </body>
 </html>
