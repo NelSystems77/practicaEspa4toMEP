@@ -695,7 +695,14 @@ const CONTENIDOS = [
   ['—', 'Medios de comunicación: concepto, importancia, valores y antivalores (Ind. 7)', 'i7'],
   ['—', 'Televisión, radio, periódico, teléfono e Internet (Ind. 8)', 'i8']
 ];
-const FALTAN = ['9', '10', '11'];
+const BLOQUES = [
+  ['7', '7.1 Tipos de textos y textos breves (expositivos, narrativos, descriptivos; recados, instrucciones, cuentos, adivinanzas, trabalenguas, chistes, refranes, frases célebres, dichos, leyendas)', ['c2', 'i12', 'i13']],
+  ['8', 'Estructuras y unidades básicas gramaticales en la producción textual: informes, cuentos, leyendas, poesías, cartas, noticias, instrucciones', ['c2', 'i14', 'c3', 'i2']],
+  ['9', 'Estrategias de comprensión lectora (conocimientos previos, relectura, subrayado, ideas fundamentales y complementarias, resumen, recapitulación)', ['c1', 'i15']],
+  ['10', 'Estrategias de comprensión del vocabulario nuevo: familias de palabras (raíz), sinónimos y antónimos, parónimos', ['i16', 'c5', 'i17']],
+  ['11', 'Reconocimiento visual de palabras y conciencia ortográfica: homófonas b/v, c/s/z, q/c/k, ge/gi, je/ji; ahí, hay, ay', ['i18', 'i19', 'c6', 'i20']],
+  ['12', '12.1 Estrategias de comunicación básicas en situaciones escolares; palabras formadas por onomatopeya', ['c7', 'i21']]
+];
 
 (function () {
   'use strict';
@@ -937,9 +944,11 @@ const FALTAN = ['9', '10', '11'];
     const orden = T_.filter(t => t.ind !== '·').sort((a, b) => a.ind - b.ind).map(t => t.ind);
     const total = T_.reduce((a, t) => a + t.q.length, 0);
     const cr = CONTENIDOS.map(c => { const t = T[c[2]]; return `<tr><td>${c[0]}</td><td>${esc(c[1])}</td><td><a href="#/leccion/${t.id}">${t.ic} ${t.t}</a></td><td class="num">${t.q.length}</td><td><span class="chip ${t.q.length >= 5 ? 'ok' : 'warn'}">${t.q.length >= 5 ? '✔' : '⚠'}</span></td></tr>`; }).join('');
+    const bl = BLOQUES.map(b => `<tr><td class="num">${b[0]}</td><td>${esc(b[1])}</td><td>${b[2].map(id => `<a href="#/leccion/${id}">${T[id].ic} ${T[id].t}</a>`).join(' · ')}</td><td class="num">${b[2].reduce((a, id) => a + T[id].q.length, 0)}</td><td><span class="chip ok">✔</span></td></tr>`).join('');
     app.innerHTML = header('inicio', '🔍 Auditoría del temario') + `
     <section class="card"><h2>Resumen</h2><p><strong>${orden.length}</strong> indicadores del temario (${orden.join(', ')}) + <strong>${T_.length - orden.length}</strong> temas del «Aprendizaje esperado» que no tienen número de indicador = <strong>${T_.length}</strong> temas y <strong>${total}</strong> preguntas. Cada tema incluye preguntas de los tres niveles: conocimiento, aplicación y análisis.</p>
-    <div class="alert" role="note"><strong>ℹ Nota sobre la numeración:</strong> en el temario la numeración salta del indicador <strong>8</strong> al <strong>12</strong>. Los contenidos que aparecen sin número de indicador (los de la columna «Aprendizaje esperado») están cubiertos por los ${T_.length - orden.length} temas marcados «Aprendizaje esperado» y se verifican en la tabla 2.</div></section>
+    <div class="alert" role="note"><strong>✔ Numeración revisada:</strong> los bloques <strong>8, 9, 10 y 11</strong> son filas numeradas de la columna «Aprendizaje esperado» (no indicadores). Están cubiertos en la tabla 0. Los indicadores van del 1 al 8 y del 12 al 21.</div></section>
+    <section class="card"><h2>0) Bloques numerados del «Aprendizaje esperado» ↔ temas</h2><div class="tbl-wrap"><table><caption class="vh">Bloques del aprendizaje esperado</caption><thead><tr><th>Bloque</th><th>Contenido</th><th>Temas</th><th>Preguntas</th><th>Estado</th></tr></thead><tbody>${bl}</tbody></table></div></section>
     <section class="card"><h2>1) Indicadores ↔ preguntas</h2><div class="tbl-wrap"><table><caption class="vh">Indicadores y preguntas por nivel</caption><thead><tr><th>Ind.</th><th>Ap.</th><th>Indicador (texto del temario)</th><th>Tema</th><th title="Conocimiento">🌱</th><th title="Aplicación">🌻</th><th title="Análisis">🌵</th><th>Total</th><th>Estado</th></tr></thead><tbody>${rows}</tbody></table></div><p>🌱 Conocimiento · 🌻 Aplicación · 🌵 Análisis y resolución de problemas</p></section>
     <section class="card"><h2>2) Contenidos del «Aprendizaje esperado» ↔ tema</h2><div class="tbl-wrap"><table><caption class="vh">Contenidos y su cobertura</caption><thead><tr><th>Ap.</th><th>Contenido</th><th>Tema que lo cubre</th><th>Preguntas</th><th>Estado</th></tr></thead><tbody>${cr}</tbody></table></div></section>`;
   }
